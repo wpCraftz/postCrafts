@@ -1,0 +1,62 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "pc-blocks/post-list",
+	"version": "1.0.0",
+	"title": "Post List",
+	"category": "pc-blocks",
+	"icon": "list-view",
+	"description": "Arrange posts in list-view.",
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"spacing": {
+			"margin": true
+		}
+	},
+	"attributes": {
+		"taxQuery": {
+			"type": "object"
+		},
+		"taxRelation": {
+			"type": "string",
+			"default": "AND"
+		},
+		"catOperator": {
+			"type": "string",
+			"default": "IN"
+		},
+		"tagOperator": {
+			"type": "string",
+			"default": "IN"
+		},
+		"postType": {
+			"type": "string",
+			"default": "post"
+		},
+		"postsPerPage": {
+			"type": "number",
+			"default": 9
+		},
+		"sorting": {
+			"type": "object",
+			"default": {
+				"order": "desc",
+				"orderBy": "date"
+			}
+		},
+		"postIds": {
+			"type": "array",
+			"items": {
+				"type": "number"
+			},
+			"default": []
+		}
+	},
+	"keywords": [],
+	"textdomain": "pc-blocks",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

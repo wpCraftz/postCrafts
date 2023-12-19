@@ -1,0 +1,22 @@
+# macOS/IDE
+.DS_Store
+Thumbs.db
+.idea
+.vscode
+*.sublime-project
+*.sublime-workspace
+
+# Log files
+*.log
+/tests/logs
+
+# Packages
+/vendor/
+/node_modules/
+
+# Enviroment
+.env
+
+#Build
+/build/
+/bin/

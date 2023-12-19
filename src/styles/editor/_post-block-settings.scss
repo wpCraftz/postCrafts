@@ -1,0 +1,26 @@
+.post-sorting-modal-trigger {
+	display: block;
+	margin-bottom: 20px;
+}
+
+.post-selector-trigger {
+	margin-bottom: 10px;
+}
+
+.clear-selected-list {
+	margin: 15px 0;
+}
+
+.sortable-help {
+	font-size: 12px;
+    font-style: normal;
+    color: rgb(117, 117, 117);
+    margin-bottom: 0;
+}
+
+.close-sorting-modal {
+	position: absolute;
+    right: 32px;
+    top: 20px;
+    z-index: 10;
+}

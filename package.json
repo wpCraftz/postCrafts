@@ -1,0 +1,37 @@
+{
+	"name": "post-craft",
+	"version": "1.0.0",
+	"description": "",
+	"main": "build/index.js",
+	"scripts": {
+		"build": "wp-scripts build",
+		"check-engines": "wp-scripts check-engines",
+		"check-licenses": "wp-scripts check-licenses",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"lint:md:docs": "wp-scripts lint-md-docs",
+		"lint:pkg-json": "wp-scripts lint-pkg-json",
+		"packages-update": "wp-scripts packages-update",
+		"plugin-zip": "wp-scripts plugin-zip",
+		"start": "wp-scripts start",
+		"test:e2e": "wp-scripts test-e2e",
+		"test:unit": "wp-scripts test-unit-js",
+		"make-pot": "wp i18n make-pot . languages/awp.pot --slug=awp --domain=awp --exclude=node_modules,src",
+		"make-json": "wp i18n make-json languages/ --no-purge"
+	},
+	"author": "",
+	"license": "GPL-2.0-or-later",
+	"devDependencies": {
+		"@wordpress/scripts": "^26.18.0",
+		"fast-glob": "^3.3.2"
+	},
+	"dependencies": {
+		"array-move": "^4.0.0",
+		"classnames": "^2.3.2",
+		"lodash.debounce": "^4.0.8",
+		"lodash.isequal": "^4.5.0",
+		"lodash.times": "^4.3.2",
+		"react-sortable-hoc": "^2.0.0"
+	}
+}

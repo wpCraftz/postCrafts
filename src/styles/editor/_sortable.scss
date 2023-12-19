@@ -1,0 +1,29 @@
+
+.post-sorter {
+	min-height: 80vh;
+
+	.kbb-sortable-container {
+
+		.kbb-components-base-control__label {
+			font-size: 13px;
+			font-weight: 600;
+			text-transform: uppercase;
+			display: block;
+			margin-bottom: 8px;
+			padding: 0px;
+		}
+	
+		.sortable-item {
+			background-color: var(--wp--preset--color--off-white);
+			padding: 8px 5px 8px 10px;
+			cursor: move;
+			border-radius: 4px;
+			overflow: hidden;
+	
+			&:not(:last-child) {
+				margin-bottom: 6px;
+			}
+		}
+	}
+	
+}
