@@ -111,18 +111,21 @@ function pc_get_primary_category( $return_id = false ) {
  * @return object
  */
 function pc_query_builder($attributes) {
-	$args = [
+	$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
+	$args  = [
 		'post_type'              => 'post',
 		'posts_per_page'         => $attributes['postsPerPage'],
 		'post_status'            => 'publish',
 		'ignore_sticky_posts'    => 1,
 		'update_post_meta_cache' => false,
 		'update_post_term_cache' => false,
-		'no_found_rows'          => true,
+		'no_found_rows'          => $attributes['showPagination'] ? false : true,
 		'order'                  => $attributes['sorting']['order'],
 		'orderby'                => $attributes['sorting']['orderBy'],
 		'post__not_in'           => array( get_the_ID() ),
+		'paged'                  => $paged,
 	];
+
 
 	if ( ! empty( $attributes['postIds'] ) ) {
 
@@ -183,4 +186,51 @@ function pc_query_builder($attributes) {
 	}
 
 	return $args;
+}
+
+/**
+ * Default pagination.
+ *
+ * @param  object $query The WP_Query Object.
+ *
+ * @return void
+ */
+function pc_pagination( $query ) {
+
+	$links = paginate_links(
+		array(
+			'total'   => $query->max_num_pages,
+			'current' => max( 1, $query->get( 'paged' ) ),
+		)
+	);
+
+	if ( $links ) {
+		$allowed_tags = array(
+			'span' => array(
+				'class' => array(),
+			),
+			'a'    => array(
+				'class' => array(),
+				'href'  => array(),
+			),
+		);
+		?>
+		<div class="pc-pagination-container">
+			<?php
+				printf( '<nav class="pc-pagination clearfix" role="navigation" aria-label="%1$s">%2$s</nav>', esc_attr__( 'Pagination Navigation', 'pc-blocks' ), wp_kses( $links, $allowed_tags ) );
+			?>
+			<div class="pagination-text" aria-label="<?php esc_attr_e( 'Current index of pagination', 'pc-blocks' ); ?>" role="navigation">
+				<?php
+				$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
+				printf(
+					/* translators: 1. is current page number, 2. is total pages. */
+					esc_html__( 'Page %1$d of %2$d', 'pc-blocks' ),
+					esc_html( $paged ),
+					esc_html( $query->max_num_pages )
+				);
+				?>
+			</div>
+		</div>
+		<?php
+	}
 }

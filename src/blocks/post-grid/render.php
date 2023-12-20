@@ -6,44 +6,46 @@
  *
  * @package pc-blocks
  */
-
+$attributes               = wp_parse_args( $attributes, [] );
 $post_query               = new WP_Query( pc_query_builder($attributes) );
-$block_wrapper_attributes = get_block_wrapper_attributes(
-	[
-		'class' => 'pc-postgrid-wrapper columns-' . esc_attr( $attributes["columns"] ."" ),
-	]
-);
 ?>
-<div <?php echo wp_kses_data( $block_wrapper_attributes ); ?>>
-	<?php
-	if ( $post_query->have_posts() ) {
-		while ( $post_query->have_posts() ) {
-			$post_query->the_post();
-			?>
-			<article id="post-<?php the_ID(); ?>" class="post-grid">
-				<figure class="post-thumbnail">
-					<a href="<?php echo esc_url( get_permalink() ); ?>" rel="bookmark" title="<?php the_title_attribute(); ?>" aria-label="<?php the_title_attribute(); ?>">
-						<?php
-						if ( has_post_thumbnail() ) {
-							the_post_thumbnail( 'thumb-330x185' );
-						} else {
-						?>
-							<span class="image-placeholder"></span>
-					<?php } ?>
-					</a>
-				</figure>
-				<div class="post-grid-content post-content">
-					<?php pc_get_primary_category(); ?>
-					<?php the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' ); ?>
-					<div class="entry-meta">
-						<?php pc_posted_by(); ?><span class="separator">-</span><?php pc_posted_on( 'F d, Y' ); ?>
+<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>>
+	<div class="pc-postgrid-wrapper columns-<?php echo esc_attr( $attributes["columns"] ); ?>">
+		<?php
+		if ( $post_query->have_posts() ) {
+			while ( $post_query->have_posts() ) {
+				$post_query->the_post();
+				?>
+				<article id="post-<?php the_ID(); ?>" class="post-grid">
+					<figure class="post-thumbnail">
+						<a href="<?php echo esc_url( get_permalink() ); ?>" rel="bookmark" title="<?php the_title_attribute(); ?>" aria-label="<?php the_title_attribute(); ?>">
+							<?php
+							if ( has_post_thumbnail() ) {
+								the_post_thumbnail( 'thumb-330x185' );
+							} else {
+							?>
+								<span class="image-placeholder"></span>
+						<?php } ?>
+						</a>
+					</figure>
+					<div class="post-grid-content post-content">
+						<?php pc_get_primary_category(); ?>
+						<?php the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' ); ?>
+						<div class="entry-meta">
+							<?php pc_posted_by(); ?><span class="separator">-</span><?php pc_posted_on( 'F d, Y' ); ?>
+						</div>
+						<div class="entry-summary"><?php the_excerpt(); ?></div>
 					</div>
-					<div class="entry-summary"><?php the_excerpt(); ?></div>
-				</div>
-			</article>
-			<?php
+				</article>
+				<?php
+			}
+		} ?>
+	</div>
+	<?php
+		if ( $attributes['showPagination'] ) {
+			pc_pagination( $post_query );
 		}
-	} ?>
+	?>
 </div>
 <?php
 

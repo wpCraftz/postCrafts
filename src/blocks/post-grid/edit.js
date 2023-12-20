@@ -19,7 +19,7 @@ import classNames from 'classnames';
  * Internal dependencies
  */
 import useFetchPosts from '../../libs/fetchPosts';
-import { QueryBuilder, GridSetttings } from '../../components';
+import { QueryBuilder, GridSetttings, CommonSettings } from '../../components';
 
 /**
  * Module Constants
@@ -168,6 +168,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				<GridSetttings
 					attributes={ attributes }
 					setAttributes={ setAttributes }
+					initialOpen
 				/>
 				<QueryBuilder
 					enableRelation
@@ -176,7 +177,6 @@ export default function Edit( { attributes, setAttributes } ) {
 					maxNumberOfPost={ 40 }
 					sorting={ sorting }
 					label={ __( 'Query Builder', 'pc-blocks' ) }
-					initialOpen
 					postMeta={
 						!! blockContexts
 							? blockContexts.map( ( post ) => ( {
@@ -186,6 +186,12 @@ export default function Edit( { attributes, setAttributes } ) {
 							  } ) )
 							: []
 					}
+				/>
+				<CommonSettings
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+					label={ __( 'Content', 'pc-blocks' ) }
+					initialOpen
 				/>
 			</InspectorControls>
 

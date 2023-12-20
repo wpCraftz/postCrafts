@@ -9,7 +9,6 @@ import {
 	Button,
 	RangeControl,
 	Modal,
-	ToggleControl,
 	SelectControl,
 } from '@wordpress/components';
 
@@ -31,7 +30,6 @@ import OrderControl from './order-control';
  * @param {Object}   props.postMeta             Object entries Post title & Id.
  * @param {Object}   props.sorting              Sorting related attributes.
  * @param {Object}   props.sortableCustomLabels Custom class name to add to the Sortable component.
- * @param {boolean}  props.fixedNumberofPosts   Flag to hide Number of Posts Settings.
  * @param {number}   props.maxNumberOfPost      Limit of max post can be selected
  * @param {boolean}  props.enableRelation       Relation between Categories & Tags
  * @param {boolean}  props.initialOpen          Determines wheather Panel will be open initially
@@ -46,7 +44,6 @@ const PostBlockSettings = ( {
 	sorting = {},
 	sortableCustomLabels,
 	maxNumberOfPost = 25,
-	fixedNumberofPosts = false,
 	enableRelation = false,
 	initialOpen = false,
 } ) => {
@@ -62,8 +59,6 @@ const PostBlockSettings = ( {
 		postType = 'post',
 		pagination,
 		postsPerPage,
-		showExcerpt,
-		showCategory,
 	} = attributes;
 
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
@@ -216,27 +211,26 @@ const PostBlockSettings = ( {
 					</Button>
 				) }
 
-				{ typeof postsPerPage !== 'undefined' &&
-					! fixedNumberofPosts && (
-						<RangeControl
-							min={ 1 }
-							max={ maxNumberOfPost }
-							value={ postsPerPage }
-							className="number-of-posts"
-							label={ __( 'Max number of Posts ', 'pc-blocks' ) }
-							onChange={ ( postsPerPage ) => {
-								const updatedAttrs = {
-									postsPerPage,
-								};
-								if ( postIds.length > postsPerPage ) {
-									updatedAttrs.postIds = [
-										...postIds,
-									].splice( 0, postsPerPage );
-								}
-								setAttributes( updatedAttrs );
-							} } /*eslint  no-shadow:0 */
-						/>
-					) }
+				<RangeControl
+					min={ 1 }
+					max={ maxNumberOfPost }
+					value={ postsPerPage }
+					className="number-of-posts"
+					label={ __( 'Max number of Posts ', 'pc-blocks' ) }
+					onChange={ ( postsPerPage ) => {
+						const updatedAttrs = {
+							postsPerPage,
+						};
+						if ( postIds.length > postsPerPage ) {
+							updatedAttrs.postIds = [ ...postIds ].splice(
+								0,
+								postsPerPage
+							);
+						}
+						setAttributes( updatedAttrs );
+					} } /*eslint  no-shadow:0 */
+				/>
+
 				{ Object.keys( sorting ).length > 0 && (
 					<OrderControl
 						{ ...{
@@ -280,34 +274,6 @@ const PostBlockSettings = ( {
 							) }
 						/>
 					) }
-				{ typeof showCategory !== 'undefined' && (
-					<ToggleControl
-						label={ __( 'Show Category?', 'pc-blocks' ) }
-						checked={ showCategory }
-						onChange={ ( showCategory ) =>
-							setAttributes( { showCategory } )
-						}
-					/>
-				) }
-				{ typeof showExcerpt !== 'undefined' && (
-					<ToggleControl
-						label={ __( 'Show Excerpt?', 'pc-blocks' ) }
-						checked={ showExcerpt }
-						onChange={ ( showExcerpt ) =>
-							setAttributes( { showExcerpt } )
-						}
-					/>
-				) }
-
-				{ ! postIds.length && typeof pagination !== 'undefined' && (
-					<ToggleControl
-						label={ __( 'Show Pagination?', 'pc-blocks' ) }
-						checked={ pagination }
-						onChange={ ( pagination ) =>
-							setAttributes( { pagination } )
-						}
-					/>
-				) }
 			</PanelBody>
 		</>
 	);

@@ -36,7 +36,7 @@
 		},
 		"postsPerPage": {
 			"type": "number",
-			"default": 9
+			"default": 10
 		},
 		"sorting": {
 			"type": "object",
@@ -51,6 +51,18 @@
 				"type": "number"
 			},
 			"default": []
+		},
+		"showPagination": {
+			"type": "boolean",
+			"default": false
+		},
+		"showCategory": {
+			"type": "boolean",
+			"default": true
+		},
+		"showExcerpt": {
+			"type": "boolean",
+			"default": true
 		}
 	},
 	"keywords": [],

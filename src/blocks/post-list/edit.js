@@ -14,7 +14,7 @@ import { store as coreStore } from '@wordpress/core-data';
  * Internal dependencies
  */
 import useFetchPosts from '../../libs/fetchPosts';
-import { QueryBuilder } from '../../components';
+import { QueryBuilder, CommonSettings } from '../../components';
 
 /**
  * Module Constants
@@ -176,6 +176,12 @@ export default function Edit( { attributes, setAttributes } ) {
 							  } ) )
 							: []
 					}
+				/>
+				<CommonSettings
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+					label={ __( 'Content', 'pc-blocks' ) }
+					initialOpen
 				/>
 			</InspectorControls>
 
