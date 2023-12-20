@@ -11,10 +11,15 @@ import { useSelect } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/core-data';
 
 /**
+ * External dependencies
+ */
+import classNames from 'classnames';
+
+/**
  * Internal dependencies
  */
 import useFetchPosts from '../../libs/fetchPosts';
-import { QueryBuilder } from '../../components';
+import { QueryBuilder, GridSetttings } from '../../components';
 
 /**
  * Module Constants
@@ -51,6 +56,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		catOperator,
 		tagOperator,
 		sorting,
+		columns,
 	} = attributes;
 
 	const customQuery = {
@@ -145,7 +151,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	);
 
 	const blockProps = useBlockProps( {
-		className: 'pc-postlist-wrapper',
+		className: classNames( 'pc-postgrid-wrapper', `columns-${ columns }` ),
 	} );
 
 	if ( ! posts ) {
@@ -159,6 +165,10 @@ export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<>
 			<InspectorControls>
+				<GridSetttings
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
 				<QueryBuilder
 					enableRelation
 					attributes={ attributes }
@@ -208,7 +218,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						return (
 							<article
 								id={ postId }
-								className="post-list"
+								className="post-grid"
 								key={ postId }
 							>
 								<figure className="post-thumbnail">
@@ -229,7 +239,7 @@ export default function Edit( { attributes, setAttributes } ) {
 									) }
 								</figure>
 
-								<div className="post-list-content post-content">
+								<div className="post-grid-content post-content">
 									<span className="cat-links has-tiny-font-size text-bold">
 										{ categories &&
 											categories

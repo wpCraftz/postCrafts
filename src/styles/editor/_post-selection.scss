@@ -38,7 +38,7 @@
 	padding: 8px;
 	margin: 0;
 	&.is-selected {
-		background-color: var(--wp--preset--color--baby-blue);
+		background-color: #E6F5FE;
 	}
 	&.disabled:not(.is-selected) {
 		cursor: not-allowed;
@@ -53,7 +53,7 @@
 	}
 
 	&:not(:first-child):not(.is-selected):hover {
-		background-color: var(--wp--preset--color--off-white);
+		background-color: #f8f8f8;
 	}
 }
 

@@ -10,7 +10,7 @@
 $post_query               = new WP_Query( pc_query_builder($attributes) );
 $block_wrapper_attributes = get_block_wrapper_attributes(
 	[
-		'class' => 'pc-postlist-wrapper',
+		'class' => 'pc-postgrid-wrapper columns-' . esc_attr( $attributes["columns"] ."" ),
 	]
 );
 ?>
@@ -20,7 +20,7 @@ $block_wrapper_attributes = get_block_wrapper_attributes(
 		while ( $post_query->have_posts() ) {
 			$post_query->the_post();
 			?>
-			<article id="post-<?php the_ID(); ?>" class="post-list">
+			<article id="post-<?php the_ID(); ?>" class="post-grid">
 				<figure class="post-thumbnail">
 					<a href="<?php echo esc_url( get_permalink() ); ?>" rel="bookmark" title="<?php the_title_attribute(); ?>" aria-label="<?php the_title_attribute(); ?>">
 						<?php
@@ -28,11 +28,11 @@ $block_wrapper_attributes = get_block_wrapper_attributes(
 							the_post_thumbnail( 'thumb-330x185' );
 						} else {
 						?>
-						<span class="image-placeholder"></span>
+							<span class="image-placeholder"></span>
 					<?php } ?>
 					</a>
 				</figure>
-				<div class="post-list-content post-content">
+				<div class="post-grid-content post-content">
 					<?php pc_get_primary_category(); ?>
 					<?php the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' ); ?>
 					<div class="entry-meta">

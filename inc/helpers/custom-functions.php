@@ -102,3 +102,85 @@ function pc_get_primary_category( $return_id = false ) {
 		);
 	}
 }
+
+/**
+ * Build Query Objet
+ *
+ * @param object $attributes  Block attributes.
+ *
+ * @return object
+ */
+function pc_query_builder($attributes) {
+	$args = [
+		'post_type'              => 'post',
+		'posts_per_page'         => $attributes['postsPerPage'],
+		'post_status'            => 'publish',
+		'ignore_sticky_posts'    => 1,
+		'update_post_meta_cache' => false,
+		'update_post_term_cache' => false,
+		'no_found_rows'          => true,
+		'order'                  => $attributes['sorting']['order'],
+		'orderby'                => $attributes['sorting']['orderBy'],
+		'post__not_in'           => array( get_the_ID() ),
+	];
+
+	if ( ! empty( $attributes['postIds'] ) ) {
+
+		$args['post__in'] = $attributes['postIds'];
+		$args['orderby']  = 'post__in';
+
+	} else {
+		$tax_query    = [];
+		$cat_operator = $attributes['catOperator'];
+		$tag_operator = $attributes['tagOperator'];
+		if ( ( isset( $attributes['taxQuery']['category'] ) && ! empty( $attributes['taxQuery']['category'] ) ) && ( isset( $attributes['taxQuery']['post_tag'] ) && ! empty( $attributes['taxQuery']['post_tag'] ) ) ) {
+
+			$tax_relation          = $attributes['taxRelation'];
+			$tax_query['relation'] = $tax_relation;
+
+			$tax_query[] = [
+				'taxonomy' => 'category',
+				'field'    => 'term_id',
+				'terms'    => $attributes['taxQuery']['category'],
+				'operator' => $cat_operator,
+			];
+
+			$tax_query[] = [
+				'taxonomy' => 'post_tag',
+				'field'    => 'term_id',
+				'terms'    => $attributes['taxQuery']['post_tag'],
+				'operator' => $tag_operator,
+			];
+
+		} elseif ( isset( $attributes['taxQuery']['category'] ) && ! empty( $attributes['taxQuery']['category'] ) ) {
+
+			$cat_relelation = 'category__and';
+
+			if ( 'IN' === $cat_operator ) {
+				$cat_relelation = 'category__in';
+			} elseif ( 'NOT IN' === $cat_operator ) {
+				$cat_relelation = 'category__not_in';
+			}
+
+			$args[ $cat_relelation ] = $attributes['taxQuery']['category'];
+
+		} elseif ( isset( $attributes['taxQuery']['post_tag'] ) && ! empty( $attributes['taxQuery']['post_tag'] ) ) {
+
+			$tag_relelation = 'tag__and';
+
+			if ( 'IN' === $tag_operator ) {
+				$tag_relelation = 'tag__in';
+			} elseif ( 'NOT IN' === $tag_operator ) {
+				$tag_relelation = 'tag__not_in';
+			}
+
+			$args[ $tag_relelation ] = $attributes['taxQuery']['post_tag'];
+		}
+
+		if ( ! empty( $tax_query ) ) {
+			$args['tax_query'] = [ $tax_query ]; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+		}
+	}
+
+	return $args;
+}

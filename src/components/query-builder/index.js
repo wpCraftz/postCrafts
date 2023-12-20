@@ -166,50 +166,56 @@ const PostBlockSettings = ( {
 			{ isModalOpen && displayPostSelectModal() }
 			{ isSortingModalOpen && displayPostSortingModal() }
 			<PanelBody title={ label } initialOpen={ initialOpen }>
-				<Button
-					variant="secondary"
-					icon="search"
-					iconPosition="right"
-					className="post-selector-trigger"
-					onClick={ () => setIsModalOpen( true ) }
-				>
-					{ __( 'Select Posts', 'pc-blocks' ) }
-				</Button>
-
+				<div className="sort-container">
+					<Button
+						variant="primary"
+						icon="search"
+						iconPosition="right"
+						className="post-selector-trigger"
+						onClick={ () => setIsModalOpen( true ) }
+					>
+						{ __( 'Select Posts', 'pc-blocks' ) }
+					</Button>
+					{ !! postIds.length && (
+						<>
+							<Button
+								variant="secondary"
+								onClick={ clearAll }
+								className="clear-selected-list"
+								showTooltip
+								label={ __( 'Clear Selection', 'pc-blocks' ) }
+							>
+								{ __( 'Clear', 'pc-blocks' ) }
+							</Button>
+						</>
+					) }
+				</div>
 				{ !! ( postIds.length && postIds.length < postsPerPage ) && (
 					<p
 						id="inspector-range-control-0__help"
 						className="components-base-control__help sortable-help"
 					>
-						{ __( 'You can select', 'pc-blocks' ) }
+						{ __( 'You can select ', 'pc-blocks' ) }
 						{ postsPerPage - postIds.length }
-						{ __( 'more', 'pc-blocks' ) }
+						{ __( ' more ', 'pc-blocks' ) }
 						{ postsPerPage - postIds.length > 1
 							? __( 'posts', 'pc-blocks' )
 							: __( 'post', 'pc-blocks' ) }
 					</p>
 				) }
+
 				{ !! postIds.length && (
-					<>
-						<Button
-							isSmall
-							variant="secondary"
-							onClick={ clearAll }
-							className="clear-selected-list"
-						>
-							{ __( 'Clear Selected Posts', 'pc-blocks' ) }
-						</Button>
-						<Button
-							variant="secondary"
-							icon="sort"
-							iconPosition="right"
-							className="post-sorting-modal-trigger"
-							onClick={ () => setIsSortingModalOpen( true ) }
-						>
-							{ __( 'Sort Posts', 'pc-blocks' ) }
-						</Button>
-					</>
+					<Button
+						variant="primary"
+						icon="sort"
+						iconPosition="right"
+						className="post-sorting-modal-trigger"
+						onClick={ () => setIsSortingModalOpen( true ) }
+					>
+						{ __( 'Sort Posts', 'pc-blocks' ) }
+					</Button>
 				) }
+
 				{ typeof postsPerPage !== 'undefined' &&
 					! fixedNumberofPosts && (
 						<RangeControl

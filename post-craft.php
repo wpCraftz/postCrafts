@@ -1,16 +1,15 @@
 <?php
 /*
- * Plugin Name:       PostCraft
- * Plugin URI:        #
+ * Plugin Name:       PostCraft - Gutenberg Post Layout Blocks
+ * Plugin URI:        https://wpcraftz.com/postcraft/
  * Description:       Ultimate plugin to highlight, summarize and beautifully organize your posts.
  * Version:           1.0.0
  * Requires at least: 5.2
  * Requires PHP:      7.2
- * Author:            faisal29
- * Author URI:        #
- * License:           GPL v2
+ * Author:            wpCraftz
+ * Author URI:        https://wpcraftz.com/
+ * License:           GPLv3
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Update URI:        #
  * Text Domain:       pc-blocks
  * Domain Path:       /languages
  * 

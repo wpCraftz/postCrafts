@@ -1,0 +1,54 @@
+.pc-postgrid-wrapper {
+	display: grid;
+	grid-gap: 20px;
+
+	@for $i from 1 through 5 {
+		&.columns-#{$i} {
+			grid-template-columns: repeat($i, minmax(0, 1fr));
+		}
+	}
+
+
+	article.post-grid {
+		display: block;
+		margin: 0;
+
+		figure {
+			width: 100%;
+			margin: 0;
+		}
+
+		.post-grid-content {
+
+			.cat-links a {
+				padding: 0 0 4px;
+			}
+
+			.entry-title {
+				margin-bottom: 8px;
+			}
+
+			.entry-summary {
+
+				p {
+					margin-top: 0;
+					margin-bottom: 16px;
+				}
+			}
+
+			@media (min-width: 768px) {
+				padding: 16px 0 0 0;
+			}
+		}
+
+		&:hover {
+			.entry-title a {
+				color: #406CB4;
+			}
+		}
+	}
+}
+
+.post-grid-content {
+	padding: 16px 0 0 0;
+}

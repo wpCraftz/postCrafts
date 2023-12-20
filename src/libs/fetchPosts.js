@@ -68,11 +68,14 @@ const useFetchPosts = ( props ) => {
 				context: 'view',
 			} );
 
-			let query = {};
+			let query = {
+				exclude: [ currentPostId ],
+			};
 
 			if ( Object.keys( customQuery ).length > 0 ) {
 				query = {
 					...customQuery,
+					exclude: [ currentPostId ],
 				};
 			}
 
@@ -185,9 +188,7 @@ const useFetchPosts = ( props ) => {
 				);
 			}
 
-			return postsRef.current?.filter(
-				( { id } ) => id !== currentPostId
-			);
+			return postsRef.current;
 		},
 		[
 			taxQuery,

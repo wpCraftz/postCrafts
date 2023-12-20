@@ -5,7 +5,19 @@
 
 // components
 @import "components/media";
+@import "components/common";
 @import "components/post-list";
+@import "components/post-grid";
 
 // global
 @import "global";
+
+
+
+.post-content {
+
+	a {
+		text-decoration: none !important;
+	}
+
+}
