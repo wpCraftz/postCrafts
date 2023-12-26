@@ -57,6 +57,9 @@ export default function Edit( { attributes, setAttributes } ) {
 		tagOperator,
 		sorting,
 		columns,
+		showCategory,
+		showExcerpt,
+		showPagination,
 	} = attributes;
 
 	const customQuery = {
@@ -150,9 +153,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		[ posts, categoriesList, authors ]
 	);
 
-	const blockProps = useBlockProps( {
-		className: classNames( 'pc-postgrid-wrapper', `columns-${ columns }` ),
-	} );
+	const blockProps = useBlockProps();
 
 	if ( ! posts ) {
 		return (
@@ -176,7 +177,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					setAttributes={ setAttributes }
 					maxNumberOfPost={ 40 }
 					sorting={ sorting }
-					label={ __( 'Query Builder', 'pc-blocks' ) }
+					label={ __( 'Query Builder', 'post-crafts' ) }
 					postMeta={
 						!! blockContexts
 							? blockContexts.map( ( post ) => ( {
@@ -190,118 +191,148 @@ export default function Edit( { attributes, setAttributes } ) {
 				<CommonSettings
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-					label={ __( 'Content', 'pc-blocks' ) }
+					label={ __( 'Content', 'post-crafts' ) }
 					initialOpen
 				/>
 			</InspectorControls>
 
 			{ ! posts?.length ? (
 				<p { ...blockProps }>
-					{ __( 'No results found.', 'pc-blocks' ) }
+					{ __( 'No results found.', 'post-crafts' ) }
 				</p>
 			) : (
 				<div { ...blockProps }>
-					{ blockContexts.map( ( post ) => {
-						const {
-							postId,
-							featuredImgSrc,
-							featuredImgAlt,
-							featuredImgWidth,
-							featuredImgHeight,
-							featuredImgClass,
-							featuredImgSrcset,
-							featuredImgSizes,
-							featuredImgLoading,
-							featuredImgDecoding,
-							title,
-							categories,
-							excerpt,
-							author,
-							date,
-							postLink,
-						} = post;
+					<div
+						className={ classNames(
+							'pc-postgrid-wrapper',
+							`columns-${ columns }`
+						) }
+					>
+						{ blockContexts.map( ( post ) => {
+							const {
+								postId,
+								featuredImgSrc,
+								featuredImgAlt,
+								featuredImgWidth,
+								featuredImgHeight,
+								featuredImgClass,
+								featuredImgSrcset,
+								featuredImgSizes,
+								featuredImgLoading,
+								featuredImgDecoding,
+								title,
+								categories,
+								excerpt,
+								author,
+								date,
+								postLink,
+							} = post;
 
-						return (
-							<article
-								id={ postId }
-								className="post-grid"
-								key={ postId }
-							>
-								<figure className="post-thumbnail">
-									{ featuredImgSrc ? (
-										<img
-											src={ featuredImgSrc }
-											alt={ featuredImgAlt }
-											width={ featuredImgWidth }
-											height={ featuredImgHeight }
-											className={ featuredImgClass }
-											srcSet={ featuredImgSrcset }
-											sizes={ featuredImgSizes }
-											loading={ featuredImgLoading }
-											decoding={ featuredImgDecoding }
-										/>
-									) : (
-										<span className="image-placeholder"></span>
-									) }
-								</figure>
+							return (
+								<article
+									id={ postId }
+									className="post-grid"
+									key={ postId }
+								>
+									<figure className="post-thumbnail">
+										{ featuredImgSrc ? (
+											<img
+												src={ featuredImgSrc }
+												alt={ featuredImgAlt }
+												width={ featuredImgWidth }
+												height={ featuredImgHeight }
+												className={ featuredImgClass }
+												srcSet={ featuredImgSrcset }
+												sizes={ featuredImgSizes }
+												loading={ featuredImgLoading }
+												decoding={ featuredImgDecoding }
+											/>
+										) : (
+											<span className="image-placeholder"></span>
+										) }
+									</figure>
 
-								<div className="post-grid-content post-content">
-									<span className="cat-links has-tiny-font-size text-bold">
-										{ categories &&
-											categories
-												.filter(
-													( _, index ) => index === 0
-												)
-												.map( ( { name, link } ) => (
-													<span
-														rel="category tag"
-														key={ name }
-														className="cat-links"
+									<div className="post-grid-content post-content">
+										{ !! showCategory && (
+											<div className="cat-links has-tiny-font-size text-bold">
+												{ categories &&
+													categories
+														.filter(
+															( _, index ) =>
+																index === 0
+														)
+														.map(
+															( {
+																name,
+																link,
+															} ) => (
+																<span
+																	rel="category tag"
+																	key={ name }
+																	className="cat-links"
+																>
+																	<a
+																		href={
+																			link
+																		}
+																	>
+																		{ name }
+																	</a>
+																</span>
+															)
+														) }
+											</div>
+										) }
+
+										<h2 className="entry-title">
+											<a href={ postLink } rel="bookmark">
+												{ decodeEntities( title ) }
+											</a>
+										</h2>
+										{ !! showExcerpt && excerpt && (
+											<div
+												className="post-entry-summary"
+												dangerouslySetInnerHTML={ {
+													__html: excerpt,
+												} }
+											/>
+										) }
+										<div className="entry-meta">
+											<span className="byline">
+												<span className="author vcard text-bold">
+													{ /* eslint-disable-next-line jsx-a11y/anchor-is-valid */ }
+													<a
+														className="url fn n"
+														href="#"
 													>
-														<a href={ link }>
-															{ name }
-														</a>
-													</span>
-												) ) }
-									</span>
-									<h2 className="entry-title">
-										<a href={ postLink } rel="bookmark">
-											{ decodeEntities( title ) }
-										</a>
-									</h2>
-									{ excerpt && (
-										<div
-											className="post-entry-summary"
-											dangerouslySetInnerHTML={ {
-												__html: excerpt,
-											} }
-										/>
-									) }
-									<div className="entry-meta">
-										<span className="byline">
-											<span className="author vcard text-bold">
-												{ /* eslint-disable-next-line jsx-a11y/anchor-is-valid */ }
-												<a
-													className="url fn n"
-													href="#"
-												>
-													{ author }
-												</a>
+														{ author }
+													</a>
+												</span>
 											</span>
-										</span>
-										<span className="posted-on has-tiny-font-size">
-											<span className="meta-separator">
-												-
+											<span className="posted-on has-tiny-font-size">
+												<span className="meta-separator">
+													-
+												</span>
+												<span className="posted-on">
+													{ date }
+												</span>
 											</span>
-											<span className="posted-on">
-												{ date }
-											</span>
-										</span>
+										</div>
 									</div>
-								</div>
-							</article>
-						);
-					} ) }
+								</article>
+							);
+						} ) }
+					</div>
+					{ !! showPagination && (
+						<div className="pc-pagination-container">
+							<div className="pagination-text">
+								{ __(
+									'Pagination will be available in frontend',
+									'post-crafts'
+								) }
+							</div>
+						</div>
+					) }
 				</div>
 			) }
 		</>

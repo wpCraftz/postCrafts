@@ -1,6 +1,6 @@
 <?php
 /*
- * Plugin Name:       PostCraft - Gutenberg Post Layout Blocks
+ * Plugin Name:       PostCrafts - Advanced PostGrid Blocks
  * Plugin URI:        https://wpcraftz.com/postcraft/
  * Description:       Ultimate plugin to highlight, summarize and beautifully organize your posts.
  * Version:           0.0.1
@@ -10,7 +10,7 @@
  * Author URI:        https://wpcraftz.com/
  * License:           GPLv3
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
- * Text Domain:       pc-blocks
+ * Text Domain:       post-crafts
  * Domain Path:       /languages
  * 
  */
@@ -38,8 +38,8 @@ if ( file_exists( PC_PATH . '/inc/helpers/custom-functions.php' ) ) {
  *
  * @return void
  */
-function ultimate_postblocks() {
-	\PostCraft\Blocks\Inc\Plugin::get_instance();
+function postcrafts_blocks() {
+	\PostCrafts\Blocks\Inc\Plugin::get_instance();
 }
 
-ultimate_postblocks();
+postcrafts_blocks();

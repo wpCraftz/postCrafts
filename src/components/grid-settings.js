@@ -12,14 +12,14 @@ const GridSetttings = ( {
 	const { columns } = attributes;
 	return (
 		<PanelBody
-			title={ __( 'Layout Settings', 'pc-blocks' ) }
+			title={ __( 'Layout Settings', 'post-crafts' ) }
 			initialOpen={ initialOpen }
 		>
 			<RangeControl
 				min={ 1 }
 				max={ 6 }
 				value={ columns }
-				label={ __( 'Columns', 'pc-blocks' ) }
+				label={ __( 'Columns', 'post-crafts' ) }
 				onChange={ ( value ) => {
 					setAttributes( { columns: value } );
 				} }

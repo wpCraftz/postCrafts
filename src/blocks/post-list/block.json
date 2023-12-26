@@ -1,17 +1,18 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "pc-blocks/post-list",
+	"name": "post-crafts/post-list",
 	"version": "1.0.0",
 	"title": "Post List",
-	"category": "pc-blocks",
+	"category": "post-crafts",
 	"icon": "list-view",
 	"description": "Arrange posts in list-view.",
 	"supports": {
 		"html": false,
 		"anchor": true,
 		"spacing": {
-			"margin": true
+			"margin": true,
+			"padding": true
 		}
 	},
 	"attributes": {
@@ -66,7 +67,7 @@
 		}
 	},
 	"keywords": [],
-	"textdomain": "pc-blocks",
+	"textdomain": "post-crafts",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

@@ -116,7 +116,7 @@ const PostBlockSettings = ( {
 	const displayPostSelectModal = () => {
 		return (
 			<Modal
-				title={ __( 'Select Posts', 'pc-blocks' ) }
+				title={ __( 'Select Posts', 'post-crafts' ) }
 				onRequestClose={ () => {
 					setAttributes( { postIds: selectedPosts } );
 					setIsModalOpen( false );
@@ -138,7 +138,7 @@ const PostBlockSettings = ( {
 	const displayPostSortingModal = () => {
 		return (
 			<Modal
-				title={ __( 'Sort Selected Posts', 'pc-blocks' ) }
+				title={ __( 'Sort Selected Posts', 'post-crafts' ) }
 				onRequestClose={ () => {
 					setIsSortingModalOpen( false );
 				} }
@@ -169,7 +169,7 @@ const PostBlockSettings = ( {
 						className="post-selector-trigger"
 						onClick={ () => setIsModalOpen( true ) }
 					>
-						{ __( 'Select Posts', 'pc-blocks' ) }
+						{ __( 'Select Posts', 'post-crafts' ) }
 					</Button>
 					{ !! postIds.length && (
 						<>
@@ -178,9 +178,9 @@ const PostBlockSettings = ( {
 								onClick={ clearAll }
 								className="clear-selected-list"
 								showTooltip
-								label={ __( 'Clear Selection', 'pc-blocks' ) }
+								label={ __( 'Clear Selection', 'post-crafts' ) }
 							>
-								{ __( 'Clear', 'pc-blocks' ) }
+								{ __( 'Clear', 'post-crafts' ) }
 							</Button>
 						</>
 					) }
@@ -190,12 +190,12 @@ const PostBlockSettings = ( {
 						id="inspector-range-control-0__help"
 						className="components-base-control__help sortable-help"
 					>
-						{ __( 'You can select ', 'pc-blocks' ) }
+						{ __( 'You can select ', 'post-crafts' ) }
 						{ postsPerPage - postIds.length }
-						{ __( ' more ', 'pc-blocks' ) }
+						{ __( ' more ', 'post-crafts' ) }
 						{ postsPerPage - postIds.length > 1
-							? __( 'posts', 'pc-blocks' )
-							: __( 'post', 'pc-blocks' ) }
+							? __( 'posts', 'post-crafts' )
+							: __( 'post', 'post-crafts' ) }
 					</p>
 				) }
 
@@ -207,7 +207,7 @@ const PostBlockSettings = ( {
 						className="post-sorting-modal-trigger"
 						onClick={ () => setIsSortingModalOpen( true ) }
 					>
-						{ __( 'Sort Posts', 'pc-blocks' ) }
+						{ __( 'Sort Posts', 'post-crafts' ) }
 					</Button>
 				) }
 
@@ -216,7 +216,7 @@ const PostBlockSettings = ( {
 					max={ maxNumberOfPost }
 					value={ postsPerPage }
 					className="number-of-posts"
-					label={ __( 'Max number of Posts ', 'pc-blocks' ) }
+					label={ __( 'Posts Per Page', 'post-crafts' ) }
 					onChange={ ( postsPerPage ) => {
 						const updatedAttrs = {
 							postsPerPage,
@@ -256,21 +256,24 @@ const PostBlockSettings = ( {
 					taxQuery.category?.length > 0 &&
 					taxQuery.post_tag?.length > 0 && (
 						<SelectControl
-							label={ __( 'Relation', 'pc-blocks' ) }
+							label={ __( 'Relation', 'post-crafts' ) }
 							value={ taxRelation }
 							options={ [
 								{
-									label: __( 'AND', 'pc-blocks' ),
+									label: __( 'AND', 'post-crafts' ),
 									value: 'AND',
 								},
-								{ label: __( 'OR', 'pc-blocks' ), value: 'OR' },
+								{
+									label: __( 'OR', 'post-crafts' ),
+									value: 'OR',
+								},
 							] }
 							onChange={ ( newRelation ) =>
 								setAttributes( { taxRelation: newRelation } )
 							}
 							help={ __(
 								'The logical relationship between above taxonomies.',
-								'pc-blocks'
+								'post-crafts'
 							) }
 						/>
 					) }

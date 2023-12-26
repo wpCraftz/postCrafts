@@ -2,7 +2,7 @@
 /**
  * Pc blocks custom functions.
  *
- * @package pc-blocks
+ * @package post-crafts
  */
 
 
@@ -217,14 +217,14 @@ function pc_pagination( $query ) {
 		?>
 		<div class="pc-pagination-container">
 			<?php
-				printf( '<nav class="pc-pagination clearfix" role="navigation" aria-label="%1$s">%2$s</nav>', esc_attr__( 'Pagination Navigation', 'pc-blocks' ), wp_kses( $links, $allowed_tags ) );
+				printf( '<nav class="pc-pagination clearfix" role="navigation" aria-label="%1$s">%2$s</nav>', esc_attr__( 'Pagination Navigation', 'post-crafts' ), wp_kses( $links, $allowed_tags ) );
 			?>
-			<div class="pagination-text" aria-label="<?php esc_attr_e( 'Current index of pagination', 'pc-blocks' ); ?>" role="navigation">
+			<div class="pagination-text" aria-label="<?php esc_attr_e( 'Current index of pagination', 'post-crafts' ); ?>" role="navigation">
 				<?php
 				$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
 				printf(
 					/* translators: 1. is current page number, 2. is total pages. */
-					esc_html__( 'Page %1$d of %2$d', 'pc-blocks' ),
+					esc_html__( 'Page %1$d of %2$d', 'post-crafts' ),
 					esc_html( $paged ),
 					esc_html( $query->max_num_pages )
 				);

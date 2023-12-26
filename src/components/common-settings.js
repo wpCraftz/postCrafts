@@ -15,7 +15,7 @@ const CommonSettings = ( {
 		<PanelBody title={ label } initialOpen={ initialOpen }>
 			{ typeof showCategory !== 'undefined' && (
 				<ToggleControl
-					label={ __( 'Show Category', 'pc-blocks' ) }
+					label={ __( 'Show Category', 'post-crafts' ) }
 					checked={ showCategory }
 					onChange={ ( value ) =>
 						setAttributes( { showCategory: value } )
@@ -24,7 +24,7 @@ const CommonSettings = ( {
 			) }
 			{ typeof showExcerpt !== 'undefined' && (
 				<ToggleControl
-					label={ __( 'Show Excerpt', 'pc-blocks' ) }
+					label={ __( 'Show Excerpt', 'post-crafts' ) }
 					checked={ showExcerpt }
 					onChange={ ( value ) =>
 						setAttributes( { showExcerpt: value } )
@@ -34,7 +34,7 @@ const CommonSettings = ( {
 
 			{ typeof showPagination !== 'undefined' && (
 				<ToggleControl
-					label={ __( 'Show Pagination', 'pc-blocks' ) }
+					label={ __( 'Show Pagination', 'post-crafts' ) }
 					checked={ showPagination }
 					onChange={ ( value ) =>
 						setAttributes( { showPagination: value } )

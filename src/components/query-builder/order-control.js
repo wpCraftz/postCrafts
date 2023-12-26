@@ -6,21 +6,21 @@ import { __ } from '@wordpress/i18n';
 
 const orderOptions = [
 	{
-		label: __( 'Newest to oldest', 'pc-blocks' ),
+		label: __( 'Newest to oldest', 'post-crafts' ),
 		value: 'date/desc',
 	},
 	{
-		label: __( 'Oldest to newest', 'pc-blocks' ),
+		label: __( 'Oldest to newest', 'post-crafts' ),
 		value: 'date/asc',
 	},
 	{
 		/* translators: label for ordering posts by title in ascending order */
-		label: __( 'A → Z', 'pc-blocks' ),
+		label: __( 'A → Z', 'post-crafts' ),
 		value: 'title/asc',
 	},
 	{
 		/* translators: label for ordering posts by title in descending order */
-		label: __( 'Z → A', 'pc-blocks' ),
+		label: __( 'Z → A', 'post-crafts' ),
 		value: 'title/desc',
 	},
 ];
@@ -28,7 +28,7 @@ function OrderControl( { order, orderBy, onChange } ) {
 	return (
 		<SelectControl
 			__nextHasNoMarginBottom
-			label={ __( 'Order by', 'pc-blocks' ) }
+			label={ __( 'Order by', 'post-crafts' ) }
 			value={ `${ orderBy }/${ order }` }
 			options={ orderOptions }
 			onChange={ ( value ) => {

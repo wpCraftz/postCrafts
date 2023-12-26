@@ -2,12 +2,12 @@
 /**
  * Assets class.
  *
- * @package pc-blocks
+ * @package post-crafts
  */
 
-namespace PostCraft\Blocks\Inc;
+namespace PostCrafts\Blocks\Inc;
 
-use PostCraft\Blocks\Inc\Traits\Singleton;
+use PostCrafts\Blocks\Inc\Traits\Singleton;
 
 /**
  * Class Assets
@@ -44,8 +44,7 @@ class Assets {
 	 */
 	public function enqueue_assets() {
 
-		wp_enqueue_style( 'pc-blocks', PC_URL . '/build/src/styles/main.css', array(), '1.0.0' );
-		// wp_enqueue_style( 'pc-blocks', PC_URL . '/build/src/styles/main.css', array(), filemtime( PC_PATH . '/build/src/styles/main.css' ) );
+		wp_enqueue_style( 'post-crafts', PC_URL . '/build/src/styles/main.css', array(), filemtime( PC_PATH . '/build/src/styles/main.css' ) );
 	}
 	
 	/**
@@ -54,9 +53,7 @@ class Assets {
 	 * @return void
 	 */
 	public function enqueue_admin_assets() {
-
-		wp_enqueue_style( 'pc-blocks', PC_URL . '/build/src/styles/editor.css', array(), '1.0.0' );
-		// wp_enqueue_style( 'pc-blocks', PC_URL . '/build/src/styles/editor.css', array(), filemtime( PC_PATH . '/build/src/styles/editor.css' ) );
+		wp_enqueue_style( 'post-crafts', PC_URL . '/build/src/styles/editor.css', array(), filemtime( PC_PATH . '/build/src/styles/editor.css' ) );
 	}
 
 }

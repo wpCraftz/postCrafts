@@ -2,12 +2,12 @@
 /**
  * Plugin manifest class.
  *
- * @package pc-blocks
+ * @package post-crafts
  */
 
-namespace PostCraft\Blocks\Inc;
+namespace PostCrafts\Blocks\Inc;
 
-use \PostCraft\Blocks\Inc\Traits\Singleton;
+use \PostCrafts\Blocks\Inc\Traits\Singleton;
 
 /**
  * Class Plugin
@@ -86,7 +86,7 @@ class Plugin {
 	 */
 	function pc_load_textdomain() {
 
-		load_plugin_textdomain( 'pc-blocks', false, plugin_dir_path( __FILE__ ) . 'languages' );
+		load_plugin_textdomain( 'post-crafts', false, plugin_dir_path( __FILE__ ) . 'languages' );
 	
 	}
 

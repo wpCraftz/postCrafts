@@ -2,13 +2,13 @@
 /**
  * Registers all custom gutenberg blocks.
  *
- *  @package pc-blocks
+ *  @package post-crafts
  */
 
-namespace PostCraft\Blocks\Inc;
+namespace PostCrafts\Blocks\Inc;
 
 
-use \PostCraft\Blocks\Inc\Traits\Singleton;
+use \PostCrafts\Blocks\Inc\Traits\Singleton;
 
 /**
  * Class Blocks
@@ -55,8 +55,8 @@ class Blocks {
 		return array_merge(
 			array(
 				array(
-					'slug'  => 'pc-blocks',
-					'title' => __( 'Ultimate Post Blocks', 'pc-blocks' ),
+					'slug'  => 'post-crafts',
+					'title' => __( 'Advanced PostGrid Blocks', 'post-crafts' ),
 					'icon'  => null,
 				),
 			),

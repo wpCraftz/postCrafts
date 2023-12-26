@@ -4,7 +4,7 @@
  *
  */
 
-namespace PostCraft\Blocks\Inc\Helpers;
+namespace PostCrafts\Blocks\Inc\Helpers;
 
 /**
  * Auto loader function.
@@ -16,7 +16,7 @@ namespace PostCraft\Blocks\Inc\Helpers;
 function autoloader( $resource = '' ) {
 
 	$resource_path  = false;
-	$namespace_root = 'PostCraft\Blocks\\';
+	$namespace_root = 'PostCrafts\Blocks\\';
 	$resource       = trim( $resource, '\\' );
 
 	if ( empty( $resource ) || strpos( $resource, '\\' ) === false || strpos( $resource, $namespace_root ) !== 0 ) {
@@ -82,4 +82,4 @@ function autoloader( $resource = '' ) {
 
 }
 
-spl_autoload_register( '\PostCraft\Blocks\Inc\Helpers\autoloader' );
+spl_autoload_register( '\PostCrafts\Blocks\Inc\Helpers\autoloader' );
