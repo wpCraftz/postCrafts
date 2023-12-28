@@ -111,7 +111,8 @@ function pc_get_primary_category( $return_id = false ) {
  * @return object
  */
 function pc_query_builder($attributes) {
-	$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
+	$paged = empty( $_GET['query-page'] ) ? null : (int) $_GET['query-page'];
+
 	$args  = [
 		'post_type'              => 'post',
 		'posts_per_page'         => $attributes['postsPerPage'],
@@ -195,14 +196,35 @@ function pc_query_builder($attributes) {
  *
  * @return void
  */
-function pc_pagination( $query ) {
+function pc_pagination( $query, $attributes ) {
 
-	$links = paginate_links(
-		array(
-			'total'   => $query->max_num_pages,
-			'current' => max( 1, $query->get( 'paged' ) ),
-		)
+	$page_key      = 'query-page';
+	$page          = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ];
+	$max_page      = isset( $attributes['pages'] ) ? (int) $attributes['pages'] : 0;
+	$total         = ! $max_page || $max_page > $query->max_num_pages ? $query->max_num_pages : $max_page;
+	$paginate_args = array(
+		'base'    => '%_%',
+		'format'  => "?$page_key=%#%",
+		'total'   => $total,
+		'current' => max( 1, $page ),
 	);
+
+	if ( null !== $attributes['midSize'] ) {
+		$paginate_args['mid_size'] = $attributes['midSize'];
+	}
+
+	if ( 1 !== $page ) {
+		$paginate_args['add_args'] = array( 'cst' => '' );
+	}
+
+	// We still need to preserve `paged` query param if exists, as is used
+	// for Queries that inherit from global context.
+	$paged = empty( $_GET['paged'] ) ? null : (int) $_GET['paged'];
+	if ( $paged ) {
+		$paginate_args['add_args'] = array( 'paged' => $paged );
+	}
+
+	$links = paginate_links( $paginate_args );
 
 	if ( $links ) {
 		$allowed_tags = array(
@@ -221,12 +243,11 @@ function pc_pagination( $query ) {
 			?>
 			<div class="pagination-text" aria-label="<?php esc_attr_e( 'Current index of pagination', 'post-crafts' ); ?>" role="navigation">
 				<?php
-				$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
 				printf(
 					/* translators: 1. is current page number, 2. is total pages. */
 					esc_html__( 'Page %1$d of %2$d', 'post-crafts' ),
-					esc_html( $paged ),
-					esc_html( $query->max_num_pages )
+					esc_html( $page ),
+					esc_html( $total )
 				);
 				?>
 			</div>

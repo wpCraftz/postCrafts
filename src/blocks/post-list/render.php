@@ -31,12 +31,22 @@ $post_query               = new WP_Query( pc_query_builder($attributes) );
 						</a>
 					</figure>
 					<div class="post-list-content post-content">
-						<?php pc_get_primary_category(); ?>
+						<?php
+							if ( $attributes['showCategory'] ) {
+								pc_get_primary_category(); 
+							}
+						?>
 						<?php the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' ); ?>
 						<div class="entry-meta">
 							<?php pc_posted_by(); ?><span class="separator">-</span><?php pc_posted_on( 'F d, Y' ); ?>
 						</div>
-						<div class="entry-summary"><?php the_excerpt(); ?></div>
+						<?php
+							if ( $attributes['showExcerpt'] ) {
+							?>
+								<div class="entry-summary"><?php the_excerpt(); ?></div>
+							<?php
+							}
+						?>
 					</div>
 				</article>
 				<?php

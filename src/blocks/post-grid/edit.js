@@ -19,7 +19,13 @@ import classNames from 'classnames';
  * Internal dependencies
  */
 import useFetchPosts from '../../libs/fetchPosts';
-import { QueryBuilder, GridSetttings, CommonSettings } from '../../components';
+import {
+	QueryBuilder,
+	GridSetttings,
+	CommonSettings,
+	PaginationSettings,
+	PreviewPaginationNumbers,
+} from '../../components';
 
 /**
  * Module Constants
@@ -60,6 +66,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		showCategory,
 		showExcerpt,
 		showPagination,
+		midSize,
 	} = attributes;
 
 	const customQuery = {
@@ -194,6 +201,14 @@ export default function Edit( { attributes, setAttributes } ) {
 					label={ __( 'Content', 'post-crafts' ) }
 					initialOpen
 				/>
+				{ showPagination && (
+					<PaginationSettings
+						initialOpen
+						attributes={ attributes }
+						setAttributes={ setAttributes }
+						label={ __( 'Pagination Settings', 'post-crafts' ) }
+					/>
+				) }
 			</InspectorControls>
 
 			{ ! posts?.length ? (
@@ -325,12 +340,9 @@ export default function Edit( { attributes, setAttributes } ) {
 					</div>
 					{ !! showPagination && (
 						<div className="pc-pagination-container">
-							<div className="pagination-text">
-								{ __(
-									'Pagination will be available in frontend',
-									'post-crafts'
-								) }
-							</div>
+							<PreviewPaginationNumbers
+								midSize={ parseInt( midSize, 10 ) }
+							/>
 						</div>
 					) }
 				</div>

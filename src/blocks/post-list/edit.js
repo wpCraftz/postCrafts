@@ -14,7 +14,12 @@ import { store as coreStore } from '@wordpress/core-data';
  * Internal dependencies
  */
 import useFetchPosts from '../../libs/fetchPosts';
-import { QueryBuilder, CommonSettings } from '../../components';
+import {
+	QueryBuilder,
+	CommonSettings,
+	PaginationSettings,
+	PreviewPaginationNumbers,
+} from '../../components';
 
 /**
  * Module Constants
@@ -51,6 +56,8 @@ export default function Edit( { attributes, setAttributes } ) {
 		catOperator,
 		tagOperator,
 		sorting,
+		showPagination,
+		midSize,
 	} = attributes;
 
 	const customQuery = {
@@ -181,6 +188,14 @@ export default function Edit( { attributes, setAttributes } ) {
 					label={ __( 'Content', 'post-crafts' ) }
 					initialOpen
 				/>
+				{ showPagination && (
+					<PaginationSettings
+						initialOpen
+						attributes={ attributes }
+						setAttributes={ setAttributes }
+						label={ __( 'Pagination Settings', 'post-crafts' ) }
+					/>
+				) }
 			</InspectorControls>
 
 			{ ! posts?.length ? (
@@ -299,6 +314,13 @@ export default function Edit( { attributes, setAttributes } ) {
 							);
 						} ) }
 					</div>
+					{ !! showPagination && (
+						<div className="pc-pagination-container">
+							<PreviewPaginationNumbers
+								midSize={ parseInt( midSize, 10 ) }
+							/>
+						</div>
+					) }
 				</div>
 			) }
 		</>
