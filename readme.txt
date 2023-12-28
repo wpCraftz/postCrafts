@@ -33,7 +33,7 @@ You can Translate PostCrafts on [translate.wordpress.org](https://translate.word
 = Minimum Requirements =
 
 * WordPress 5.0.0 or greater
-* PHP version 7.3 or greater
+* PHP version 5.6 or greater
 * MySQL version 5.6 or greater
 
 = Automatic installation =
@@ -66,6 +66,10 @@ Sometimes because of the permalink issue during the plugin update, just go to Wo
 
 Yes, but it is a Gutenberg Post Block plugin.  It displays the dynamic post on your page. 
 
+= Can I use these blocks with any WordPress theme? =
+
+Yes, the PostCrafts - Advanced PostGrid Blocks are designed to seamlessly integrate with any WordPress theme.
+
 = Where can I request new features? =
 
 We are available on the WordPress support forum.
@@ -80,3 +84,13 @@ It is a Gutenberg plugin it works great with WordPress version 5.x.x or more. An
 
 
 == Screenshots ==
+1. Post Grid
+2. Post List
+
+== Changelog ==
+0.0.1
+Initial release
+
+<strong>Want To Contribute To The Plugin?</strong>
+PostCrafts - Advanced PostGrid Blocks is created by wpCraftz. Enjoy crafting beautiful and dynamic post grids and lists with PostCrafts!
+You may now contribute to the plugin on Github: <a href="https://github.com/wpCraftz/postCrafts" target="_blank" rel="">PostCrafts on Github</a>
