@@ -55,7 +55,7 @@ $post_query               = new WP_Query( pc_query_builder($attributes) );
 	</div>
 	<?php
 		if ( $attributes['showPagination'] ) {
-			pc_pagination( $post_query );
+			pc_pagination( $post_query, $attributes );
 		}
 	?>
 </div>

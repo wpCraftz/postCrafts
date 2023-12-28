@@ -18,6 +18,7 @@ import classNames from 'classnames';
 /**
  * Internal dependencies
  */
+import './editor.scss';
 import useFetchPosts from '../../libs/fetchPosts';
 import {
 	QueryBuilder,

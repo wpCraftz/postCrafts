@@ -28,9 +28,10 @@ const PaginationSettings = ( {
 				max={ 5 }
 			/> */ }
 			<RangeControl
-				label={ __( 'Max page to show' ) }
+				label={ __( 'Max page to show', 'post-crafts' ) }
 				help={ __(
-					'Limit the pages you want to show, even if the query has more results. To show all pages use 0 (zero).'
+					'Limit the pages you want to show, even if the query has more results. To show all pages use 0 (zero).',
+					'post-crafts'
 				) }
 				value={ pages }
 				onChange={ ( value ) => {

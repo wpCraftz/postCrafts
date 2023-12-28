@@ -13,6 +13,7 @@ import { store as coreStore } from '@wordpress/core-data';
 /**
  * Internal dependencies
  */
+import './editor.scss';
 import useFetchPosts from '../../libs/fetchPosts';
 import {
 	QueryBuilder,
