@@ -28,6 +28,7 @@ class Plugin {
 		Media::get_instance();
 
 		register_activation_hook( __FILE__, [ $this, 'activate' ] );
+		register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
 		$this->setup_hooks();
 	}
 
@@ -37,13 +38,22 @@ class Plugin {
 	 * @return void
 	 */
 	public function activate() {
-		$installed = get_option( 'PC_post_blocks_installed' );
+		$installed = get_option( 'post_crafts_installed' );
 
 		if ( ! $installed ) {
-			update_option( 'PC_post_blocks_installed', time() );
+			update_option( 'post_crafts_installed', time() );
 		}
 
-		update_option( 'PC_post_blocks_installed', PC_VERSION );
+		update_option( 'post_crafts_installed', PC_VERSION );
+	}
+
+	/**
+	 * Do stuff on plugin deactivate.
+	 *
+	 * @return void
+	 */
+	public function deactivate() {
+		update_option( 'post_crafts_deactivated', time() );
 	}
 
 
