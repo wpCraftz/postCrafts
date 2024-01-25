@@ -1,7 +1,7 @@
 {
 	"name": "post-craft",
 	"version": "1.0.0",
-	"description": "",
+	"description": "Post Grid Gutenberg Blocks and WordPress Blog Plugin - PostCrafts",
 	"main": "build/index.js",
 	"scripts": {
 		"build": "wp-scripts build",
@@ -23,12 +23,12 @@
 	"author": "",
 	"license": "GPL-2.0-or-later",
 	"devDependencies": {
-		"@wordpress/scripts": "^26.18.0",
+		"@wordpress/scripts": "^27.1.0",
 		"fast-glob": "^3.3.2"
 	},
 	"dependencies": {
 		"array-move": "^4.0.0",
-		"classnames": "^2.3.2",
+		"classnames": "^2.5.1",
 		"lodash.debounce": "^4.0.8",
 		"lodash.isequal": "^4.5.0",
 		"lodash.times": "^4.3.2",

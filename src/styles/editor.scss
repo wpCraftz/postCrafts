@@ -1,8 +1,3 @@
-// editor components
-@import 'editor/post-selection';
-@import 'editor/sortable';
-@import 'editor/post-block-settings';
-
 // components
 @import "components/media";
 @import "components/common";
@@ -12,12 +7,10 @@
 // global
 @import "global";
 
-
-
 .post-content {
 
 	a {
-		text-decoration: none !important;
+		text-decoration: none;
 	}
 
 }

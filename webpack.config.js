@@ -10,9 +10,6 @@ const { sync: glob } = require( 'fast-glob' );
 // Import the original config from the @wordpress/scripts package.
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 
-// Import the helper to find and generate the entry points in the src directory
-const { getWebpackEntryPoints } = require( '@wordpress/scripts/utils/config' );
-
 const prepare = ( props = [], depth = 3 ) => {
 	return Object.fromEntries(
 		props.map( ( entry ) => [
@@ -30,17 +27,25 @@ const prepare = ( props = [], depth = 3 ) => {
 const editorStyles = glob(
 	path.resolve( __dirname, 'src/styles/editor.scss' )
 );
+
+const adminStyles = glob( path.resolve( __dirname, 'src/styles/admin.scss' ) );
+
 const frontendStyles = glob(
 	path.resolve( __dirname, 'src/styles/main.scss' )
 );
 
-const styles = prepare( [ ...editorStyles, ...frontendStyles ] );
-
-// Add any a new entry point by extending the webpack config.
-module.exports = {
+const styles = {
 	...defaultConfig,
-	entry: {
-		...getWebpackEntryPoints(),
-		...styles,
+	entry: prepare( [ ...editorStyles, ...frontendStyles, ...adminStyles ] ),
+	output: {
+		path: path.resolve( __dirname, 'build/' ),
 	},
 };
+
+// Add any a new entry point by extending the webpack config.
+
+const blocks = {
+	...defaultConfig,
+};
+
+module.exports = [ blocks, styles ];

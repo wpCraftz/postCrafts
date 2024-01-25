@@ -18,6 +18,7 @@ import classNames from 'classnames';
 /**
  * Internal dependencies
  */
+import './editor.scss';
 import useFetchPosts from '../../libs/fetchPosts';
 import { QueryBuilder, GridSetttings } from '../../components';
 
@@ -151,7 +152,10 @@ export default function Edit( { attributes, setAttributes } ) {
 	);
 
 	const blockProps = useBlockProps( {
-		className: classNames( 'pc-postgrid-wrapper', `columns-${ columns }` ),
+		className: classNames(
+			'pcraftz-postgrid-wrapper',
+			`columns-${ columns }`
+		),
 	} );
 
 	if ( ! posts ) {
@@ -175,7 +179,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					setAttributes={ setAttributes }
 					maxNumberOfPost={ 40 }
 					sorting={ sorting }
-					label={ __( 'Query Builder', 'pc-blocks' ) }
+					label={ __( 'Query Builder', 'pcraftz' ) }
 					initialOpen
 					postMeta={
 						!! blockContexts
@@ -191,7 +195,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 			{ ! posts?.length ? (
 				<p { ...blockProps }>
-					{ __( 'No results found.', 'pc-blocks' ) }
+					{ __( 'No results found.', 'pcraftz' ) }
 				</p>
 			) : (
 				<div { ...blockProps }>

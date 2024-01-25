@@ -2,12 +2,12 @@
 /**
  * Assets class.
  *
- * @package pc-blocks
+ * @package pcraftz
  */
 
-namespace PostCraft\Blocks\Inc;
+namespace PostCraftz\Blocks\Inc;
 
-use PostCraft\Blocks\Inc\Traits\Singleton;
+use PostCraftz\Blocks\Inc\Traits\Singleton;
 
 /**
  * Class Assets
@@ -33,6 +33,7 @@ class Assets {
 	protected function setup_hooks() {
 
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+		add_action( 'enqueue_block_assets', [ $this, 'enqueue_block_assets' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_assets' ] );
 
 	}
@@ -43,9 +44,7 @@ class Assets {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-
-		wp_enqueue_style( 'pc-blocks', PC_URL . '/build/src/styles/main.css', array(), '1.0.0' );
-		// wp_enqueue_style( 'pc-blocks', PC_URL . '/build/src/styles/main.css', array(), filemtime( PC_PATH . '/build/src/styles/main.css' ) );
+		
 	}
 	
 	/**
@@ -54,9 +53,21 @@ class Assets {
 	 * @return void
 	 */
 	public function enqueue_admin_assets() {
+		wp_enqueue_style( 'pcraftz-admin', PCRAFTZ_URL . '/build/src/styles/admin.css', array(), filemtime( PCRAFTZ_PATH . '/build/src/styles/admin.css' ) );
+	}
+	/**
+	 * To enqueue scripts and styles.
+	 *
+	 * @return void
+	 */
+	public function enqueue_block_assets() {
 
-		wp_enqueue_style( 'pc-blocks', PC_URL . '/build/src/styles/editor.css', array(), '1.0.0' );
-		// wp_enqueue_style( 'pc-blocks', PC_URL . '/build/src/styles/editor.css', array(), filemtime( PC_PATH . '/build/src/styles/editor.css' ) );
+		if ( is_admin() ) {
+			wp_enqueue_style( 'pcraftz-editor', PCRAFTZ_URL . '/build/src/styles/editor.css', array(), filemtime( PCRAFTZ_PATH . '/build/src/styles/editor.css' ) );
+		} else {
+			wp_enqueue_style( 'pcraftz', PCRAFTZ_URL . '/build/src/styles/main.css', array(), filemtime( PCRAFTZ_PATH . '/build/src/styles/main.css' ) );
+		}
+		
 	}
 
 }

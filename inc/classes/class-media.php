@@ -2,13 +2,13 @@
 /**
  * Handles Media.
  *
- *  @package pc-blocks
+ * @package pcraftz
  */
 
-namespace PostCraft\Blocks\Inc;
+namespace PostCraftz\Blocks\Inc;
 
 
-use \PostCraft\Blocks\Inc\Traits\Singleton;
+use \PostCraftz\Blocks\Inc\Traits\Singleton;
 
 /**
  * Class Blocks

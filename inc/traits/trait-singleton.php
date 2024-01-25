@@ -22,10 +22,10 @@
  *
  * If you specifically need multiple objects, then use a normal class.
  *
- * @package pc-blocks
+ * @package pcraftz
  */
 
-namespace PostCraft\Blocks\Inc\Traits;
+namespace PostCraftz\Blocks\Inc\Traits;
 
 trait Singleton {
 

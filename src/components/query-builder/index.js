@@ -121,7 +121,7 @@ const PostBlockSettings = ( {
 	const displayPostSelectModal = () => {
 		return (
 			<Modal
-				title={ __( 'Select Posts', 'pc-blocks' ) }
+				title={ __( 'Select Posts', 'pcraftz' ) }
 				onRequestClose={ () => {
 					setAttributes( { postIds: selectedPosts } );
 					setIsModalOpen( false );
@@ -143,7 +143,7 @@ const PostBlockSettings = ( {
 	const displayPostSortingModal = () => {
 		return (
 			<Modal
-				title={ __( 'Sort Selected Posts', 'pc-blocks' ) }
+				title={ __( 'Sort Selected Posts', 'pcraftz' ) }
 				onRequestClose={ () => {
 					setIsSortingModalOpen( false );
 				} }
@@ -174,7 +174,7 @@ const PostBlockSettings = ( {
 						className="post-selector-trigger"
 						onClick={ () => setIsModalOpen( true ) }
 					>
-						{ __( 'Select Posts', 'pc-blocks' ) }
+						{ __( 'Select Posts', 'pcraftz' ) }
 					</Button>
 					{ !! postIds.length && (
 						<>
@@ -183,9 +183,9 @@ const PostBlockSettings = ( {
 								onClick={ clearAll }
 								className="clear-selected-list"
 								showTooltip
-								label={ __( 'Clear Selection', 'pc-blocks' ) }
+								label={ __( 'Clear Selection', 'pcraftz' ) }
 							>
-								{ __( 'Clear', 'pc-blocks' ) }
+								{ __( 'Clear', 'pcraftz' ) }
 							</Button>
 						</>
 					) }
@@ -195,12 +195,12 @@ const PostBlockSettings = ( {
 						id="inspector-range-control-0__help"
 						className="components-base-control__help sortable-help"
 					>
-						{ __( 'You can select ', 'pc-blocks' ) }
+						{ __( 'You can select ', 'pcraftz' ) }
 						{ postsPerPage - postIds.length }
-						{ __( ' more ', 'pc-blocks' ) }
+						{ __( ' more ', 'pcraftz' ) }
 						{ postsPerPage - postIds.length > 1
-							? __( 'posts', 'pc-blocks' )
-							: __( 'post', 'pc-blocks' ) }
+							? __( 'posts', 'pcraftz' )
+							: __( 'post', 'pcraftz' ) }
 					</p>
 				) }
 
@@ -212,7 +212,7 @@ const PostBlockSettings = ( {
 						className="post-sorting-modal-trigger"
 						onClick={ () => setIsSortingModalOpen( true ) }
 					>
-						{ __( 'Sort Posts', 'pc-blocks' ) }
+						{ __( 'Sort Posts', 'pcraftz' ) }
 					</Button>
 				) }
 
@@ -223,7 +223,7 @@ const PostBlockSettings = ( {
 							max={ maxNumberOfPost }
 							value={ postsPerPage }
 							className="number-of-posts"
-							label={ __( 'Max number of Posts ', 'pc-blocks' ) }
+							label={ __( 'Max number of Posts ', 'pcraftz' ) }
 							onChange={ ( postsPerPage ) => {
 								const updatedAttrs = {
 									postsPerPage,
@@ -262,27 +262,27 @@ const PostBlockSettings = ( {
 					taxQuery.category?.length > 0 &&
 					taxQuery.post_tag?.length > 0 && (
 						<SelectControl
-							label={ __( 'Relation', 'pc-blocks' ) }
+							label={ __( 'Relation', 'pcraftz' ) }
 							value={ taxRelation }
 							options={ [
 								{
-									label: __( 'AND', 'pc-blocks' ),
+									label: __( 'AND', 'pcraftz' ),
 									value: 'AND',
 								},
-								{ label: __( 'OR', 'pc-blocks' ), value: 'OR' },
+								{ label: __( 'OR', 'pcraftz' ), value: 'OR' },
 							] }
 							onChange={ ( newRelation ) =>
 								setAttributes( { taxRelation: newRelation } )
 							}
 							help={ __(
 								'The logical relationship between above taxonomies.',
-								'pc-blocks'
+								'pcraftz'
 							) }
 						/>
 					) }
 				{ typeof showCategory !== 'undefined' && (
 					<ToggleControl
-						label={ __( 'Show Category?', 'pc-blocks' ) }
+						label={ __( 'Show Category?', 'pcraftz' ) }
 						checked={ showCategory }
 						onChange={ ( showCategory ) =>
 							setAttributes( { showCategory } )
@@ -291,7 +291,7 @@ const PostBlockSettings = ( {
 				) }
 				{ typeof showExcerpt !== 'undefined' && (
 					<ToggleControl
-						label={ __( 'Show Excerpt?', 'pc-blocks' ) }
+						label={ __( 'Show Excerpt?', 'pcraftz' ) }
 						checked={ showExcerpt }
 						onChange={ ( showExcerpt ) =>
 							setAttributes( { showExcerpt } )
@@ -301,7 +301,7 @@ const PostBlockSettings = ( {
 
 				{ ! postIds.length && typeof pagination !== 'undefined' && (
 					<ToggleControl
-						label={ __( 'Show Pagination?', 'pc-blocks' ) }
+						label={ __( 'Show Pagination?', 'pcraftz' ) }
 						checked={ pagination }
 						onChange={ ( pagination ) =>
 							setAttributes( { pagination } )

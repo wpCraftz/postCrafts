@@ -84,7 +84,7 @@ export default function TaxonomyControls( {
 						/>
 						{ enableRelation && (
 							<SelectControl
-								label={ __( 'Operator', 'pc-blocks' ) }
+								label={ __( 'Operator', 'pcraftz' ) }
 								value={
 									taxonomy.slug === 'category'
 										? catOperator
@@ -92,15 +92,15 @@ export default function TaxonomyControls( {
 								}
 								options={ [
 									{
-										label: __( 'IN', 'pc-blocks' ),
+										label: __( 'IN', 'pcraftz' ),
 										value: 'IN',
 									},
 									{
-										label: __( 'NOT IN', 'pc-blocks' ),
+										label: __( 'NOT IN', 'pcraftz' ),
 										value: 'NOT IN',
 									},
 									{
-										label: __( 'AND', 'pc-blocks' ),
+										label: __( 'AND', 'pcraftz' ),
 										value: 'AND',
 									},
 								] }

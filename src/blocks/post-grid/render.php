@@ -4,13 +4,17 @@
  *
  * @see https://github.com/WordPress/gutenberg/blob/trunk/docs/reference-guides/block-api/block-metadata.md#render
  *
- * @package pc-blocks
+ * @package pcraftz
  */
 
-$post_query               = new WP_Query( pc_query_builder($attributes) );
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
+$post_query               = new WP_Query( pcraftz_query_builder($attributes) );
 $block_wrapper_attributes = get_block_wrapper_attributes(
 	[
-		'class' => 'pc-postgrid-wrapper columns-' . esc_attr( $attributes["columns"] ."" ),
+		'class' => 'pcraftz-postgrid-wrapper columns-' . esc_attr( $attributes["columns"] ."" ),
 	]
 );
 ?>
@@ -33,10 +37,10 @@ $block_wrapper_attributes = get_block_wrapper_attributes(
 					</a>
 				</figure>
 				<div class="post-grid-content post-content">
-					<?php pc_get_primary_category(); ?>
+					<?php pcraftz_get_primary_category(); ?>
 					<?php the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' ); ?>
 					<div class="entry-meta">
-						<?php pc_posted_by(); ?><span class="separator">-</span><?php pc_posted_on( 'F d, Y' ); ?>
+						<?php pcraftz_posted_by(); ?><span class="separator">-</span><?php pcraftz_posted_on( 'F d, Y' ); ?>
 					</div>
 					<div class="entry-summary"><?php the_excerpt(); ?></div>
 				</div>
