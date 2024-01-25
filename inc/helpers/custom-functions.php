@@ -5,16 +5,14 @@
  * @package pcrafts
  */
 
-
 /**
  * Prints HTML with meta information for the current author.
  */
-function PCRAFTS_posted_by() {
+function pcrafts_posted_by() {
 
 	$byline = '<span class="author vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a></span>';
 
-	printf( '<span class="byline"> %s</span>', $byline ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-
+	printf( '<span class="byline">%s</span>', wp_kses_post( $byline ) );
 }
 
 /**
@@ -24,7 +22,7 @@ function PCRAFTS_posted_by() {
  *
  * @return void
  */
-function PCRAFTS_posted_on( $format = 'm/d/Y g:ia' ) {
+function pcrafts_posted_on( $format = 'm/d/Y g:ia' ) {
 
 	$time_string = '<time class="entry-date published updated" datetime="%1$s">%2$s</time>';
 
@@ -40,11 +38,11 @@ function PCRAFTS_posted_on( $format = 'm/d/Y g:ia' ) {
 
 	echo wp_kses(
 		sprintf( '<span class="posted-on">%s</span>', $time_string ),
-		[
-			'span' => [
+		array(
+			'span' => array(
 				'class' => true,
-			],
-		]
+			),
+		)
 	);
 }
 
@@ -55,12 +53,12 @@ function PCRAFTS_posted_on( $format = 'm/d/Y g:ia' ) {
  *
  * @return void|int
  */
-function PCRAFTS_get_primary_category( $return_id = false ) {
-	$primary_category = [
+function pcrafts_get_primary_category( $return_id = false ) {
+	$primary_category = array(
 		'name'    => '',
 		'url'     => '',
 		'term_id' => '',
-	];
+	);
 
 	// Check if Yoast SEO plugin is active.
 	if ( class_exists( 'WPSEO_Primary_Term' ) ) {
@@ -110,8 +108,8 @@ function PCRAFTS_get_primary_category( $return_id = false ) {
  *
  * @return object
  */
-function PCRAFTS_query_builder($attributes) {
-	$args = [
+function pcrafts_query_builder( $attributes ) {
+	$args = array(
 		'post_type'              => 'post',
 		'posts_per_page'         => $attributes['postsPerPage'],
 		'post_status'            => 'publish',
@@ -122,7 +120,7 @@ function PCRAFTS_query_builder($attributes) {
 		'order'                  => $attributes['sorting']['order'],
 		'orderby'                => $attributes['sorting']['orderBy'],
 		'post__not_in'           => array( get_the_ID() ),
-	];
+	);
 
 	if ( ! empty( $attributes['postIds'] ) ) {
 
@@ -130,7 +128,7 @@ function PCRAFTS_query_builder($attributes) {
 		$args['orderby']  = 'post__in';
 
 	} else {
-		$tax_query    = [];
+		$tax_query    = array();
 		$cat_operator = $attributes['catOperator'];
 		$tag_operator = $attributes['tagOperator'];
 		if ( ( isset( $attributes['taxQuery']['category'] ) && ! empty( $attributes['taxQuery']['category'] ) ) && ( isset( $attributes['taxQuery']['post_tag'] ) && ! empty( $attributes['taxQuery']['post_tag'] ) ) ) {
@@ -138,19 +136,19 @@ function PCRAFTS_query_builder($attributes) {
 			$tax_relation          = $attributes['taxRelation'];
 			$tax_query['relation'] = $tax_relation;
 
-			$tax_query[] = [
+			$tax_query[] = array(
 				'taxonomy' => 'category',
 				'field'    => 'term_id',
 				'terms'    => $attributes['taxQuery']['category'],
 				'operator' => $cat_operator,
-			];
+			);
 
-			$tax_query[] = [
+			$tax_query[] = array(
 				'taxonomy' => 'post_tag',
 				'field'    => 'term_id',
 				'terms'    => $attributes['taxQuery']['post_tag'],
 				'operator' => $tag_operator,
-			];
+			);
 
 		} elseif ( isset( $attributes['taxQuery']['category'] ) && ! empty( $attributes['taxQuery']['category'] ) ) {
 
@@ -178,7 +176,7 @@ function PCRAFTS_query_builder($attributes) {
 		}
 
 		if ( ! empty( $tax_query ) ) {
-			$args['tax_query'] = [ $tax_query ]; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+			$args['tax_query'] = array( $tax_query ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 		}
 	}
 

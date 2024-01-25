@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Plugin Name:       PostCrafts - Gutenberg Post Layout Blocks
  * Plugin URI:        https://wpcraftz.com/postcrafts/
  * Description:       Advanced Gutenberg blocks to highlight, summarize and beautifully organize your posts.
@@ -12,7 +12,8 @@
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain:       pcrafts
  * Domain Path:       /languages
- * 
+ *
+ * @package pcrafts
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -42,8 +43,8 @@ if ( file_exists( PCRAFTS_PATH . '/inc/helpers/custom-functions.php' ) ) {
  *
  * @return void
  */
-function postCrafts_blocks() {
+function post_crafts_blocks() {
 	\PostCrafts\Blocks\Inc\Plugin::get_instance();
 }
 
-postCrafts_blocks();
+post_crafts_blocks();

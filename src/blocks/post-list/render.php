@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-$post_query               = new WP_Query( PCRAFTS_query_builder($attributes) );
+$post_query               = new WP_Query( pcrafts_query_builder($attributes) );
 $block_wrapper_attributes = get_block_wrapper_attributes(
 	[
 		'class' => 'pcrafts-postlist-wrapper',
@@ -37,10 +37,10 @@ $block_wrapper_attributes = get_block_wrapper_attributes(
 					</a>
 				</figure>
 				<div class="post-list-content post-content">
-					<?php PCRAFTS_get_primary_category(); ?>
+					<?php pcrafts_get_primary_category(); ?>
 					<?php the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' ); ?>
 					<div class="entry-meta">
-						<?php PCRAFTS_posted_by(); ?><span class="separator">-</span><?php PCRAFTS_posted_on( 'F d, Y' ); ?>
+						<?php pcrafts_posted_by(); ?><span class="separator">-</span><?php pcrafts_posted_on( 'F d, Y' ); ?>
 					</div>
 					<div class="entry-summary"><?php the_excerpt(); ?></div>
 				</div>

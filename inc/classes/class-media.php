@@ -7,7 +7,6 @@
 
 namespace PostCrafts\Blocks\Inc;
 
-
 use \PostCrafts\Blocks\Inc\Traits\Singleton;
 
 /**
@@ -22,7 +21,7 @@ class Media {
 	 */
 	protected function __construct() {
 
-		add_action( 'after_setup_theme', [ $this, 'add_image_sizes' ] );
+		add_action( 'after_setup_theme', array( $this, 'add_image_sizes' ) );
 
 	}
 

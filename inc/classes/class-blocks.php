@@ -7,7 +7,6 @@
 
 namespace PostCrafts\Blocks\Inc;
 
-
 use \PostCrafts\Blocks\Inc\Traits\Singleton;
 
 /**
@@ -22,8 +21,8 @@ class Blocks {
 	 */
 	protected function __construct() {
 
-		add_filter( 'block_categories_all', [ $this, 'register_block_categories' ], 11, 2 );
-		add_action( 'init', [ $this, 'register_blocks' ] );
+		add_filter( 'block_categories_all', array( $this, 'register_block_categories' ), 11, 2 );
+		add_action( 'init', array( $this, 'register_blocks' ) );
 
 	}
 
@@ -38,8 +37,8 @@ class Blocks {
 
 		if ( ! empty( $block_files ) && is_array( $block_files ) ) {
 
-			foreach ( $block_files as $PCRAFTS_block ) {
-				register_block_type( $PCRAFTS_block );
+			foreach ( $block_files as $pcrafts_block ) {
+				register_block_type( $pcrafts_block );
 			}
 		}
 	}

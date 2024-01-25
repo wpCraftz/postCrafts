@@ -32,21 +32,21 @@ class Assets {
 	 */
 	protected function setup_hooks() {
 
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_assets' ] );
-		add_action( 'enqueue_block_assets', [ $this, 'enqueue_block_assets' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_assets' ] );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		add_action( 'enqueue_block_assets', array( $this, 'enqueue_block_assets' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
 
 	}
-	
+
 	/**
 	 * To enqueue scripts and styles.
 	 *
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		
+
 	}
-	
+
 	/**
 	 * To enqueue scripts and styles.
 	 *
@@ -55,6 +55,7 @@ class Assets {
 	public function enqueue_admin_assets() {
 		wp_enqueue_style( 'pcrafts-admin', PCRAFTS_URL . '/build/src/styles/admin.css', array(), filemtime( PCRAFTS_PATH . '/build/src/styles/admin.css' ) );
 	}
+
 	/**
 	 * To enqueue scripts and styles.
 	 *
@@ -67,7 +68,7 @@ class Assets {
 		} else {
 			wp_enqueue_style( 'pcrafts', PCRAFTS_URL . '/build/src/styles/main.css', array(), filemtime( PCRAFTS_PATH . '/build/src/styles/main.css' ) );
 		}
-		
+
 	}
 
 }

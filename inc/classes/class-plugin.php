@@ -27,7 +27,7 @@ class Plugin {
 		Admin::get_instance();
 		Media::get_instance();
 
-		register_activation_hook( __FILE__, [ $this, 'activate' ] );
+		register_activation_hook( __FILE__, array( $this, 'activate' ) );
 		$this->setup_hooks();
 	}
 
@@ -37,13 +37,13 @@ class Plugin {
 	 * @return void
 	 */
 	public function activate() {
-		$installed = get_option( 'PCRAFTS_post_blocks_installed' );
+		$installed = get_option( 'pcrafts_post_blocks_installed' );
 
 		if ( ! $installed ) {
-			update_option( 'PCRAFTS_post_blocks_installed', time() );
+			update_option( 'pcrafts_post_blocks_installed', time() );
 		}
 
-		update_option( 'PCRAFTS_post_blocks_installed', PCRAFTS_VERSION );
+		update_option( 'pcrafts_post_blocks_installed', pcrafts_VERSION );
 	}
 
 
@@ -57,26 +57,27 @@ class Plugin {
 		/**
 		 * Filters
 		 */
-		add_filter( 'excerpt_more', [ $this, 'PCRAFTS_add_read_more_link' ] );
-		add_filter( 'excerpt_length', [ $this, 'PCRAFTS_excerpt_length' ] );
-		add_filter( 'rest_prepare_post', [ $this, 'postcrafts_add_post_class_in_rest_response' ], 10, 3 );
-		add_action( 'init', [ $this, 'PCRAFTS_localize_scripts' ], 1 );
-		add_action( 'init', [ $this, 'PCRAFTS_load_textdomain' ], 9999 );
+		add_filter( 'excerpt_more', array( $this, 'pcrafts_add_read_more_link' ) );
+		add_filter( 'excerpt_length', array( $this, 'pcrafts_excerpt_length' ) );
+		add_filter( 'rest_prepare_post', array( $this, 'postcrafts_add_post_class_in_rest_response' ), 10, 3 );
+		add_action( 'init', array( $this, 'pcrafts_localize_scripts' ), 1 );
+		add_action( 'init', array( $this, 'pcrafts_load_textdomain' ), 9999 );
 
 	}
 
 	/**
 	 * To localize scripts
 	 */
-	public function PCRAFTS_localize_scripts() {
+	public function pcrafts_localize_scripts() {
 
 		$local_script_handle = 'postcrafts-localized-script';
+
 		$localized_data = array(
 			'urls' => array(
-				'ajaxurl'      => admin_url( 'admin-ajax.php' ),
+				'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			),
 		);
-		wp_register_script( $local_script_handle, '', [ 'wp-i18n' ], PCRAFTS_VERSION, true );
+		wp_register_script( $local_script_handle, '', array( 'wp-i18n' ), PCRAFTS_VERSION, true );
 		wp_enqueue_script( $local_script_handle );
 		wp_localize_script( $local_script_handle, 'postCrafts', $localized_data );
 	}
@@ -84,10 +85,10 @@ class Plugin {
 	/**
 	 * Load all translations for our plugin from the MO file.
 	 */
-	function PCRAFTS_load_textdomain() {
+	public function pcrafts_load_textdomain() {
 
 		load_plugin_textdomain( 'pcrafts', false, plugin_dir_path( __FILE__ ) . 'languages' );
-	
+
 	}
 
 	/**
@@ -95,7 +96,7 @@ class Plugin {
 	 *
 	 * @return string
 	 */
-	public function PCRAFTS_excerpt_length() {
+	public function pcrafts_excerpt_length() {
 		return 20;
 	}
 
@@ -115,7 +116,7 @@ class Plugin {
 		$featured_image_id  = $response->data['featured_media'];
 		$featured_image_src = wp_get_attachment_image_src( $featured_image_id, 'thumb-330x185' );
 
-		$featured_image             = [];
+		$featured_image             = array();
 		$featured_image['src']      = ! empty( $featured_image_src[0] ) ? $featured_image_src[0] : '';
 		$featured_image['width']    = ! empty( $featured_image_src[1] ) ? $featured_image_src[1] : '';
 		$featured_image['height']   = ! empty( $featured_image_src[2] ) ? $featured_image_src[2] : '';
@@ -139,7 +140,7 @@ class Plugin {
 	 *
 	 * @return string
 	 */
-	public function PCRAFTS_add_read_more_link() {
+	public function pcrafts_add_read_more_link() {
 		return '&hellip;';
 	}
 
