@@ -2,12 +2,12 @@
 /**
  * Admin class.
  *
- * @package pcraftz
+ * @package pcrafts
  */
 
-namespace PostCraftz\Blocks\Inc;
+namespace PostCrafts\Blocks\Inc;
 
-use PostCraftz\Blocks\Inc\Traits\Singleton;
+use PostCrafts\Blocks\Inc\Traits\Singleton;
 
 /**
  * Class Admin
@@ -28,7 +28,7 @@ class Admin {
 	 * Add menu item.
 	 */
 	function admin_menu() {
-		add_menu_page( __( 'PostCrafts', 'pcraftz' ), __( 'PostCrafts', 'pcraftz' ), 'manage_options', 'pcraftz', [ $this, 'postcrafts_settings' ], 'dashicons-grid-view' );
+		add_menu_page( __( 'PostCrafts', 'pcrafts' ), __( 'PostCrafts', 'pcrafts' ), 'manage_options', 'pcrafts', [ $this, 'postcrafts_settings' ], 'dashicons-grid-view' );
 	}
 
 	/**
@@ -38,12 +38,11 @@ class Admin {
 		ob_start();
 		?>
 		<div>
-			<h1><?php esc_html_e( 'PostCrafts Settings', 'pcraftz' );?></h1>
+			<h1><?php esc_html_e( 'PostCrafts Settings', 'pcrafts' );?></h1>
 		</dvi>
 		<?php
 		$menu = ob_get_clean();
 		echo $menu;
 	}
-	
 
 }

@@ -1,7 +1,7 @@
 <?php
 /*
- * Plugin Name:       PostCraftz - Gutenberg Post Layout Blocks
- * Plugin URI:        https://wpcraftz.com/postcraft/
+ * Plugin Name:       PostCrafts - Gutenberg Post Layout Blocks
+ * Plugin URI:        https://wpcraftz.com/postcrafts/
  * Description:       Advanced Gutenberg blocks to highlight, summarize and beautifully organize your posts.
  * Version:           0.0.1
  * Requires at least: 5.0
@@ -10,7 +10,7 @@
  * Author URI:        https://wpcraftz.com/
  * License:           GPLv3
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
- * Text Domain:       pcraftz
+ * Text Domain:       pcrafts
  * Domain Path:       /languages
  * 
  */
@@ -19,20 +19,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'PCRAFTZ_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
-define( 'PCRAFTZ_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
-define( 'PCRAFTZ_BLOCK_SRC', PCRAFTZ_PATH . '/src/blocks' );
-define( 'PCRAFTZ_BUILD', PCRAFTZ_PATH . '/build' );
-define( 'PCRAFTZ_POST_SRC_PATH', PCRAFTZ_PATH . 'assets/src/blocks' );
+define( 'PCRAFTS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
+define( 'PCRAFTS_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
+define( 'PCRAFTS_BLOCK_SRC', PCRAFTS_PATH . '/src/blocks' );
+define( 'PCRAFTS_BUILD', PCRAFTS_PATH . '/build' );
+define( 'PCRAFTS_POST_SRC_PATH', PCRAFTS_PATH . 'assets/src/blocks' );
 
-const PCRAFTZ_VERSION = 1.0;
+const PCRAFTS_VERSION = 1.0;
 
-if ( file_exists( PCRAFTZ_PATH . '/inc/helpers/autoloader.php' ) ) {
-	require_once PCRAFTZ_PATH . '/inc/helpers/autoloader.php';
+if ( file_exists( PCRAFTS_PATH . '/inc/helpers/autoloader.php' ) ) {
+	require_once PCRAFTS_PATH . '/inc/helpers/autoloader.php';
 }
 
-if ( file_exists( PCRAFTZ_PATH . '/inc/helpers/custom-functions.php' ) ) {
-	require_once PCRAFTZ_PATH . '/inc/helpers/custom-functions.php';
+if ( file_exists( PCRAFTS_PATH . '/inc/helpers/custom-functions.php' ) ) {
+	require_once PCRAFTS_PATH . '/inc/helpers/custom-functions.php';
 }
 
 
@@ -42,8 +42,8 @@ if ( file_exists( PCRAFTZ_PATH . '/inc/helpers/custom-functions.php' ) ) {
  *
  * @return void
  */
-function postCraftz_blocks() {
-	\PostCraftz\Blocks\Inc\Plugin::get_instance();
+function postCrafts_blocks() {
+	\PostCrafts\Blocks\Inc\Plugin::get_instance();
 }
 
-postCraftz_blocks();
+postCrafts_blocks();

@@ -121,7 +121,7 @@ const PostBlockSettings = ( {
 	const displayPostSelectModal = () => {
 		return (
 			<Modal
-				title={ __( 'Select Posts', 'pcraftz' ) }
+				title={ __( 'Select Posts', 'pcrafts' ) }
 				onRequestClose={ () => {
 					setAttributes( { postIds: selectedPosts } );
 					setIsModalOpen( false );
@@ -143,7 +143,7 @@ const PostBlockSettings = ( {
 	const displayPostSortingModal = () => {
 		return (
 			<Modal
-				title={ __( 'Sort Selected Posts', 'pcraftz' ) }
+				title={ __( 'Sort Selected Posts', 'pcrafts' ) }
 				onRequestClose={ () => {
 					setIsSortingModalOpen( false );
 				} }
@@ -174,7 +174,7 @@ const PostBlockSettings = ( {
 						className="post-selector-trigger"
 						onClick={ () => setIsModalOpen( true ) }
 					>
-						{ __( 'Select Posts', 'pcraftz' ) }
+						{ __( 'Select Posts', 'pcrafts' ) }
 					</Button>
 					{ !! postIds.length && (
 						<>
@@ -183,9 +183,9 @@ const PostBlockSettings = ( {
 								onClick={ clearAll }
 								className="clear-selected-list"
 								showTooltip
-								label={ __( 'Clear Selection', 'pcraftz' ) }
+								label={ __( 'Clear Selection', 'pcrafts' ) }
 							>
-								{ __( 'Clear', 'pcraftz' ) }
+								{ __( 'Clear', 'pcrafts' ) }
 							</Button>
 						</>
 					) }
@@ -195,12 +195,12 @@ const PostBlockSettings = ( {
 						id="inspector-range-control-0__help"
 						className="components-base-control__help sortable-help"
 					>
-						{ __( 'You can select ', 'pcraftz' ) }
+						{ __( 'You can select ', 'pcrafts' ) }
 						{ postsPerPage - postIds.length }
-						{ __( ' more ', 'pcraftz' ) }
+						{ __( ' more ', 'pcrafts' ) }
 						{ postsPerPage - postIds.length > 1
-							? __( 'posts', 'pcraftz' )
-							: __( 'post', 'pcraftz' ) }
+							? __( 'posts', 'pcrafts' )
+							: __( 'post', 'pcrafts' ) }
 					</p>
 				) }
 
@@ -212,7 +212,7 @@ const PostBlockSettings = ( {
 						className="post-sorting-modal-trigger"
 						onClick={ () => setIsSortingModalOpen( true ) }
 					>
-						{ __( 'Sort Posts', 'pcraftz' ) }
+						{ __( 'Sort Posts', 'pcrafts' ) }
 					</Button>
 				) }
 
@@ -223,7 +223,7 @@ const PostBlockSettings = ( {
 							max={ maxNumberOfPost }
 							value={ postsPerPage }
 							className="number-of-posts"
-							label={ __( 'Max number of Posts ', 'pcraftz' ) }
+							label={ __( 'Max number of Posts ', 'pcrafts' ) }
 							onChange={ ( postsPerPage ) => {
 								const updatedAttrs = {
 									postsPerPage,
@@ -262,27 +262,27 @@ const PostBlockSettings = ( {
 					taxQuery.category?.length > 0 &&
 					taxQuery.post_tag?.length > 0 && (
 						<SelectControl
-							label={ __( 'Relation', 'pcraftz' ) }
+							label={ __( 'Relation', 'pcrafts' ) }
 							value={ taxRelation }
 							options={ [
 								{
-									label: __( 'AND', 'pcraftz' ),
+									label: __( 'AND', 'pcrafts' ),
 									value: 'AND',
 								},
-								{ label: __( 'OR', 'pcraftz' ), value: 'OR' },
+								{ label: __( 'OR', 'pcrafts' ), value: 'OR' },
 							] }
 							onChange={ ( newRelation ) =>
 								setAttributes( { taxRelation: newRelation } )
 							}
 							help={ __(
 								'The logical relationship between above taxonomies.',
-								'pcraftz'
+								'pcrafts'
 							) }
 						/>
 					) }
 				{ typeof showCategory !== 'undefined' && (
 					<ToggleControl
-						label={ __( 'Show Category?', 'pcraftz' ) }
+						label={ __( 'Show Category?', 'pcrafts' ) }
 						checked={ showCategory }
 						onChange={ ( showCategory ) =>
 							setAttributes( { showCategory } )
@@ -291,7 +291,7 @@ const PostBlockSettings = ( {
 				) }
 				{ typeof showExcerpt !== 'undefined' && (
 					<ToggleControl
-						label={ __( 'Show Excerpt?', 'pcraftz' ) }
+						label={ __( 'Show Excerpt?', 'pcrafts' ) }
 						checked={ showExcerpt }
 						onChange={ ( showExcerpt ) =>
 							setAttributes( { showExcerpt } )
@@ -301,7 +301,7 @@ const PostBlockSettings = ( {
 
 				{ ! postIds.length && typeof pagination !== 'undefined' && (
 					<ToggleControl
-						label={ __( 'Show Pagination?', 'pcraftz' ) }
+						label={ __( 'Show Pagination?', 'pcrafts' ) }
 						checked={ pagination }
 						onChange={ ( pagination ) =>
 							setAttributes( { pagination } )

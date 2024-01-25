@@ -16,7 +16,7 @@ PostCrafts is the best news, magazine, and WordPress blog plugin that comes with
 
 
 = Author =
-Developed by [wpCraftz](https://www.wpxpo.com). [Contribute to Gutenberg Post Blocks on Bitbucket](https://bitbucket.org/wpstabon/ultimate-post/src/master/) and join the party.
+Developed by [wpCraftz](https://wpcraftz.com/). [Contribute to PostCrafts](https://github.com/wpCraftz/postCrafts) and join the party.
 
 = Liked PostCrafts? =
 - Join our [Facebook Group](www.facebook.com/groups/postcrafts/).

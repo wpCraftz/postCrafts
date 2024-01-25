@@ -2,13 +2,13 @@
 /**
  * Registers all custom gutenberg blocks.
  *
- * @package pcraftz
+ * @package pcrafts
  */
 
-namespace PostCraftz\Blocks\Inc;
+namespace PostCrafts\Blocks\Inc;
 
 
-use \PostCraftz\Blocks\Inc\Traits\Singleton;
+use \PostCrafts\Blocks\Inc\Traits\Singleton;
 
 /**
  * Class Blocks
@@ -34,12 +34,12 @@ class Blocks {
 	 */
 	public function register_blocks() {
 
-		$block_files = glob( PCRAFTZ_BUILD . '/blocks/**' );
+		$block_files = glob( PCRAFTS_BUILD . '/blocks/**' );
 
 		if ( ! empty( $block_files ) && is_array( $block_files ) ) {
 
-			foreach ( $block_files as $pcraftz_block ) {
-				register_block_type( $pcraftz_block );
+			foreach ( $block_files as $PCRAFTS_block ) {
+				register_block_type( $PCRAFTS_block );
 			}
 		}
 	}
@@ -55,8 +55,8 @@ class Blocks {
 		return array_merge(
 			array(
 				array(
-					'slug'  => 'pcraftz',
-					'title' => __( 'Advanced Post Blocks', 'pcraftz' ),
+					'slug'  => 'pcrafts',
+					'title' => __( 'Advanced Post Blocks', 'pcrafts' ),
 					'icon'  => null,
 				),
 			),

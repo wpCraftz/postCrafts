@@ -1,15 +1,15 @@
 <?php
 /**
- * Pc blocks custom functions.
+ * PostCrafts custom functions.
  *
- * @package pcraftz
+ * @package pcrafts
  */
 
 
 /**
  * Prints HTML with meta information for the current author.
  */
-function pcraftz_posted_by() {
+function PCRAFTS_posted_by() {
 
 	$byline = '<span class="author vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a></span>';
 
@@ -24,7 +24,7 @@ function pcraftz_posted_by() {
  *
  * @return void
  */
-function pcraftz_posted_on( $format = 'm/d/Y g:ia' ) {
+function PCRAFTS_posted_on( $format = 'm/d/Y g:ia' ) {
 
 	$time_string = '<time class="entry-date published updated" datetime="%1$s">%2$s</time>';
 
@@ -55,7 +55,7 @@ function pcraftz_posted_on( $format = 'm/d/Y g:ia' ) {
  *
  * @return void|int
  */
-function pcraftz_get_primary_category( $return_id = false ) {
+function PCRAFTS_get_primary_category( $return_id = false ) {
 	$primary_category = [
 		'name'    => '',
 		'url'     => '',
@@ -110,7 +110,7 @@ function pcraftz_get_primary_category( $return_id = false ) {
  *
  * @return object
  */
-function pcraftz_query_builder($attributes) {
+function PCRAFTS_query_builder($attributes) {
 	$args = [
 		'post_type'              => 'post',
 		'posts_per_page'         => $attributes['postsPerPage'],

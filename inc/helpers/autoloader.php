@@ -4,7 +4,7 @@
  *
  */
 
-namespace PostCraftz\Blocks\Inc\Helpers;
+namespace PostCrafts\Blocks\Inc\Helpers;
 
 /**
  * Auto loader function.
@@ -16,7 +16,7 @@ namespace PostCraftz\Blocks\Inc\Helpers;
 function autoloader( $resource = '' ) {
 
 	$resource_path  = false;
-	$namespace_root = 'PostCraftz\Blocks\\';
+	$namespace_root = 'PostCrafts\Blocks\\';
 	$resource       = trim( $resource, '\\' );
 
 	if ( empty( $resource ) || strpos( $resource, '\\' ) === false || strpos( $resource, $namespace_root ) !== 0 ) {
@@ -69,7 +69,7 @@ function autoloader( $resource = '' ) {
 				break;
 		}
 
-		$resource_path = sprintf( '%s/inc/%s/%s.php', untrailingslashit( PCRAFTZ_PATH ), $directory, $file_name );
+		$resource_path = sprintf( '%s/inc/%s/%s.php', untrailingslashit( PCRAFTS_PATH ), $directory, $file_name );
 
 	}
 
@@ -82,4 +82,4 @@ function autoloader( $resource = '' ) {
 
 }
 
-spl_autoload_register( '\PostCraftz\Blocks\Inc\Helpers\autoloader' );
+spl_autoload_register( '\PostCrafts\Blocks\Inc\Helpers\autoloader' );

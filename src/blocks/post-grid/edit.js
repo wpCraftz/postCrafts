@@ -153,7 +153,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	const blockProps = useBlockProps( {
 		className: classNames(
-			'pcraftz-postgrid-wrapper',
+			'pcrafts-postgrid-wrapper',
 			`columns-${ columns }`
 		),
 	} );
@@ -179,7 +179,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					setAttributes={ setAttributes }
 					maxNumberOfPost={ 40 }
 					sorting={ sorting }
-					label={ __( 'Query Builder', 'pcraftz' ) }
+					label={ __( 'Query Builder', 'pcrafts' ) }
 					initialOpen
 					postMeta={
 						!! blockContexts
@@ -195,7 +195,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 			{ ! posts?.length ? (
 				<p { ...blockProps }>
-					{ __( 'No results found.', 'pcraftz' ) }
+					{ __( 'No results found.', 'pcrafts' ) }
 				</p>
 			) : (
 				<div { ...blockProps }>

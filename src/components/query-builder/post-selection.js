@@ -127,7 +127,7 @@ const PostSelector = ( {
 				className="post-selector__search-field-label"
 				htmlFor="post-selector-search-field"
 			>
-				{ __( 'Look for a Post', 'pcraftz' ) }
+				{ __( 'Look for a Post', 'pcrafts' ) }
 			</label>
 			<input
 				type="text"
@@ -146,13 +146,13 @@ const PostSelector = ( {
 						postIds.length !== limit ? (
 							<span>
 								{ postIds.length }
-								{ __( ' items are selected', 'pcraftz' ) }
+								{ __( ' items are selected', 'pcrafts' ) }
 							</span>
 						) : (
 							<span>
 								{ __(
 									`Max ${ limit } posts are already selected`,
-									'pcraftz'
+									'pcrafts'
 								) }
 							</span>
 						)
@@ -163,7 +163,7 @@ const PostSelector = ( {
 						disabled={ postIds.length === 0 }
 						onClick={ () => onPostSelect( {}, true ) }
 					>
-						{ __( 'Insert Selected', 'pcraftz' ) }
+						{ __( 'Insert Selected', 'pcrafts' ) }
 					</Button>
 				</div>
 			) }
@@ -194,16 +194,16 @@ const PostSelector = ( {
 			<ul className="post-selector__items-wrapper items-list">
 				<li className="items-list--item item item--headers">
 					<span className="item__post-id">
-						{ __( 'Post ID', 'pcraftz' ) }
+						{ __( 'Post ID', 'pcrafts' ) }
 					</span>
 					<span className="item__post-title">
-						{ __( 'Post Title', 'pcraftz' ) }
+						{ __( 'Post Title', 'pcrafts' ) }
 					</span>
 					<span className="item__post-status">
-						{ __( 'Post Status', 'pcraftz' ) }
+						{ __( 'Post Status', 'pcrafts' ) }
 					</span>
 					<span className="item__post-link">
-						{ __( 'Post Link', 'pcraftz' ) }
+						{ __( 'Post Link', 'pcrafts' ) }
 					</span>
 				</li>
 
@@ -243,7 +243,7 @@ const PostSelector = ( {
 								</span>
 								<span className="item__post-title">
 									{ decodeEntities( post.title.rendered ) ||
-										__( '(No Title)', 'pcraftz' ) }
+										__( '(No Title)', 'pcrafts' ) }
 								</span>
 								<span className="item__post-status">
 									{ getPresentablePostStatus( post.status ) }
@@ -259,7 +259,7 @@ const PostSelector = ( {
 				{ ! isFetchingData &&
 					fetchedPosts &&
 					fetchedPosts.length === 0 && (
-						<p>{ __( 'No Post Found', 'pcraftz' ) }</p>
+						<p>{ __( 'No Post Found', 'pcrafts' ) }</p>
 					) }
 			</ul>
 		</div>

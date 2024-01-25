@@ -1,10 +1,10 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "pcraftz/post-grid",
+	"name": "pcrafts/post-grid",
 	"version": "1.0.0",
 	"title": "Post Grid",
-	"category": "pcraftz",
+	"category": "pcrafts",
 	"icon": "grid-view",
 	"description": "Arrange posts in Grids.",
 	"supports": {
@@ -58,7 +58,7 @@
 		}
 	},
 	"keywords": [],
-	"textdomain": "pcraftz",
+	"textdomain": "pcrafts",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

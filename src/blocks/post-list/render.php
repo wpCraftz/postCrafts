@@ -4,17 +4,17 @@
  *
  * @see https://github.com/WordPress/gutenberg/blob/trunk/docs/reference-guides/block-api/block-metadata.md#render
  *
- * @package pcraftz
+ * @package pcrafts
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-$post_query               = new WP_Query( pcraftz_query_builder($attributes) );
+$post_query               = new WP_Query( PCRAFTS_query_builder($attributes) );
 $block_wrapper_attributes = get_block_wrapper_attributes(
 	[
-		'class' => 'pcraftz-postlist-wrapper',
+		'class' => 'pcrafts-postlist-wrapper',
 	]
 );
 ?>
@@ -37,10 +37,10 @@ $block_wrapper_attributes = get_block_wrapper_attributes(
 					</a>
 				</figure>
 				<div class="post-list-content post-content">
-					<?php pcraftz_get_primary_category(); ?>
+					<?php PCRAFTS_get_primary_category(); ?>
 					<?php the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' ); ?>
 					<div class="entry-meta">
-						<?php pcraftz_posted_by(); ?><span class="separator">-</span><?php pcraftz_posted_on( 'F d, Y' ); ?>
+						<?php PCRAFTS_posted_by(); ?><span class="separator">-</span><?php PCRAFTS_posted_on( 'F d, Y' ); ?>
 					</div>
 					<div class="entry-summary"><?php the_excerpt(); ?></div>
 				</div>

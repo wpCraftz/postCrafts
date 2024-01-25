@@ -12,14 +12,14 @@ const GridSetttings = ( {
 	const { columns } = attributes;
 	return (
 		<PanelBody
-			title={ __( 'Layout Settings', 'pcraftz' ) }
+			title={ __( 'Layout Settings', 'pcrafts' ) }
 			initialOpen={ initialOpen }
 		>
 			<RangeControl
 				min={ 1 }
 				max={ 6 }
 				value={ columns }
-				label={ __( 'Columns', 'pcraftz' ) }
+				label={ __( 'Columns', 'pcrafts' ) }
 				onChange={ ( value ) => {
 					setAttributes( { columns: value } );
 				} }

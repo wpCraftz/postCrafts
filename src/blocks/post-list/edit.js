@@ -145,7 +145,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	);
 
 	const blockProps = useBlockProps( {
-		className: 'pcraftz-postlist-wrapper',
+		className: 'pcrafts-postlist-wrapper',
 	} );
 
 	if ( ! posts ) {
@@ -165,7 +165,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					setAttributes={ setAttributes }
 					maxNumberOfPost={ 40 }
 					sorting={ sorting }
-					label={ __( 'Query Builder', 'pcraftz' ) }
+					label={ __( 'Query Builder', 'pcrafts' ) }
 					initialOpen
 					postMeta={
 						!! blockContexts
@@ -181,7 +181,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 			{ ! posts?.length ? (
 				<p { ...blockProps }>
-					{ __( 'No results found.', 'pcraftz' ) }
+					{ __( 'No results found.', 'pcrafts' ) }
 				</p>
 			) : (
 				<div { ...blockProps }>
