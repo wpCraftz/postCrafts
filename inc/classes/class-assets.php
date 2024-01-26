@@ -2,7 +2,7 @@
 /**
  * Assets class.
  *
- * @package pcrafts
+ * @package post-crafts
  */
 
 namespace PostCrafts\Blocks\Inc;
@@ -53,7 +53,7 @@ class Assets {
 	 * @return void
 	 */
 	public function enqueue_admin_assets() {
-		wp_enqueue_style( 'pcrafts-admin', PCRAFTS_URL . '/build/src/styles/admin.css', array(), filemtime( PCRAFTS_PATH . '/build/src/styles/admin.css' ) );
+		wp_enqueue_style( 'post-crafts-admin', POST_CRAFTS_URL . '/build/src/styles/admin.css', array(), filemtime( POST_CRAFTS_PATH . '/build/src/styles/admin.css' ) );
 	}
 
 	/**
@@ -64,9 +64,9 @@ class Assets {
 	public function enqueue_block_assets() {
 
 		if ( is_admin() ) {
-			wp_enqueue_style( 'pcrafts-editor', PCRAFTS_URL . '/build/src/styles/editor.css', array(), filemtime( PCRAFTS_PATH . '/build/src/styles/editor.css' ) );
+			wp_enqueue_style( 'post-crafts-editor', POST_CRAFTS_URL . '/build/src/styles/editor.css', array(), filemtime( POST_CRAFTS_PATH . '/build/src/styles/editor.css' ) );
 		} else {
-			wp_enqueue_style( 'pcrafts', PCRAFTS_URL . '/build/src/styles/main.css', array(), filemtime( PCRAFTS_PATH . '/build/src/styles/main.css' ) );
+			wp_enqueue_style( 'post-crafts', POST_CRAFTS_URL . '/build/src/styles/main.css', array(), filemtime( POST_CRAFTS_PATH . '/build/src/styles/main.css' ) );
 		}
 
 	}

@@ -2,7 +2,7 @@
 /**
  * Autoloader file for plugin.
  *
- * @package pcrafts
+ * @package post-crafts
  */
 
 namespace PostCrafts\Blocks\Inc\Helpers;
@@ -72,7 +72,7 @@ function autoloader( $resource = '' ) {
 				break;
 		}
 
-		$resource_path = sprintf( '%s/inc/%s/%s.php', untrailingslashit( PCRAFTS_PATH ), $directory, $file_name );
+		$resource_path = sprintf( '%s/inc/%s/%s.php', untrailingslashit( POST_CRAFTS_PATH ), $directory, $file_name );
 
 	}
 

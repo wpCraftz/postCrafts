@@ -2,7 +2,7 @@
 /**
  * Plugin manifest class.
  *
- * @package pcrafts
+ * @package post-crafts
  */
 
 namespace PostCrafts\Blocks\Inc;
@@ -37,13 +37,13 @@ class Plugin {
 	 * @return void
 	 */
 	public function activate() {
-		$installed = get_option( 'pcrafts_post_blocks_installed' );
+		$installed = get_option( 'post_crafts_installed' );
 
 		if ( ! $installed ) {
-			update_option( 'pcrafts_post_blocks_installed', time() );
+			update_option( 'post_crafts_installed', time() );
 		}
 
-		update_option( 'pcrafts_post_blocks_installed', pcrafts_VERSION );
+		update_option( 'post_crafts_installed', POST_CRAFTS_VERSION );
 	}
 
 
@@ -57,27 +57,27 @@ class Plugin {
 		/**
 		 * Filters
 		 */
-		add_filter( 'excerpt_more', array( $this, 'pcrafts_add_read_more_link' ) );
-		add_filter( 'excerpt_length', array( $this, 'pcrafts_excerpt_length' ) );
-		add_filter( 'rest_prepare_post', array( $this, 'postcrafts_add_post_class_in_rest_response' ), 10, 3 );
-		add_action( 'init', array( $this, 'pcrafts_localize_scripts' ), 1 );
-		add_action( 'init', array( $this, 'pcrafts_load_textdomain' ), 9999 );
+		add_filter( 'excerpt_more', array( $this, 'add_read_more_link' ) );
+		add_filter( 'excerpt_length', array( $this, 'excerpt_length' ) );
+		add_filter( 'rest_prepare_post', array( $this, 'add_post_class_in_rest_response' ), 10, 3 );
+		add_action( 'init', array( $this, 'localize_scripts' ), 1 );
+		add_action( 'init', array( $this, 'load_textdomain' ), 9999 );
 
 	}
 
 	/**
 	 * To localize scripts
 	 */
-	public function pcrafts_localize_scripts() {
+	public function localize_scripts() {
 
-		$local_script_handle = 'postcrafts-localized-script';
+		$local_script_handle = 'post-crafts-localized-script';
 
 		$localized_data = array(
 			'urls' => array(
 				'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			),
 		);
-		wp_register_script( $local_script_handle, '', array( 'wp-i18n' ), PCRAFTS_VERSION, true );
+		wp_register_script( $local_script_handle, '', array( 'wp-i18n' ), POST_CRAFTS_VERSION, true );
 		wp_enqueue_script( $local_script_handle );
 		wp_localize_script( $local_script_handle, 'postCrafts', $localized_data );
 	}
@@ -85,9 +85,9 @@ class Plugin {
 	/**
 	 * Load all translations for our plugin from the MO file.
 	 */
-	public function pcrafts_load_textdomain() {
+	public function load_textdomain() {
 
-		load_plugin_textdomain( 'pcrafts', false, plugin_dir_path( __FILE__ ) . 'languages' );
+		load_plugin_textdomain( 'post-crafts', false, plugin_dir_path( __FILE__ ) . 'languages' );
 
 	}
 
@@ -96,7 +96,7 @@ class Plugin {
 	 *
 	 * @return string
 	 */
-	public function pcrafts_excerpt_length() {
+	public function excerpt_length() {
 		return 20;
 	}
 
@@ -109,7 +109,7 @@ class Plugin {
 	 * @param \WP_Post          $post     Post object.
 	 * @param \WP_REST_Request  $request  Request object.
 	 */
-	public function postcrafts_add_post_class_in_rest_response( $response, $post, $request ) {
+	public function add_post_class_in_rest_response( $response, $post, $request ) {
 
 		$response->data['post_class'] = implode( ' ', get_post_class( '', $post->ID ) );
 
@@ -140,7 +140,7 @@ class Plugin {
 	 *
 	 * @return string
 	 */
-	public function pcrafts_add_read_more_link() {
+	public function add_read_more_link() {
 		return '&hellip;';
 	}
 

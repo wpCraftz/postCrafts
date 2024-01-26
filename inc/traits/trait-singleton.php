@@ -22,7 +22,7 @@
  *
  * If you specifically need multiple objects, then use a normal class.
  *
- * @package pcrafts
+ * @package post-crafts
  */
 
 namespace PostCrafts\Blocks\Inc\Traits;

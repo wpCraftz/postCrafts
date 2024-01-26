@@ -2,7 +2,7 @@
 /**
  * Registers all custom gutenberg blocks.
  *
- * @package pcrafts
+ * @package post-crafts
  */
 
 namespace PostCrafts\Blocks\Inc;
@@ -33,12 +33,12 @@ class Blocks {
 	 */
 	public function register_blocks() {
 
-		$block_files = glob( PCRAFTS_BUILD . '/blocks/**' );
+		$block_files = glob( POST_CRAFTS_BUILD . '/blocks/**' );
 
 		if ( ! empty( $block_files ) && is_array( $block_files ) ) {
 
-			foreach ( $block_files as $pcrafts_block ) {
-				register_block_type( $pcrafts_block );
+			foreach ( $block_files as $block ) {
+				register_block_type( $block );
 			}
 		}
 	}
@@ -54,8 +54,8 @@ class Blocks {
 		return array_merge(
 			array(
 				array(
-					'slug'  => 'pcrafts',
-					'title' => __( 'Advanced Post Blocks', 'pcrafts' ),
+					'slug'  => 'post-crafts',
+					'title' => __( 'Advanced Post Blocks', 'post-crafts' ),
 					'icon'  => null,
 				),
 			),

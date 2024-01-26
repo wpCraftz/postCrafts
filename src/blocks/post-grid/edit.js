@@ -19,7 +19,7 @@ import classNames from 'classnames';
  * Internal dependencies
  */
 import './editor.scss';
-import useFetchPosts from '../../libs/fetchPosts';
+import { useFetchPosts } from '../../libs';
 import { QueryBuilder, GridSetttings } from '../../components';
 
 /**
@@ -179,7 +179,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					setAttributes={ setAttributes }
 					maxNumberOfPost={ 40 }
 					sorting={ sorting }
-					label={ __( 'Query Builder', 'pcrafts' ) }
+					label={ __( 'Query Builder', 'post-crafts' ) }
 					initialOpen
 					postMeta={
 						!! blockContexts
@@ -195,7 +195,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 			{ ! posts?.length ? (
 				<p { ...blockProps }>
-					{ __( 'No results found.', 'pcrafts' ) }
+					{ __( 'No results found.', 'post-crafts' ) }
 				</p>
 			) : (
 				<div { ...blockProps }>

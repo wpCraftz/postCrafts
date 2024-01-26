@@ -2,7 +2,7 @@
 /**
  * Admin class.
  *
- * @package pcrafts
+ * @package post-crafts
  */
 
 namespace PostCrafts\Blocks\Inc;
@@ -29,10 +29,10 @@ class Admin {
 	 */
 	public function admin_menu() {
 		add_menu_page(
-			__( 'PostCrafts', 'pcrafts' ),
-			__( 'PostCrafts', 'pcrafts' ),
+			__( 'PostCrafts', 'post-crafts' ),
+			__( 'PostCrafts', 'post-crafts' ),
 			'manage_options',
-			'pcrafts',
+			'post-crafts',
 			array( $this, 'postcrafts_settings' ),
 			'dashicons-grid-view'
 		);
@@ -45,7 +45,7 @@ class Admin {
 		ob_start();
 		?>
 		<div class="postcrafts-settings">
-			<h1><?php esc_html_e( 'PostCrafts Settings', 'pcrafts' ); ?></h1>
+			<h1><?php esc_html_e( 'PostCrafts Settings', 'post-crafts' ); ?></h1>
 		</dvi>
 		<?php
 		$menu = ob_get_clean();

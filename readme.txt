@@ -1,4 +1,4 @@
-=== Post Grid Gutenberg Blocks and WordPress Blog Plugin - PostCrafts ===
+=== Advanced blocks to highlight, summarize and beautifully organize your posts - PostCrafts ===
 Contributors: wpcrafts, faisal29
 Tags: post grid, blog designer, wordPress blog plugin, gutenberg blocks, post blocks, recent posts, news, magazine
 Requires at least: 5.0    

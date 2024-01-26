@@ -1,10 +1,10 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "pcrafts/post-list",
+	"name": "post-crafts/post-list",
 	"version": "1.0.0",
 	"title": "Post List",
-	"category": "pcrafts",
+	"category": "post-crafts",
 	"icon": "list-view",
 	"description": "Arrange posts in list-view.",
 	"supports": {
@@ -54,7 +54,7 @@
 		}
 	},
 	"keywords": [],
-	"textdomain": "pcrafts",
+	"textdomain": "post-crafts",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

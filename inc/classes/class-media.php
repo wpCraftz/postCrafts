@@ -2,7 +2,7 @@
 /**
  * Handles Media.
  *
- * @package pcrafts
+ * @package post-crafts
  */
 
 namespace PostCrafts\Blocks\Inc;

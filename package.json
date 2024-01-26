@@ -1,8 +1,9 @@
 {
-	"name": "post-craft",
+	"name": "post-crafts",
 	"version": "1.0.0",
-	"description": "Post Grid Gutenberg Blocks and WordPress Blog Plugin - PostCrafts",
+	"description": "PostCrafts - Advanced Post Layout Blocks",
 	"main": "build/index.js",
+	"files": [ "inc", "languages", "build", "readme.txt", "post-crafts.php" ],
 	"scripts": {
 		"build": "wp-scripts build",
 		"check-engines": "wp-scripts check-engines",

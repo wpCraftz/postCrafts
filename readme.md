@@ -1,1 +1,1 @@
-## postCrafts - Gutenberg Post Layout Blocks
+## PostCrafts - Advanced Post Layout Blocks
