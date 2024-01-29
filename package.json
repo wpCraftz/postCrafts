@@ -18,7 +18,7 @@
 		"start": "wp-scripts start",
 		"test:e2e": "wp-scripts test-e2e",
 		"test:unit": "wp-scripts test-unit-js",
-		"make-pot": "wp i18n make-pot . languages/awp.pot --slug=awp --domain=awp --exclude=node_modules,src",
+		"make-pot": "wp i18n make-pot . languages/post-crafts.pot --slug=post-crafts --domain=post-crafts --exclude=node_modules,src",
 		"make-json": "wp i18n make-json languages/ --no-purge"
 	},
 	"author": "",

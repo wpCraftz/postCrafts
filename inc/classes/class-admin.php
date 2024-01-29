@@ -46,7 +46,7 @@ class Admin {
 		?>
 		<div class="postcrafts-settings">
 			<h1><?php esc_html_e( 'PostCrafts Settings', 'post-crafts' ); ?></h1>
-		</dvi>
+		</div>
 		<?php
 		$menu = ob_get_clean();
 		echo wp_kses_post( $menu );
