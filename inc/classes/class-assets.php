@@ -22,7 +22,6 @@ class Assets {
 	 */
 	protected function __construct() {
 		$this->setup_hooks();
-
 	}
 
 	/**
