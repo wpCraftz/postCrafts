@@ -119,7 +119,6 @@ function post_crafts_query_builder( $attributes ) {
 		'no_found_rows'          => true,
 		'order'                  => $attributes['sorting']['order'],
 		'orderby'                => $attributes['sorting']['orderBy'],
-		'post__not_in'           => array( get_the_ID() ),
 	);
 
 	if ( ! empty( $attributes['postIds'] ) ) {

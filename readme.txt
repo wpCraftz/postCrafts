@@ -1,6 +1,6 @@
 === Advanced blocks to highlight, summarize and beautifully organize your posts - PostCrafts ===
 Contributors: wpcrafts, faisal29
-Tags: post grid, blog designer, wordPress blog plugin, gutenberg blocks, post blocks, recent posts, news, magazine
+Tags: post grid, gutenberg blocks, post blocks, recent posts, news
 Requires at least: 5.0    
 Tested up to: 6.4.1
 Requires PHP: 5.6
