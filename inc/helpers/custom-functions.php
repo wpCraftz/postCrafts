@@ -111,7 +111,7 @@ function post_crafts_get_primary_category( $return_id = false ) {
 function post_crafts_query_builder( $attributes ) {
 	$args = array(
 		'post_type'              => 'post',
-		'posts_per_page'         => $attributes['postsPerPage'],
+		'posts_per_page'         => $attributes['postsPerPage'] + 1,
 		'post_status'            => 'publish',
 		'ignore_sticky_posts'    => 1,
 		'update_post_meta_cache' => false,

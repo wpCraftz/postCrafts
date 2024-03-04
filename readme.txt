@@ -1,5 +1,5 @@
 === Advanced blocks to highlight, summarize and beautifully organize your posts - PostCrafts ===
-Contributors: wpcrafts, faisal29
+Contributors: wpcraftz, faisal29
 Tags: post grid, gutenberg blocks, post blocks, recent posts, news
 Requires at least: 5.0    
 Tested up to: 6.4.1
@@ -19,7 +19,7 @@ PostCrafts is the best news, magazine, and WordPress blog plugin that comes with
 Developed by [wpCraftz](https://wpcraftz.com/). [Contribute to PostCrafts](https://github.com/wpCraftz/postCrafts) and join the party.
 
 = Liked PostCrafts? =
-- Join our [Facebook Group](www.facebook.com/groups/postcrafts/).
+- Join our [Facebook Group](https://www.facebook.com/groups/postcrafts/).
 - Learn from our tutorials on [YouTube Channel](https://www.youtube.com/@wpcraftz).
 
 ### 📗 Translations 

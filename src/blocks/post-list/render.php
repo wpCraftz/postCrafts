@@ -23,7 +23,8 @@ $current_post_id = get_the_ID();
 <div <?php echo wp_kses_data( $block_wrapper_attributes ); ?>>
 	<?php
 	if ( $post_query->have_posts() ) {
-		while ( $post_query->have_posts() ) {
+		$posts = 0;
+		while ( $post_query->have_posts() && $posts < $attributes['postsPerPage'] ) {
 			$post_query->the_post();
 			$current = get_the_ID();
 
@@ -31,6 +32,7 @@ $current_post_id = get_the_ID();
 			if ( $current_post_id === $current ) {
 				continue;
 			}
+			$posts++;
 			?>
 			<article id="post-<?php the_ID(); ?>" class="post-list">
 				<figure class="post-thumbnail">

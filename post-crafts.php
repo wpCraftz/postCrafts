@@ -5,7 +5,7 @@
  * Description:       Advanced blocks to highlight, summarize and beautifully organize your posts.
  * Version:           0.0.1
  * Requires at least: 5.0
- * Requires PHP:      7.2
+ * Requires PHP:      5.6
  * Author:            wpCraftz
  * Author URI:        https://wpcraftz.com/
  * License:           GPLv3
