@@ -11,11 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-$post_query               = new WP_Query( post_crafts_query_builder($attributes) );
+$post_query               = new WP_Query( post_crafts_query_builder( $attributes ) );
 $block_wrapper_attributes = get_block_wrapper_attributes(
-	[
-		'class' => 'pcrafts-postgrid-wrapper columns-' . esc_attr( $attributes["columns"] ."" ),
-	]
+	array(
+		'class' => 'pcrafts-postgrid-wrapper columns-' . esc_attr( $attributes['columns'] . '' ),
+	)
 );
 
 $current_post_id = get_the_ID();
@@ -23,8 +23,8 @@ $current_post_id = get_the_ID();
 <div <?php echo wp_kses_data( $block_wrapper_attributes ); ?>>
 	<?php
 	if ( $post_query->have_posts() ) {
-		$posts = 0;
-		while ( $post_query->have_posts() && $posts < $attributes['postsPerPage'] ) {
+		$posts_count = 0;
+		while ( $post_query->have_posts() && $posts_count < $attributes['postsPerPage'] ) {
 			$post_query->the_post();
 			$current = get_the_ID();
 
@@ -32,7 +32,7 @@ $current_post_id = get_the_ID();
 			if ( $current_post_id === $current ) {
 				continue;
 			}
-			$posts++;
+			++$posts_count;
 			?>
 			<article id="post-<?php the_ID(); ?>" class="post-grid">
 				<figure class="post-thumbnail">
@@ -41,7 +41,7 @@ $current_post_id = get_the_ID();
 						if ( has_post_thumbnail() ) {
 							the_post_thumbnail( 'thumb-330x185' );
 						} else {
-						?>
+							?>
 							<span class="image-placeholder"></span>
 					<?php } ?>
 					</a>
@@ -57,7 +57,8 @@ $current_post_id = get_the_ID();
 			</article>
 			<?php
 		}
-	} ?>
+	}
+	?>
 </div>
 <?php
 

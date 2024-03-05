@@ -7,7 +7,7 @@
 
 namespace PostCrafts\Blocks\Inc;
 
-use \PostCrafts\Blocks\Inc\Traits\Singleton;
+use PostCrafts\Blocks\Inc\Traits\Singleton;
 
 /**
  * Class Blocks
@@ -23,7 +23,6 @@ class Blocks {
 
 		add_filter( 'block_categories_all', array( $this, 'register_block_categories' ), 11, 2 );
 		add_action( 'init', array( $this, 'register_blocks' ) );
-
 	}
 
 	/**

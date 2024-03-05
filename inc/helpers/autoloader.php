@@ -10,31 +10,31 @@ namespace PostCrafts\Blocks\Inc\Helpers;
 /**
  * Auto loader function.
  *
- * @param string $resource Source namespace.
+ * @param string $files Source namespace.
  *
  * @return void
  */
-function autoloader( $resource = '' ) {
+function autoloader( $files = '' ) {
 
-	$resource_path  = false;
+	$file_path      = false;
 	$namespace_root = 'PostCrafts\Blocks\\';
-	$resource       = trim( $resource, '\\' );
+	$files          = trim( $files, '\\' );
 
-	if ( empty( $resource ) || strpos( $resource, '\\' ) === false || strpos( $resource, $namespace_root ) !== 0 ) {
+	if ( empty( $files ) || strpos( $files, '\\' ) === false || strpos( $files, $namespace_root ) !== 0 ) {
 		// Not our namespace, bail out.
 		return;
 	}
 
 	// Remove our root namespace.
-	$resource = str_replace( $namespace_root, '', $resource );
+	$files = str_replace( $namespace_root, '', $files );
 
 	$path = explode(
 		'\\',
-		str_replace( '_', '-', strtolower( $resource ) )
+		str_replace( '_', '-', strtolower( $files ) )
 	);
 
 	/**
-	 * Time to determine which type of resource path it is,
+	 * Time to determine which type of file path it is,
 	 * so that we can deduce the correct file path for it.
 	 */
 	if ( empty( $path[0] ) || empty( $path[1] ) ) {
@@ -72,17 +72,16 @@ function autoloader( $resource = '' ) {
 				break;
 		}
 
-		$resource_path = sprintf( '%s/inc/%s/%s.php', untrailingslashit( POST_CRAFTS_PATH ), $directory, $file_name );
+		$file_path = sprintf( '%s/inc/%s/%s.php', untrailingslashit( POST_CRAFTS_PATH ), $directory, $file_name );
 
 	}
 
-	$resource_path_valid = validate_file( $resource_path );
+	$resource_path_valid = validate_file( $file_path );
 	// For Windows platform, validate_file returns 2 so we've added this condition as well.
-	if ( ! empty( $resource_path ) && file_exists( $resource_path ) && ( 0 === $resource_path_valid || 2 === $resource_path_valid ) ) {
+	if ( ! empty( $file_path ) && file_exists( $file_path ) && ( 0 === $resource_path_valid || 2 === $resource_path_valid ) ) {
 		// We are already making sure that the file exists and it's valid.
-		require_once( $resource_path ); // phpcs:ignore
+		require_once( $file_path); // phpcs:ignore
 	}
-
 }
 
 spl_autoload_register( '\PostCrafts\Blocks\Inc\Helpers\autoloader' );

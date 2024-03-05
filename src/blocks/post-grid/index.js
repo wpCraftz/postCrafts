@@ -7,6 +7,7 @@ import { registerBlockType } from '@wordpress/blocks';
  * Internal dependencies
  */
 import './style.scss';
+import Icon from './icon';
 
 /**
  * Internal dependencies
@@ -24,7 +25,7 @@ import save from './save';
 registerBlockType( metadata.name, {
 	title: metadata.title,
 	category: metadata.category,
-	icon: metadata.icon,
+	icon: Icon,
 	description: metadata.description,
 
 	/**

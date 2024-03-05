@@ -78,7 +78,5 @@ trait Singleton {
 		}
 
 		return $instance[ $called_class ];
-
 	}
-
 } // End trait

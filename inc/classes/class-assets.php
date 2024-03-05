@@ -16,7 +16,6 @@ class Assets {
 
 	use Singleton;
 
-
 	/**
 	 * Construct method.
 	 */
@@ -34,7 +33,6 @@ class Assets {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'enqueue_block_assets', array( $this, 'enqueue_block_assets' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
-
 	}
 
 	/**
@@ -43,7 +41,6 @@ class Assets {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-
 	}
 
 	/**
@@ -67,7 +64,5 @@ class Assets {
 		} else {
 			wp_enqueue_style( 'post-crafts', POST_CRAFTS_URL . '/build/src/styles/main.css', array(), filemtime( POST_CRAFTS_PATH . '/build/src/styles/main.css' ) );
 		}
-
 	}
-
 }

@@ -34,7 +34,6 @@ if ( file_exists( POST_CRAFTS_PATH . '/inc/helpers/custom-functions.php' ) ) {
 	require_once POST_CRAFTS_PATH . '/inc/helpers/custom-functions.php';
 }
 
-
 /**
  * To load plugin manifest class.
  *

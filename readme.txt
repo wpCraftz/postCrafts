@@ -14,7 +14,6 @@ PostCrafts is the best post grid, blog designer, news, magazine, and WordPress b
 
 PostCrafts is the best news, magazine, and WordPress blog plugin that comes with blog designer packs, post grid blocks, post list blocks, post slider blocks, and numerous Gutenberg blocks.
 
-
 = Author =
 Developed by [wpCraftz](https://wpcraftz.com/). [Contribute to PostCrafts](https://github.com/wpCraftz/postCrafts) and join the party.
 
@@ -33,7 +32,7 @@ You can Translate PostCrafts on [translate.wordpress.org](https://translate.word
 = Minimum Requirements =
 
 * WordPress 5.0.0 or greater
-* PHP version 7.3 or greater
+* PHP version 5.6 or greater
 * MySQL version 5.6 or greater
 
 = Automatic installation =
@@ -80,3 +79,20 @@ It is a Gutenberg plugin it works great with WordPress version 5.x.x or more. An
 
 
 == Screenshots ==
+
+1. Post List Block: arrange yours posts in list view.
+2. Post Grid block: display posts in grid view.
+3. Advanced post selection tool: enables you to select specific posts.
+
+
+== Changelog ==
+
+= 0.0.2 - 06 Mar 2024 =
+
+- Update: Block Icons
+- Update: Editor CSS
+
+
+= 0.0.1 - 21 Feb 2024 =
+
+* Alpha release

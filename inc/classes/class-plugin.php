@@ -7,7 +7,7 @@
 
 namespace PostCrafts\Blocks\Inc;
 
-use \PostCrafts\Blocks\Inc\Traits\Singleton;
+use PostCrafts\Blocks\Inc\Traits\Singleton;
 
 /**
  * Class Plugin
@@ -46,7 +46,6 @@ class Plugin {
 		update_option( 'post_crafts_installed', POST_CRAFTS_VERSION );
 	}
 
-
 	/**
 	 * To setup action/filter.
 	 *
@@ -62,7 +61,6 @@ class Plugin {
 		add_filter( 'rest_prepare_post', array( $this, 'add_post_class_in_rest_response' ), 10, 3 );
 		add_action( 'init', array( $this, 'localize_scripts' ), 1 );
 		add_action( 'init', array( $this, 'load_textdomain' ), 9999 );
-
 	}
 
 	/**
@@ -88,7 +86,6 @@ class Plugin {
 	public function load_textdomain() {
 
 		load_plugin_textdomain( 'post-crafts', false, plugin_dir_path( __FILE__ ) . 'languages' );
-
 	}
 
 	/**
@@ -107,9 +104,8 @@ class Plugin {
 	 *
 	 * @param \WP_REST_Response $response The response object.
 	 * @param \WP_Post          $post     Post object.
-	 * @param \WP_REST_Request  $request  Request object.
 	 */
-	public function add_post_class_in_rest_response( $response, $post, $request ) {
+	public function add_post_class_in_rest_response( $response, $post ) {
 
 		$response->data['post_class'] = implode( ' ', get_post_class( '', $post->ID ) );
 
@@ -143,5 +139,4 @@ class Plugin {
 	public function add_read_more_link() {
 		return '&hellip;';
 	}
-
 }

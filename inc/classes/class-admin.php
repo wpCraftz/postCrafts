@@ -16,7 +16,6 @@ class Admin {
 
 	use Singleton;
 
-
 	/**
 	 * Construct method.
 	 */
@@ -51,5 +50,4 @@ class Admin {
 		$menu = ob_get_clean();
 		echo wp_kses_post( $menu );
 	}
-
 }
