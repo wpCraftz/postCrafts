@@ -3,7 +3,7 @@
  * Plugin Name:       PostCrafts - Advanced Post Layout Blocks
  * Plugin URI:        https://wpcraftz.com/postcrafts/
  * Description:       Advanced blocks to highlight, summarize and beautifully organize your posts.
- * Version:           0.0.1
+ * Version:           0.0.2
  * Requires at least: 5.0
  * Requires PHP:      5.6
  * Author:            wpCraftz

@@ -1,10 +1,10 @@
 === Advanced blocks to highlight, summarize and beautifully organize your posts - PostCrafts ===
-Contributors: wpcraftz, faisal29
+Contributors: wpcraftz, faisalahmed29
 Tags: post grid, gutenberg blocks, post blocks, recent posts, news
 Requires at least: 5.0    
 Tested up to: 6.4.1
 Requires PHP: 5.6
-Stable tag: 0.0.1
+Stable tag: 0.0.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
