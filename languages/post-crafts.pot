@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-02-21T19:06:53+00:00\n"
+"POT-Creation-Date: 2024-03-05T19:09:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: post-crafts\n"
@@ -34,16 +34,16 @@ msgstr ""
 msgid "https://wpcraftz.com/"
 msgstr ""
 
+#: inc/classes/class-admin.php:31
 #: inc/classes/class-admin.php:32
-#: inc/classes/class-admin.php:33
 msgid "PostCrafts"
 msgstr ""
 
-#: inc/classes/class-admin.php:48
+#: inc/classes/class-admin.php:47
 msgid "PostCrafts Settings"
 msgstr ""
 
-#: inc/classes/class-blocks.php:58
+#: inc/classes/class-blocks.php:57
 msgid "Advanced Post Blocks"
 msgstr ""
 
