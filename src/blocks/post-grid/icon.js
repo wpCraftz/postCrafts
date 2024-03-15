@@ -1,65 +1,15 @@
 const Icon = () => (
 	<svg
-		xmlns="http://www.w3.org/2000/svg"
-		width="24px"
-		height="24px"
+		width="24"
+		height="24"
 		viewBox="0 0 24 24"
+		fill="none"
+		xmlns="http://www.w3.org/2000/svg"
 	>
-		<title />
-
-		<g id="Complete">
-			<g id="grid">
-				<g>
-					<rect
-						fill="none"
-						height="7"
-						stroke="#000000"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						strokeWidth="2"
-						width="7"
-						x="14.5"
-						y="2.5"
-					/>
-
-					<rect
-						fill="none"
-						height="7"
-						stroke="#000000"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						strokeWidth="2"
-						width="7"
-						x="14.5"
-						y="14.5"
-					/>
-
-					<rect
-						fill="none"
-						height="7"
-						stroke="#000000"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						strokeWidth="2"
-						width="7"
-						x="2.5"
-						y="2.5"
-					/>
-
-					<rect
-						fill="none"
-						height="7"
-						stroke="#000000"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						strokeWidth="2"
-						width="7"
-						x="2.5"
-						y="14.5"
-					/>
-				</g>
-			</g>
-		</g>
+		<rect x="2" y="2" width="9" height="9" rx="2" fill="#EBBAA6" />
+		<rect x="2" y="13" width="9" height="9" rx="2" fill="#423028" />
+		<rect x="13" y="2" width="9" height="9" rx="2" fill="#423028" />
+		<rect x="13" y="13" width="9" height="9" rx="2" fill="#EBBAA6" />
 	</svg>
 );
 

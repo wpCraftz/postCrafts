@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       PostCrafts - Advanced Post Layout Blocks
+ * Plugin Name:       PostCrafts - Gutenberg Post Blocks
  * Plugin URI:        https://wpcraftz.com/postcrafts/
  * Description:       Advanced blocks to highlight, summarize and beautifully organize your posts.
  * Version:           0.0.2
