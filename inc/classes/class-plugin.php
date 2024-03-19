@@ -71,13 +71,14 @@ class Plugin {
 		$local_script_handle = 'post-crafts-localized-script';
 
 		$localized_data = array(
-			'urls' => array(
+			'urls'  => array(
 				'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			),
+			'nonce' => wp_create_nonce( 'post-crafts' ),
 		);
 		wp_register_script( $local_script_handle, '', array( 'wp-i18n' ), POST_CRAFTS_VERSION, true );
 		wp_enqueue_script( $local_script_handle );
-		wp_localize_script( $local_script_handle, 'postCrafts', $localized_data );
+		wp_localize_script( $local_script_handle, 'POSTCRAFTS', $localized_data );
 	}
 
 	/**

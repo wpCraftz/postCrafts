@@ -174,7 +174,9 @@ const PostBlockSettings = ( {
 						className="post-selector-trigger"
 						onClick={ () => setIsModalOpen( true ) }
 					>
-						{ __( 'Select Posts', 'post-crafts' ) }
+						{ selectedPosts.length > 0
+							? __( 'Modify Selection', 'post-crafts' )
+							: __( 'Select Posts', 'post-crafts' ) }
 					</Button>
 					{ !! postIds.length && (
 						<>
