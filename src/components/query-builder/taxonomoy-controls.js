@@ -5,7 +5,7 @@ import { __ } from '@wordpress/i18n';
 import { FormTokenField, SelectControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/core-data';
-import { useState, useEffect } from '@wordpress/element';
+import { useState, useEffect, Fragment } from '@wordpress/element';
 import { useDebounce } from '@wordpress/compose';
 
 /**
@@ -75,9 +75,8 @@ export default function TaxonomyControls( {
 				};
 
 				return (
-					<>
+					<Fragment key={ taxonomy.slug }>
 						<TaxonomyItem
-							key={ taxonomy.slug }
 							taxonomy={ taxonomy }
 							termIds={ termIds }
 							onChange={ handleChange }
@@ -113,7 +112,7 @@ export default function TaxonomyControls( {
 								}
 							/>
 						) }
-					</>
+					</Fragment>
 				);
 			} ) }
 		</>
@@ -161,7 +160,7 @@ function TaxonomyItem( { taxonomy, termIds, onChange } ) {
 				),
 			};
 		},
-		[ search, termIds ]
+		[ search, termIds, taxonomy.slug ]
 	);
 	// `existingTerms` are the ones fetched from the API and their type is `{ id: number; name: string }`.
 	// They are used to extract the terms' names to populate the `FormTokenField` properly
@@ -178,7 +177,7 @@ function TaxonomyItem( { taxonomy, termIds, onChange } ) {
 				per_page: termIds.length,
 			} );
 		},
-		[ termIds ]
+		[ termIds, taxonomy.slug ]
 	);
 	// Update the `value` state only after the selectors are resolved
 	// to avoid emptying the input when we're changing terms.

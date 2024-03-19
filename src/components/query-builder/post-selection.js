@@ -208,8 +208,11 @@ const PostSelector = ( {
 				</li>
 
 				{ isFetchingData &&
-					times( 20, () => (
-						<li className="items-list--item item--placeholder">
+					times( 20, ( index ) => (
+						<li
+							className="items-list--item item--placeholder"
+							key={ index }
+						>
 							<span></span>
 							<span></span>
 							<span></span>

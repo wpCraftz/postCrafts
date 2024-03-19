@@ -15,3 +15,18 @@
 	}
 
 }
+
+
+.post-crafts-pagination-settings {
+	button.is-small {
+		font-size: 12px;
+		height: 32px;
+		line-height: 25px;
+		padding: 0 12px;
+		text-transform: capitalize;
+
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}

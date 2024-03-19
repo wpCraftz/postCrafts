@@ -14,7 +14,7 @@ import { store as coreStore } from '@wordpress/core-data';
  * Internal dependencies
  */
 import { useFetchPosts } from '../../libs';
-import { QueryBuilder } from '../../components';
+import { QueryBuilder, Pagination } from '../../components';
 
 /**
  * Module Constants
@@ -166,7 +166,6 @@ export default function Edit( { attributes, setAttributes } ) {
 					maxNumberOfPost={ 40 }
 					sorting={ sorting }
 					label={ __( 'Query Builder', 'post-crafts' ) }
-					initialOpen
 					postMeta={
 						!! blockContexts
 							? blockContexts.map( ( post ) => ( {
@@ -176,6 +175,10 @@ export default function Edit( { attributes, setAttributes } ) {
 							  } ) )
 							: []
 					}
+				/>
+				<Pagination
+					attributes={ attributes }
+					setAttributes={ setAttributes }
 				/>
 			</InspectorControls>
 

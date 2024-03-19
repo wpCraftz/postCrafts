@@ -20,7 +20,7 @@ import classNames from 'classnames';
  */
 import './editor.scss';
 import { useFetchPosts } from '../../libs';
-import { QueryBuilder, GridSetttings } from '../../components';
+import { QueryBuilder, GridSetttings, Pagination } from '../../components';
 
 /**
  * Module Constants
@@ -170,6 +170,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		<>
 			<InspectorControls>
 				<GridSetttings
+					initialOpen
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>
@@ -180,7 +181,6 @@ export default function Edit( { attributes, setAttributes } ) {
 					maxNumberOfPost={ 40 }
 					sorting={ sorting }
 					label={ __( 'Query Builder', 'post-crafts' ) }
-					initialOpen
 					postMeta={
 						!! blockContexts
 							? blockContexts.map( ( post ) => ( {
@@ -190,6 +190,10 @@ export default function Edit( { attributes, setAttributes } ) {
 							  } ) )
 							: []
 					}
+				/>
+				<Pagination
+					attributes={ attributes }
+					setAttributes={ setAttributes }
 				/>
 			</InspectorControls>
 
