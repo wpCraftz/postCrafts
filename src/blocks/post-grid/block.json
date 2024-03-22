@@ -56,6 +56,10 @@
 			"type": "number",
 			"default": 3
 		},
+		"pagination": {
+			"type": "boolean",
+			"default": true
+		},
 		"paginationType": {
 			"type": "string",
 			"default": "pagination"
@@ -64,6 +68,7 @@
 	"keywords": [],
 	"textdomain": "post-crafts",
 	"editorScript": "file:./index.js",
+	"viewScript": "file:./view-script.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
 	"render": "file:./render.php"

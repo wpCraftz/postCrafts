@@ -52,7 +52,6 @@ class Plugin {
 	 * @return void
 	 */
 	protected function setup_hooks() {
-
 		/**
 		 * Filters
 		 */
@@ -61,10 +60,23 @@ class Plugin {
 		add_filter( 'rest_prepare_post', array( $this, 'add_post_class_in_rest_response' ), 10, 3 );
 		add_action( 'init', array( $this, 'localize_scripts' ), 1 );
 		add_action( 'init', array( $this, 'load_textdomain' ), 9999 );
+
+		// ajax_pagination
+		add_action( 'wp_ajax_paginate_posts', array( $this, 'post_crafts_pagination' ) );
+		add_action( 'wp_ajax_nopriv_paginate_posts', array( $this, 'post_crafts_pagination' ) );
 	}
 
 	/**
-	 * To localize scripts
+	 * Ajax pagination related stuffs.
+	 */
+	public function post_crafts_pagination() {
+		if ( ! isset( $_POST['_ajax_nonce'] ) || ! wp_verify_nonce( $_POST['_ajax_nonce'], 'post-crafts' ) ) {
+			return;
+		}
+	}
+
+	/**
+	 * To localize scripts.
 	 */
 	public function localize_scripts() {
 

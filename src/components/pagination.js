@@ -2,7 +2,12 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { PanelBody, Button, ButtonGroup } from '@wordpress/components';
+import {
+	PanelBody,
+	Button,
+	ButtonGroup,
+	ToggleControl,
+} from '@wordpress/components';
 
 const TYPES = [
 	__( 'pagination', 'post-crafts' ),
@@ -11,29 +16,40 @@ const TYPES = [
 ];
 
 const Pagination = ( { attributes, setAttributes } ) => {
-	const { paginationType = 'pagination' } = attributes;
+	const { paginationType = 'pagination', pagination } = attributes;
 
 	return (
 		<PanelBody
 			title={ __( 'Pagination', 'post-crafts' ) }
 			initialOpen={ false }
 		>
-			<ButtonGroup className="post-crafts-pagination-settings ">
-				{ TYPES.map( ( type ) => (
-					<Button
-						key={ type }
-						size="small"
-						{ ...( type === paginationType && {
-							isPrimary: true,
-						} ) }
-						onClick={ () =>
-							setAttributes( { paginationType: type } )
-						}
-					>
-						{ type }
-					</Button>
-				) ) }
-			</ButtonGroup>
+			<ToggleControl
+				label={ __( 'Enable Pagination', 'post-crafts' ) }
+				checked={ pagination }
+				onChange={ ( newValue ) => {
+					setAttributes( { enablePagination: newValue } );
+				} }
+			/>
+			{ pagination && (
+				<>
+					<ButtonGroup className="post-crafts-pagination-settings">
+						{ TYPES.map( ( type ) => (
+							<Button
+								key={ type }
+								size="small"
+								{ ...( type === paginationType && {
+									isPrimary: true,
+								} ) }
+								onClick={ () =>
+									setAttributes( { paginationType: type } )
+								}
+							>
+								{ type }
+							</Button>
+						) ) }
+					</ButtonGroup>
+				</>
+			) }
 		</PanelBody>
 	);
 };
