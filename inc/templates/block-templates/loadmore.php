@@ -8,6 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
-<div class="pc-loadmore">
+<div class="pcrafts-loadmore">
 	<button>Load More!</button>
 </div>

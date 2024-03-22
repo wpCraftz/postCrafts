@@ -1,9 +1,12 @@
 .pcrafts-postgrid-wrapper {
-	display: grid;
-	grid-gap: 20px;
+
+	.pcrafts-grid-items-wrapper {
+		display: grid;
+		grid-gap: 20px;
+	}
 
 	@for $i from 1 through 5 {
-		&.columns-#{$i} {
+		&.columns-#{$i} .pcrafts-grid-items-wrapper {
 			grid-template-columns: repeat($i, minmax(0, 1fr));
 		}
 	}

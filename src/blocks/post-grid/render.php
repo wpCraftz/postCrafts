@@ -23,7 +23,7 @@ $pagination      = $attributes['pagination'];
 $paginationType  = $attributes['paginationType'];
 ?>
 <div <?php echo wp_kses_data( $block_wrapper_attributes ); ?>>
-	<div class="pc-grid-items-wrapper">
+	<div class="pcrafts-grid-items-wrapper">
 		<?php
 		if ( $post_query->have_posts() ) {
 			$posts_count = 0;
