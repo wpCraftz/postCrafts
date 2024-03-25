@@ -102,7 +102,7 @@ function post_crafts_get_primary_category( $return_id = false ) {
 }
 
 /**
- * Build Query Objet
+ * Build Query Object
  *
  * @param object $attributes  Block attributes.
  *
@@ -110,7 +110,6 @@ function post_crafts_get_primary_category( $return_id = false ) {
  */
 function post_crafts_query_builder( $attributes ) {
 	$args = array(
-		'post_type'              => 'post',
 		'posts_per_page'         => $attributes['postsPerPage'] + 1,
 		'post_status'            => 'publish',
 		'ignore_sticky_posts'    => 1,
@@ -120,6 +119,10 @@ function post_crafts_query_builder( $attributes ) {
 		'order'                  => $attributes['sorting']['order'],
 		'orderby'                => $attributes['sorting']['orderBy'],
 	);
+
+	if ( isset( $attributes['post_type'] ) ) {
+		$args['post_type'] = $attributes['post_type'];
+	}
 
 	if ( ! empty( $attributes['postIds'] ) ) {
 

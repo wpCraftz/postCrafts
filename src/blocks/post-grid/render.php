@@ -11,7 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-$post_query               = new WP_Query( post_crafts_query_builder( $attributes ) );
+$post_grid_query          = post_crafts_query_builder( $attributes );
+$fetched_posts            = new WP_Query( $post_grid_query );
 $block_wrapper_attributes = get_block_wrapper_attributes(
 	array(
 		'class' => 'pcrafts-postgrid-wrapper columns-' . esc_attr( $attributes['columns'] . '' ),
@@ -25,10 +26,10 @@ $paginationType  = $attributes['paginationType'];
 <div <?php echo wp_kses_data( $block_wrapper_attributes ); ?>>
 	<div class="pcrafts-grid-items-wrapper">
 		<?php
-		if ( $post_query->have_posts() ) {
+		if ( $fetched_posts->have_posts() ) {
 			$posts_count = 0;
-			while ( $post_query->have_posts() && $posts_count < $attributes['postsPerPage'] ) {
-				$post_query->the_post();
+			while ( $fetched_posts->have_posts() && $posts_count < $attributes['postsPerPage'] ) {
+				$fetched_posts->the_post();
 				$current = get_the_ID();
 
 				// Skip the current post.
@@ -72,7 +73,7 @@ $paginationType  = $attributes['paginationType'];
 			'block-templates/arrow' :
 			'block-templates/pagination' ),
 			array(
-				'page' => 1,
+				'post_query' => $post_grid_query,
 			),
 			true
 		);
