@@ -10,6 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 $post_query = ! empty( $post_query ) ? $post_query : array();
 ?>
 
-<div class="pcrarfts-pagination pcrafts-loadmore">
+<div class="pcrafts-pagination pcrafts-loadmore">
 	<button>Load More!</button>
 </div>

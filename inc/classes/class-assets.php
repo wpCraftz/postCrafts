@@ -64,5 +64,17 @@ class Assets {
 		} else {
 			wp_enqueue_style( 'post-crafts', POST_CRAFTS_URL . '/build/src/styles/main.css', array(), filemtime( POST_CRAFTS_PATH . '/build/src/styles/main.css' ) );
 		}
+
+		if ( has_block( 'post-crafts/post-grid' ) || has_block( 'post-crafts/post-list' ) ) {
+			wp_enqueue_script(
+				'post-crafts-pagination',
+				POST_CRAFTS_URL . '/build/src/scripts/pagination.js',
+				array(),
+				filemtime( POST_CRAFTS_PATH . '/build/src/scripts/pagination.js' ),
+				array(
+					'in_footer' => true,
+				)
+			);
+		}
 	}
 }

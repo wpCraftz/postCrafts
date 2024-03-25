@@ -7,10 +7,7 @@ class PostList {
 		this.init();
 	}
 
-	init() {
-		console.clear();
-		console.log( 'Post List init' );
-	}
+	init() {}
 }
 
 new PostList();

@@ -7,10 +7,7 @@ class PostGrid {
 		this.init();
 	}
 
-	init() {
-		console.clear();
-		console.log( 'hello world inside init' );
-	}
+	init() {}
 }
 
 new PostGrid();

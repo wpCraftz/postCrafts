@@ -34,9 +34,16 @@ const frontendStyles = glob(
 	path.resolve( __dirname, 'src/styles/main.scss' )
 );
 
+const frontendScripts = glob( path.resolve( __dirname, 'src/scripts/*' ) );
+
 const styles = {
 	...defaultConfig,
-	entry: prepare( [ ...editorStyles, ...frontendStyles, ...adminStyles ] ),
+	entry: prepare( [
+		...editorStyles,
+		...frontendStyles,
+		...adminStyles,
+		...frontendScripts,
+	] ),
 	output: {
 		path: path.resolve( __dirname, 'build/' ),
 	},

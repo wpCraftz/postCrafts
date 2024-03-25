@@ -8,6 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
-<div class="pcrafts-pagination pcrarfts-arrow">
+<div class="pcrafts-pagination pcrafts-arrow">
 	<button>Arrow!</button>
 </div>

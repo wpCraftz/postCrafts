@@ -73,7 +73,7 @@ $paginationType  = $attributes['paginationType'];
 			'block-templates/arrow' :
 			'block-templates/pagination' ),
 			array(
-				'post_query' => $fetched_posts,
+				'post_query' => $post_list_query,
 			),
 			true
 		);
