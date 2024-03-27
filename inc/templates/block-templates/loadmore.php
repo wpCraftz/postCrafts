@@ -11,5 +11,5 @@ $post_query = ! empty( $post_query ) ? $post_query : array();
 ?>
 
 <div class="pcrafts-pagination pcrafts-loadmore">
-	<button>Load More!</button>
+	<button class="pcrafts-loadmore-btn">Load More!</button>
 </div>

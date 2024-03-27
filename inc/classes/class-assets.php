@@ -69,7 +69,7 @@ class Assets {
 			wp_enqueue_script(
 				'post-crafts-pagination',
 				POST_CRAFTS_URL . '/build/src/scripts/pagination.js',
-				array(),
+				array( 'jquery' ),
 				filemtime( POST_CRAFTS_PATH . '/build/src/scripts/pagination.js' ),
 				array(
 					'in_footer' => true,

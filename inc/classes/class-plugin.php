@@ -73,6 +73,15 @@ class Plugin {
 		if ( ! isset( $_POST['_ajax_nonce'] ) || ! wp_verify_nonce( $_POST['_ajax_nonce'], 'post-crafts' ) ) {
 			return;
 		}
+		ob_start();
+		?>
+		<article>
+			<h1>Hello World</h1>
+		</article>
+		<?php
+		$content = ob_get_clean();
+		echo $content;
+		wp_die();
 	}
 
 	/**
@@ -84,7 +93,7 @@ class Plugin {
 
 		$localized_data = array(
 			'urls'  => array(
-				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 			),
 			'nonce' => wp_create_nonce( 'post-crafts' ),
 		);
