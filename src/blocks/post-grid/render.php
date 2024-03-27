@@ -22,6 +22,7 @@ $block_wrapper_attributes = get_block_wrapper_attributes(
 $current_post_id = get_the_ID();
 $pagination      = $attributes['pagination'];
 $paginationType  = $attributes['paginationType'];
+
 ?>
 <div <?php echo wp_kses_data( $block_wrapper_attributes ); ?>>
 	<div class="pcrafts-grid-items-wrapper">
@@ -43,6 +44,7 @@ $paginationType  = $attributes['paginationType'];
 					true
 				);
 			}
+			wp_reset_postdata();
 		}
 		?>
 	</div>

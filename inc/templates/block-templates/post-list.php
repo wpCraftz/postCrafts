@@ -1,7 +1,7 @@
 <?php
 /**
  * Post List block template.
- * 
+ *
  * @package post-crafts
  */
 ?>

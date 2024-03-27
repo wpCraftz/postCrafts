@@ -116,6 +116,7 @@ function post_crafts_query_builder( $attributes ) {
 		'update_post_meta_cache' => false,
 		'update_post_term_cache' => false,
 		'no_found_rows'          => true,
+		'paged'                  => isset( $attributes['paged'] ) ? $attributes['paged'] : 1,
 		'order'                  => $attributes['sorting']['order'],
 		'orderby'                => $attributes['sorting']['orderBy'],
 	);

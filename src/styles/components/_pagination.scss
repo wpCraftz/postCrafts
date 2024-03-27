@@ -1,0 +1,9 @@
+.pcrafts-pagination {
+
+	button {
+		cursor: pointer;
+		&.disabled {
+			display: none;
+		}
+	}
+}

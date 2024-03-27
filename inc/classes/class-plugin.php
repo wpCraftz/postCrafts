@@ -73,14 +73,31 @@ class Plugin {
 		if ( ! isset( $_POST['_ajax_nonce'] ) || ! wp_verify_nonce( $_POST['_ajax_nonce'], 'post-crafts' ) ) {
 			return;
 		}
-		ob_start();
-		?>
-		<article>
-			<h1>Hello World</h1>
-		</article>
-		<?php
-		$content = ob_get_clean();
-		echo $content;
+
+		$attributes    = $_POST['query'];
+		$fetched_posts = new \WP_Query( $attributes );
+
+		if ( $fetched_posts->have_posts() ) {
+			$posts_count = 0;
+			while ( $fetched_posts->have_posts() && $posts_count < $attributes['posts_per_page'] ) {
+				$fetched_posts->the_post();
+				$current = get_the_ID();
+
+				// Skip the current post.
+				if ( $current_post_id === $current ) {
+					continue;
+				}
+				++$posts_count;
+				post_crafts_template(
+					'block-templates/post-grid',
+					array(),
+					true
+				);
+			}
+			wp_reset_postdata();
+		} else {
+			echo __( 'No more posts found', 'post-crafts' );
+		}
 		wp_die();
 	}
 

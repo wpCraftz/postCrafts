@@ -306,16 +306,6 @@ const PostBlockSettings = ( {
 						}
 					/>
 				) }
-
-				{ ! postIds.length && typeof pagination !== 'undefined' && (
-					<ToggleControl
-						label={ __( 'Show Pagination?', 'post-crafts' ) }
-						checked={ pagination }
-						onChange={ ( pagination ) =>
-							setAttributes( { pagination } )
-						}
-					/>
-				) }
 			</PanelBody>
 		</>
 	);
