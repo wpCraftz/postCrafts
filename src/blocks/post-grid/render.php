@@ -28,16 +28,8 @@ $paginationType  = $attributes['paginationType'];
 	<div class="pcrafts-grid-items-wrapper">
 		<?php
 		if ( $fetched_posts->have_posts() ) {
-			$posts_count = 0;
-			while ( $fetched_posts->have_posts() && $posts_count < $attributes['postsPerPage'] ) {
+			while ( $fetched_posts->have_posts() ) {
 				$fetched_posts->the_post();
-				$current = get_the_ID();
-
-				// Skip the current post.
-				if ( $current_post_id === $current ) {
-					continue;
-				}
-				++$posts_count;
 				post_crafts_template(
 					'block-templates/post-grid',
 					array(),

@@ -110,9 +110,8 @@ function post_crafts_get_primary_category( $return_id = false ) {
  */
 function post_crafts_query_builder( $attributes ) {
 	$args = array(
-		'posts_per_page'         => $attributes['postsPerPage'] + 1,
+		'posts_per_page'         => $attributes['postsPerPage'],
 		'post_status'            => 'publish',
-		'ignore_sticky_posts'    => 1,
 		'update_post_meta_cache' => false,
 		'update_post_term_cache' => false,
 		'no_found_rows'          => true,
@@ -123,6 +122,14 @@ function post_crafts_query_builder( $attributes ) {
 
 	if ( isset( $attributes['post_type'] ) ) {
 		$args['post_type'] = $attributes['post_type'];
+	}
+
+	if ( isset( $attributes['ignoreSticky'] ) && true === $attributes['ignoreSticky']) {
+		$args['ignore_sticky_posts'] = true;
+	}
+
+	if ( isset( $attributes['excludeCurrentPost'] ) && true === $attributes['excludeCurrentPost'] ) {
+		$args['post__not_in'] = array( get_the_ID() );
 	}
 
 	if ( ! empty( $attributes['postIds'] ) ) {

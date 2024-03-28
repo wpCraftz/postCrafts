@@ -45,21 +45,19 @@ class Pagination {
 			},
 		};
 
-		const newPosts = await jQuery.post(
+		const response = await jQuery.post(
 			POSTCRAFTS.urls.ajaxUrl,
 			data,
-			( response ) => {
-				return response;
+			( res ) => {
+				return res;
 			}
 		);
 
-		if (
-			typeof newPosts === 'string' &&
-			newPosts.toLowerCase() !== 'no more posts found'
-		) {
+		if ( response.success ) {
 			paginationWrapper.setAttribute( 'data-page', parseInt( page ) + 1 );
 		}
-		return newPosts;
+
+		return response;
 	}
 
 	/**
@@ -76,18 +74,18 @@ class Pagination {
 			loadmoreBtn.addEventListener( 'click', ( e ) => {
 				e.preventDefault();
 				const { query = {}, page } = paginationWrapper.dataset;
+
 				const response = this.fetchPosts(
 					query,
 					page,
 					paginationWrapper
 				);
 
+				const { posts_per_page: postsPerPage } = JSON.parse( query );
+
 				response.then( ( res ) => {
-					this.updateMarkup( paginationWrapper, res, true );
-					if (
-						typeof res === 'string' &&
-						res.toLowerCase() === 'no more posts found'
-					) {
+					this.updateMarkup( paginationWrapper, res.data, true );
+					if ( ! res.success || res.data.length < postsPerPage ) {
 						loadmoreBtn.classList.add( 'disabled' );
 					}
 				} );

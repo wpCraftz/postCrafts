@@ -56,6 +56,14 @@
 			"type": "number",
 			"default": 3
 		},
+		"excludeCurrentPost": {
+			"type": "boolean",
+			"default": false
+		},
+		"ignoreSticky": {
+			"type": "boolean",
+			"default": false
+		},
 		"pagination": {
 			"type": "boolean",
 			"default": true

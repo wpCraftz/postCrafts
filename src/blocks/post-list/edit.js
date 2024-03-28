@@ -14,7 +14,7 @@ import { store as coreStore } from '@wordpress/core-data';
  * Internal dependencies
  */
 import { useFetchPosts } from '../../libs';
-import { QueryBuilder, Pagination } from '../../components';
+import { QueryBuilder, Pagination, PaginationSettings } from '../../components';
 
 /**
  * Module Constants
@@ -52,6 +52,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		tagOperator,
 		sorting,
 		pagination,
+		paginationType,
 	} = attributes;
 
 	const customQuery = {
@@ -177,7 +178,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							: []
 					}
 				/>
-				<Pagination
+				<PaginationSettings
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>
@@ -299,14 +300,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							);
 						} ) }
 					</div>
-					{ pagination && (
-						<div className="pcrafts-pagination">
-							{ __(
-								'Pagination will work on front-end',
-								'post-crafts'
-							) }
-						</div>
-					) }
+					{ pagination && <Pagination type={ paginationType } /> }
 				</div>
 			) }
 		</>

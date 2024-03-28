@@ -20,7 +20,12 @@ import classNames from 'classnames';
  */
 import './editor.scss';
 import { useFetchPosts } from '../../libs';
-import { QueryBuilder, GridSetttings, Pagination } from '../../components';
+import {
+	QueryBuilder,
+	GridSetttings,
+	Pagination,
+	PaginationSettings,
+} from '../../components';
 
 /**
  * Module Constants
@@ -59,6 +64,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		sorting,
 		columns,
 		pagination,
+		paginationType,
 	} = attributes;
 
 	const customQuery = {
@@ -192,7 +198,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							: []
 					}
 				/>
-				<Pagination
+				<PaginationSettings
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>
@@ -314,14 +320,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							);
 						} ) }
 					</div>
-					{ pagination && (
-						<div className="pcrafts-pagination">
-							{ __(
-								'Pagination will work on front-end',
-								'post-crafts'
-							) }
-						</div>
-					) }
+					{ pagination && <Pagination type={ paginationType } /> }
 				</div>
 			) }
 		</>

@@ -78,25 +78,22 @@ class Plugin {
 		$fetched_posts = new \WP_Query( $attributes );
 
 		if ( $fetched_posts->have_posts() ) {
-			$posts_count = 0;
-			while ( $fetched_posts->have_posts() && $posts_count < $attributes['posts_per_page'] ) {
+			$new_posts   = array();
+			while ( $fetched_posts->have_posts() ) {
 				$fetched_posts->the_post();
-				$current = get_the_ID();
-
-				// Skip the current post.
-				if ( $current_post_id === $current ) {
-					continue;
-				}
-				++$posts_count;
-				post_crafts_template(
+				$new_posts[] = post_crafts_template(
 					'block-templates/post-grid',
 					array(),
-					true
 				);
 			}
+			wp_send_json_success( $new_posts );
 			wp_reset_postdata();
 		} else {
-			echo __( 'No more posts found', 'post-crafts' );
+			wp_send_json_error(
+				array(
+					__( 'No more posts found', 'post-crafts' ),
+				)
+			);
 		}
 		wp_die();
 	}

@@ -64,6 +64,8 @@ const PostBlockSettings = ( {
 		postsPerPage,
 		showExcerpt,
 		showCategory,
+		excludeCurrentPost,
+		ignoreSticky,
 	} = attributes;
 
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
@@ -288,6 +290,22 @@ const PostBlockSettings = ( {
 							) }
 						/>
 					) }
+				<ToggleControl
+					label={ __( 'Exclude Current Post', 'post-crafts' ) }
+					checked={ excludeCurrentPost }
+					onChange={ ( excludeCurrentPost ) =>
+						setAttributes( { excludeCurrentPost } )
+					}
+				/>
+
+				<ToggleControl
+					label={ __( 'Ignore Sticky Posts', 'post-crafts' ) }
+					checked={ ignoreSticky }
+					onChange={ ( ignoreSticky ) =>
+						setAttributes( { ignoreSticky } )
+					}
+				/>
+
 				{ typeof showCategory !== 'undefined' && (
 					<ToggleControl
 						label={ __( 'Show Category?', 'post-crafts' ) }
