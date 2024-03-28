@@ -78,7 +78,7 @@ class Plugin {
 		$fetched_posts = new \WP_Query( $attributes );
 
 		if ( $fetched_posts->have_posts() ) {
-			$new_posts   = array();
+			$new_posts = array();
 			while ( $fetched_posts->have_posts() ) {
 				$fetched_posts->the_post();
 				$new_posts[] = post_crafts_template(

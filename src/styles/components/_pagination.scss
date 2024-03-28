@@ -2,8 +2,24 @@
 
 	button {
 		cursor: pointer;
+
 		&.disabled {
-			display: none;
+			opacity: 0.6;
+			pointer-events: none;
+		}
+	}
+
+	&.pcrafts-arrow {
+		
+		button {
+			border: none;
+			cursor: pointer;
+			display: inline-block;
+			margin: 0 5px 0 0;
+			padding: 8px 12px;
+			transition: color 0.3s;
+			background-color: black;
+			color: white;
 		}
 	}
 }

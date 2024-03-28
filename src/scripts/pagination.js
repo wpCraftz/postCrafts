@@ -25,6 +25,8 @@ class Pagination {
 
 		if ( loadmore ) {
 			jQuery( postsContainer ).append( newPosts );
+		} else {
+			jQuery( postsContainer ).html( newPosts );
 		}
 	}
 
@@ -41,7 +43,7 @@ class Pagination {
 			_ajax_nonce: POSTCRAFTS.nonce,
 			query: {
 				...JSON.parse( query ),
-				paged: parseInt( page ) + 1,
+				paged: page,
 			},
 		};
 
@@ -54,7 +56,7 @@ class Pagination {
 		);
 
 		if ( response.success ) {
-			paginationWrapper.setAttribute( 'data-page', parseInt( page ) + 1 );
+			paginationWrapper.setAttribute( 'data-page', page );
 		}
 
 		return response;
@@ -77,15 +79,19 @@ class Pagination {
 
 				const response = this.fetchPosts(
 					query,
-					page,
+					parseInt( page ) + 1,
 					paginationWrapper
 				);
 
 				const { posts_per_page: postsPerPage } = JSON.parse( query );
 
 				response.then( ( res ) => {
-					this.updateMarkup( paginationWrapper, res.data, true );
-					if ( ! res.success || res.data.length < postsPerPage ) {
+					if ( res.success ) {
+						this.updateMarkup( paginationWrapper, res.data, true );
+					} else if (
+						! res.success ||
+						res.data.length < postsPerPage
+					) {
 						loadmoreBtn.classList.add( 'disabled' );
 					}
 				} );
@@ -95,8 +101,73 @@ class Pagination {
 
 	/**
 	 * Arrow Pagination
+	 *
+	 * @param {HTMLElement} paginationWrapper
 	 */
-	handleArrow() {}
+	handleArrow( paginationWrapper ) {
+		const prevBtn = paginationWrapper.querySelector(
+			'button.pcrafts-prev'
+		);
+		const nextBtn = paginationWrapper.querySelector(
+			'button.pcrafts-next'
+		);
+
+		if ( prevBtn ) {
+			prevBtn.addEventListener( 'click', ( e ) => {
+				e.preventDefault();
+				const { query = {}, page } = paginationWrapper.dataset;
+
+				const response = this.fetchPosts(
+					query,
+					parseInt( page ) - 1,
+					paginationWrapper
+				);
+
+				response.then( ( res ) => {
+					if ( res.success ) {
+						this.updateMarkup( paginationWrapper, res.data, false );
+						if ( parseInt( page ) - 1 === 1 ) {
+							prevBtn.classList.add( 'disabled' );
+						}
+
+						if ( nextBtn.classList.contains( 'disabled' ) ) {
+							nextBtn.classList.remove( 'disabled' );
+						}
+					}
+				} );
+			} );
+		}
+
+		if ( nextBtn ) {
+			nextBtn.addEventListener( 'click', ( e ) => {
+				e.preventDefault();
+				const {
+					query = {},
+					page,
+					totalPages,
+				} = paginationWrapper.dataset;
+
+				const response = this.fetchPosts(
+					query,
+					parseInt( page ) + 1,
+					paginationWrapper
+				);
+
+				response.then( ( res ) => {
+					if ( res.success ) {
+						this.updateMarkup( paginationWrapper, res.data, false );
+						if ( parseInt( page ) + 1 >= totalPages ) {
+							nextBtn.classList.add( 'disabled' );
+						}
+
+						if ( prevBtn.classList.contains( 'disabled' ) ) {
+							prevBtn.classList.remove( 'disabled' );
+						}
+					}
+				} );
+			} );
+		}
+	}
 
 	init() {
 		if ( ! this.paginationWrappers ) {

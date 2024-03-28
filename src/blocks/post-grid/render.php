@@ -23,6 +23,8 @@ $current_post_id = get_the_ID();
 $pagination      = $attributes['pagination'];
 $paginationType  = $attributes['paginationType'];
 
+$total_pages = $fetched_posts->max_num_pages;
+
 ?>
 <div <?php echo wp_kses_data( $block_wrapper_attributes ); ?>>
 	<div class="pcrafts-grid-items-wrapper">
@@ -49,7 +51,8 @@ $paginationType  = $attributes['paginationType'];
 			'block-templates/arrow' :
 			'block-templates/pagination' ),
 			array(
-				'post_query' => $post_grid_query,
+				'post_query'  => $post_grid_query,
+				'total_pages' => $total_pages,
 			),
 			true
 		);

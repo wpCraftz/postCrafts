@@ -114,7 +114,6 @@ function post_crafts_query_builder( $attributes ) {
 		'post_status'            => 'publish',
 		'update_post_meta_cache' => false,
 		'update_post_term_cache' => false,
-		'no_found_rows'          => true,
 		'paged'                  => isset( $attributes['paged'] ) ? $attributes['paged'] : 1,
 		'order'                  => $attributes['sorting']['order'],
 		'orderby'                => $attributes['sorting']['orderBy'],
@@ -124,7 +123,7 @@ function post_crafts_query_builder( $attributes ) {
 		$args['post_type'] = $attributes['post_type'];
 	}
 
-	if ( isset( $attributes['ignoreSticky'] ) && true === $attributes['ignoreSticky']) {
+	if ( isset( $attributes['ignoreSticky'] ) && true === $attributes['ignoreSticky'] ) {
 		$args['ignore_sticky_posts'] = true;
 	}
 
