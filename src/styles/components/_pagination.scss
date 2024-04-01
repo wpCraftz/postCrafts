@@ -22,4 +22,31 @@
 			color: white;
 		}
 	}
+
+	ul.pcrafts-pages {
+		padding: 0;
+		margin: 0;
+	}
+
+	.pcrafts-pages {
+		display: flex;
+		align-items: center;
+		gap: 5px;
+
+		li {
+			list-style: none;
+			cursor: pointer;
+
+			&.hide {
+				display: none;
+			}
+
+			&.current {
+				padding: 2px 9px;
+				color: white;
+				background-color: black;
+				border-radius: 50%;
+			}
+		}
+	}
 }

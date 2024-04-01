@@ -22,8 +22,9 @@ $block_wrapper_attributes = get_block_wrapper_attributes(
 $current_post_id = get_the_ID();
 $pagination      = $attributes['pagination'];
 $paginationType  = $attributes['paginationType'];
+$max_page        = $fetched_posts->max_num_pages;
 
-$total_pages = $fetched_posts->max_num_pages;
+
 
 ?>
 <div <?php echo wp_kses_data( $block_wrapper_attributes ); ?>>
@@ -38,12 +39,13 @@ $total_pages = $fetched_posts->max_num_pages;
 					true
 				);
 			}
-			wp_reset_postdata();
+			// wp_reset_postdata();
 		}
 		?>
 	</div>
 	<?php
 	if ( $pagination ) {
+
 		post_crafts_template(
 			$paginationType === 'loadmore' ?
 			'block-templates/loadmore' : (
@@ -51,12 +53,14 @@ $total_pages = $fetched_posts->max_num_pages;
 			'block-templates/arrow' :
 			'block-templates/pagination' ),
 			array(
-				'post_query'  => $post_grid_query,
-				'total_pages' => $total_pages,
+				'post_query' => $post_grid_query,
+				'max_page'  => $max_page,
 			),
 			true
 		);
+
 	}
+	wp_reset_query();
 	?>
 </div>
 <?php

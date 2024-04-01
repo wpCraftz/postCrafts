@@ -141,11 +141,7 @@ class Pagination {
 		if ( nextBtn ) {
 			nextBtn.addEventListener( 'click', ( e ) => {
 				e.preventDefault();
-				const {
-					query = {},
-					page,
-					totalPages,
-				} = paginationWrapper.dataset;
+				const { query = {}, page, maxPage } = paginationWrapper.dataset;
 
 				const response = this.fetchPosts(
 					query,
@@ -156,7 +152,7 @@ class Pagination {
 				response.then( ( res ) => {
 					if ( res.success ) {
 						this.updateMarkup( paginationWrapper, res.data, false );
-						if ( parseInt( page ) + 1 >= totalPages ) {
+						if ( parseInt( page ) + 1 >= maxPage ) {
 							nextBtn.classList.add( 'disabled' );
 						}
 
@@ -167,6 +163,116 @@ class Pagination {
 				} );
 			} );
 		}
+	}
+
+	/**
+	 * Toggle Element
+	 *
+	 * @param {HTMLElement} element Dom Element
+	 * @param {boolean}     show    Flag
+	 */
+	toggleDisplay( element, show = true ) {
+		if ( ! element ) {
+			return;
+		}
+
+		if ( show ) {
+			element.classList.remove( 'hide' );
+		} else {
+			element.classList.add( 'hide' );
+		}
+	}
+
+	/**
+	 * Update Pagination Pages
+	 *
+	 * @param {HTMLElement} paginationWrapper Wrapper element
+	 * @param {number}      maxPage           Max Page
+	 * @param {number}      currentPage       Current Page
+	 */
+	updatePages( paginationWrapper, maxPage, currentPage ) {
+		const firstDots = paginationWrapper.querySelector( '.page-dots.first' );
+		const lastDots = paginationWrapper.querySelector( '.page-dots.last' );
+		const prevBtn = paginationWrapper.querySelector( '.page-numbers.prev' );
+		const nextBtn = paginationWrapper.querySelector( '.page-numbers.next' );
+
+		const firstPage = paginationWrapper.querySelector(
+			'.page-numbers.first-page'
+		);
+		const lastPage = paginationWrapper.querySelector(
+			'.page-numbers.last-page'
+		);
+		const currentActive = paginationWrapper.querySelector(
+			'.page-numbers.current'
+		);
+		currentActive.classList.remove( 'current' );
+
+		let middlePages = [];
+
+		if ( maxPage >= 3 ) {
+			middlePages = [ 1, 2, 3 ];
+
+			if ( currentPage >= 3 && currentPage === maxPage ) {
+				middlePages = [ maxPage - 2, maxPage - 1, maxPage ];
+			} else if ( currentPage >= 3 ) {
+				middlePages = [ currentPage - 1, currentPage, currentPage + 1 ];
+			}
+		}
+
+		this.toggleDisplay( prevBtn, currentPage > 1 );
+		this.toggleDisplay( firstDots, currentPage > 3 );
+		this.toggleDisplay( firstPage, currentPage > 2 );
+		this.toggleDisplay( lastDots, maxPage > currentPage + 2 );
+		this.toggleDisplay( lastPage, maxPage > currentPage + 1 );
+		this.toggleDisplay( nextBtn, maxPage !== currentPage );
+
+		prevBtn.setAttribute( 'data-page', currentPage - 1 );
+		nextBtn.setAttribute( 'data-page', currentPage + 1 );
+
+		paginationWrapper
+			.querySelectorAll( '.middle-pages' )
+			.forEach( ( page, index ) => {
+				page.innerHTML = middlePages[ index ];
+				page.setAttribute( 'data-page', middlePages[ index ] );
+
+				if ( middlePages[ index ] === currentPage ) {
+					page.classList.add( 'current' );
+				}
+			} );
+	}
+
+	/**
+	 * Handle Pagination
+	 *
+	 * @param {HTMLElement} paginationWrapper
+	 */
+	handlePagination( paginationWrapper ) {
+		const pages = paginationWrapper.querySelectorAll( 'li.page-numbers' );
+		const { query = {}, maxPage } = paginationWrapper.dataset;
+
+		pages.forEach( ( page ) => {
+			page.addEventListener( 'click', ( e ) => {
+				e.preventDefault();
+
+				const nextPage = parseInt( e.target.dataset.page );
+				const response = this.fetchPosts(
+					query,
+					nextPage,
+					paginationWrapper
+				);
+
+				response.then( ( res ) => {
+					if ( res.success ) {
+						this.updatePages(
+							paginationWrapper,
+							parseInt( maxPage ),
+							nextPage
+						);
+						this.updateMarkup( paginationWrapper, res.data, false );
+					}
+				} );
+			} );
+		} );
 	}
 
 	init() {
@@ -182,6 +288,7 @@ class Pagination {
 			) {
 				this.handleArrow( paginationWrapper );
 			} else {
+				this.handlePagination( paginationWrapper );
 			}
 		} );
 	}

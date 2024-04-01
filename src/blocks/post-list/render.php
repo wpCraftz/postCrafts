@@ -22,6 +22,8 @@ $block_wrapper_attributes = get_block_wrapper_attributes(
 $current_post_id = get_the_ID();
 $pagination      = $attributes['pagination'];
 $paginationType  = $attributes['paginationType'];
+$max_page        = $fetched_posts->max_num_pages;
+
 ?>
 <div <?php echo wp_kses_data( $block_wrapper_attributes ); ?>>
 	<div class="pcrafts-list-items-wrapper">
@@ -56,6 +58,7 @@ $paginationType  = $attributes['paginationType'];
 			'block-templates/pagination' ),
 			array(
 				'post_query' => $post_list_query,
+				'max_page'  => $max_page,
 			),
 			true
 		);

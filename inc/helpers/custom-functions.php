@@ -226,3 +226,66 @@ function post_crafts_template( $template, $variables = array(), $echo = false ) 
 
 	echo $markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped already in template.
 }
+
+/**
+ * Post Crafts Pagination.
+ *
+ * @param number $max_page Total number of pages.
+ * @param number $current_page Current page number.
+ *
+ * @return string|void Template markup.
+ */
+function post_crafts_pagination( $max_page, $current_page ) {
+
+	if ( $max_page <= 1 ) {
+		return;
+	}
+
+	if ( ! isset( $current_page ) || 0 === $current_page ) {
+		$current_page = 1;
+	}
+
+	$hide_class   = ' hide';
+	$active_class = ' current';
+
+	$pages = '<ul class="pcrafts-pages">';
+
+	$pages .= sprintf( '<li class="prev page-numbers%1$s" data-page="%2$s">%3$s</li>', $current_page === 1 ? $hide_class : '', $current_page - 1, __( 'Prev', 'post-crafts' ) );
+
+	if ( $max_page > 4 ) {
+
+		if ( $current_page > 3 ) {
+			$extra_class = '';
+		}
+
+		$pages .= sprintf( '<li class="page-numbers first-page%s" data-page="1">1</li>', $current_page < 3 ? $hide_class : '' );
+		$pages .= sprintf( '<li class="page-dots first%s">...</li>', $current_page < 4 ? $hide_class : '' );
+
+	}
+
+	if ( $max_page >= 3 ) {
+
+		$middle_pages = array( 1, 2, 3 );
+
+		if ( $current_page >= 3 && $current_page === $max_page ) {
+			$middle_pages = array( $current_page - 2, $current_page - 1, $current_page );
+		} elseif ( $current_page >= 3 ) {
+			$middle_pages = array( $current_page - 1, $current_page, $current_page + 1 );
+		}
+	}
+
+	foreach ( $middle_pages as $page ) {
+		$pages .= sprintf( '<li class="page-numbers middle-pages%s" data-page="' . $page . '">' . $page . '</li>', $current_page === $page ? $active_class : '' );
+	}
+
+	$pages .= sprintf( '<li class="page-dots last%s">...</li>', $max_page <= $current_page + 2 ? $hide_class : '' );
+
+	if ( $max_page > 3 ) {
+		$pages .= sprintf( '<li class="page-numbers last-page%s" data-page="' . $max_page . '">' . $max_page . '</li>', $max_page <= $current_page + 1 ? $hide_class : '' );
+	}
+
+	$pages .= sprintf( '<li class="next page-numbers%1$s" data-page="%2$s">%3$s</li>', $current_page === $max_page ? $hide_class : '', $current_page + 1, __( 'Next', 'post-crafts' ) );
+
+	$pages .= '</ul>';
+	return $pages; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped already in template.
+}
