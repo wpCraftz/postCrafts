@@ -41,7 +41,10 @@ $max_page        = $fetched_posts->max_num_pages;
 				++$posts_count;
 				post_crafts_template(
 					'block-templates/post-list',
-					array(),
+					array(
+						'excerpt'        => $attributes['excerpt'],
+						'excerpt_length' => $attributes['excerptLength'],
+					),
 					true
 				);
 			}
@@ -59,8 +62,9 @@ $max_page        = $fetched_posts->max_num_pages;
 			'block-templates/pagination' ),
 			array(
 				'post_query' => $post_list_query,
-				'max_page'  => $max_page,
-				'alignment' => $attributes['paginationAlignment'],
+				'max_page'   => $max_page,
+				'alignment'  => $attributes['paginationAlignment'],
+				'block_id'   => $attributes['blockId'],
 			),
 			true
 		);

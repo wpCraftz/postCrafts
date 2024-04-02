@@ -15,6 +15,9 @@
 		}
 	},
 	"attributes": {
+		"blockId": {
+			"type": "string"
+		},
 		"taxQuery": {
 			"type": "object"
 		},
@@ -36,7 +39,7 @@
 		},
 		"postsPerPage": {
 			"type": "number",
-			"default": 9
+			"default": 6
 		},
 		"sorting": {
 			"type": "object",
@@ -71,6 +74,14 @@
 		"paginationAlignment": {
 			"type": "string",
 			"default": "left"
+		},
+		"excerpt": {
+			"type": "boolean",
+			"default": "true"
+		},
+		"excerptLength": {
+			"type": "number",
+			"default": 55
 		}
 	},
 	"keywords": [],

@@ -11,13 +11,15 @@ $post_query   = ! empty( $post_query ) ? $post_query : array();
 $max_page     = ! empty( $max_page ) ? $max_page : 1;
 $current_page = isset( $current_page ) ? $current_page : 1;
 $alignment    = isset( $alignment ) ? $alignment : 'left';
+$block_id     = isset( $block_id ) ? $block_id : null;
 
 ?>
 
-<div class="pcrafts-pagination <?php echo esc_attr( $alignment ); ?>"
-	data-query="<?php echo esc_attr( json_encode( $post_query ) ); ?>"
+<div class="pcrafts-pagination pcrafts-numberic <?php echo esc_attr( $alignment ); ?>"
 	data-page="<?php echo esc_attr( $current_page ); ?>"
 	data-max-page="<?php echo esc_attr( $max_page ); ?>"
+	data-post-id="<?php echo esc_attr( get_the_ID() ); ?>"
+	data-block-id="<?php echo esc_attr( $block_id ); ?>"
 	>
 	<?php
 		echo post_crafts_pagination( $max_page, $current_page );

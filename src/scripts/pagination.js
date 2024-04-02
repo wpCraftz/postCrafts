@@ -33,18 +33,17 @@ class Pagination {
 	/**
 	 * fetch posts
 	 *
-	 * @param {Object}      query             Query string
 	 * @param {number}      page              Page number
 	 * @param {HTMLElement} paginationWrapper Pagination wrapper
 	 */
-	async fetchPosts( query, page, paginationWrapper ) {
+	async fetchPosts( page, paginationWrapper ) {
+		const { postId, blockId } = paginationWrapper.dataset;
 		const data = {
 			action: 'paginate_posts',
 			_ajax_nonce: POSTCRAFTS.nonce,
-			query: {
-				...JSON.parse( query ),
-				paged: page,
-			},
+			postId,
+			blockId,
+			paged: page,
 		};
 
 		const response = await jQuery.post(
@@ -75,15 +74,12 @@ class Pagination {
 		if ( loadmoreBtn ) {
 			loadmoreBtn.addEventListener( 'click', ( e ) => {
 				e.preventDefault();
-				const { query = {}, page } = paginationWrapper.dataset;
+				const { postsPerPage, page } = paginationWrapper.dataset;
 
 				const response = this.fetchPosts(
-					query,
 					parseInt( page ) + 1,
 					paginationWrapper
 				);
-
-				const { posts_per_page: postsPerPage } = JSON.parse( query );
 
 				response.then( ( res ) => {
 					if ( res.success ) {
@@ -115,10 +111,9 @@ class Pagination {
 		if ( prevBtn ) {
 			prevBtn.addEventListener( 'click', ( e ) => {
 				e.preventDefault();
-				const { query = {}, page } = paginationWrapper.dataset;
+				const { page } = paginationWrapper.dataset;
 
 				const response = this.fetchPosts(
-					query,
 					parseInt( page ) - 1,
 					paginationWrapper
 				);
@@ -141,10 +136,9 @@ class Pagination {
 		if ( nextBtn ) {
 			nextBtn.addEventListener( 'click', ( e ) => {
 				e.preventDefault();
-				const { query = {}, page, maxPage } = paginationWrapper.dataset;
+				const { page, maxPage } = paginationWrapper.dataset;
 
 				const response = this.fetchPosts(
-					query,
 					parseInt( page ) + 1,
 					paginationWrapper
 				);
@@ -248,18 +242,14 @@ class Pagination {
 	 */
 	handlePagination( paginationWrapper ) {
 		const pages = paginationWrapper.querySelectorAll( 'li.page-numbers' );
-		const { query = {}, maxPage } = paginationWrapper.dataset;
+		const { maxPage } = paginationWrapper.dataset;
 
 		pages.forEach( ( page ) => {
 			page.addEventListener( 'click', ( e ) => {
 				e.preventDefault();
 
 				const nextPage = parseInt( e.target.dataset.page );
-				const response = this.fetchPosts(
-					query,
-					nextPage,
-					paginationWrapper
-				);
+				const response = this.fetchPosts( nextPage, paginationWrapper );
 
 				response.then( ( res ) => {
 					if ( res.success ) {

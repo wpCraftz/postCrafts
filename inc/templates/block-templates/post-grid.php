@@ -4,6 +4,10 @@
  *
  * @package post-crafts
  */
+
+$excerpt        = isset( $excerpt ) ? $excerpt : true;
+$excerpt_length = isset( $excerpt_length ) ? $excerpt_length : '55';
+
 ?>
 
 <article id="post-<?php the_ID(); ?>" class="post-grid">
@@ -24,6 +28,8 @@
 		<div class="entry-meta">
 			<?php post_crafts_get_author(); ?><span class="separator">-</span><?php post_crafts_posted_on( 'F d, Y' ); ?>
 		</div>
-		<div class="entry-summary"><?php the_excerpt(); ?></div>
+		<?php if ( $excerpt ) : ?>
+			<div class="entry-summary"><?php echo post_crafts_excerpt_length( get_the_ID(), $excerpt_length ); ?></div>
+		<?php endif; ?>
 	</div>
 </article>

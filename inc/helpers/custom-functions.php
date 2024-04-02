@@ -105,10 +105,11 @@ function post_crafts_get_primary_category( $return_id = false ) {
  * Build Query Object
  *
  * @param object $attributes  Block attributes.
+ * @param number $paged       Current page.
  *
  * @return object
  */
-function post_crafts_query_builder( $attributes ) {
+function post_crafts_query_builder( $attributes, $paged = null ) {
 	$args = array(
 		'posts_per_page'         => $attributes['postsPerPage'],
 		'post_status'            => 'publish',
@@ -118,6 +119,10 @@ function post_crafts_query_builder( $attributes ) {
 		'order'                  => $attributes['sorting']['order'],
 		'orderby'                => $attributes['sorting']['orderBy'],
 	);
+
+	if( isset($paged) && null !== $paged){
+		$args['paged'] = $paged;
+	}
 
 	if ( isset( $attributes['post_type'] ) ) {
 		$args['post_type'] = $attributes['post_type'];
@@ -288,4 +293,42 @@ function post_crafts_pagination( $max_page, $current_page ) {
 
 	$pages .= '</ul>';
 	return $pages; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped already in template.
+}
+
+/**
+ * Post Crafts Excerpt Length.
+ *
+ * @param number $post_id ID of current post.
+ * @param number $length Limit of excerpt length.
+ *
+ * @return string|void Template markup.
+ */
+function post_crafts_excerpt_length( $post_id, $length = 40 ) {
+	$post_content = get_the_content( $post_id );
+	return apply_filters( 'the_excerpt', wp_trim_words( $post_content, $length ) );
+}
+
+/**
+ * Get block attributes.
+ *
+ * @param number $block_id Block ID.
+ *
+ * @return array Block attributes.
+ */
+function post_crafts_get_block_attributes( $post_id, $block_id ) {
+	$post       = get_post( $post_id );
+	$attributes = array();
+
+	if ( has_blocks( $post->post_content ) ) {
+		$blocks = parse_blocks( $post->post_content );
+
+		foreach ( $blocks as $block ) {
+			if ( $block_id === $block['attrs']['blockId'] ) {
+				$attributes = $block['attrs'];
+				break;
+			}
+		}
+	}
+
+	return $attributes;
 }

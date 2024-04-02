@@ -4,7 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { Spinner } from '@wordpress/components';
-import { useMemo } from '@wordpress/element';
+import { useMemo, useEffect } from '@wordpress/element';
 import { decodeEntities } from '@wordpress/html-entities';
 import { dateI18n } from '@wordpress/date';
 import { useSelect } from '@wordpress/data';
@@ -13,8 +13,13 @@ import { store as coreStore } from '@wordpress/core-data';
 /**
  * Internal dependencies
  */
-import { useFetchPosts } from '../../libs';
-import { QueryBuilder, Pagination, PaginationSettings } from '../../components';
+import { useFetchPosts, getSubString } from '../../libs';
+import {
+	QueryBuilder,
+	PaginationEdit,
+	PaginationSettings,
+	ExcerptSettings,
+} from '../../components';
 
 /**
  * Module Constants
@@ -37,12 +42,13 @@ const AUTHORS_QUERY = {
  * @param {Object} props               Block props.
  * @param {Object} props.attributes    Block's attributes.
  * @param {Object} props.setAttributes Function to set block's attributes.
+ * @param {string} props.clientId      Block unique identifier.
  *
  * @see https://developer.wordpress.org/block-editor/developers/block-api/block-edit-save/#edit
  *
  * @return {JSX} Element to render.
  */
-export default function Edit( { attributes, setAttributes } ) {
+export default function Edit( { attributes, setAttributes, clientId } ) {
 	const {
 		postsPerPage,
 		postIds,
@@ -51,6 +57,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		catOperator,
 		tagOperator,
 		sorting,
+		excerptLength,
 		pagination,
 		paginationType,
 	} = attributes;
@@ -60,6 +67,17 @@ export default function Edit( { attributes, setAttributes } ) {
 		order: sorting.order,
 		orderby: sorting.orderBy,
 	};
+
+	/**
+	 * Update blockId with clientId
+	 */
+	useEffect( () => {
+		if ( clientId ) {
+			setAttributes( {
+				blockId: clientId,
+			} );
+		}
+	}, [ clientId, setAttributes ] );
 
 	/**
 	 * Fetch or Reorder posts
@@ -110,7 +128,9 @@ export default function Edit( { attributes, setAttributes } ) {
 				status: post.status,
 				postLink: post.link,
 				title: post.title.rendered,
-				excerpt: post.excerpt.rendered,
+				excerpt: post.content.raw
+					.replace( /<[^>]+>|[\n]/gi, ' ' )
+					.replace( /\s+/g, ' ' ),
 				date: dateI18n( 'F j, Y', post.date_gmt ),
 				dateTime: dateI18n( 'Y-m-dTH:i:sP', post.date_gmt ),
 				featuredImgSrc: post.featured_image?.src,
@@ -179,6 +199,11 @@ export default function Edit( { attributes, setAttributes } ) {
 					}
 				/>
 				<PaginationSettings
+					clientId={ clientId }
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
+				<ExcerptSettings
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>
@@ -267,12 +292,12 @@ export default function Edit( { attributes, setAttributes } ) {
 											</a>
 										</h2>
 										{ excerpt && (
-											<div
-												className="post-entry-summary"
-												dangerouslySetInnerHTML={ {
-													__html: excerpt,
-												} }
-											/>
+											<div className="post-entry-summary">
+												{ getSubString(
+													excerpt,
+													excerptLength
+												) }
+											</div>
 										) }
 										<div className="entry-meta">
 											<span className="byline">
@@ -300,7 +325,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							);
 						} ) }
 					</div>
-					{ pagination && <Pagination type={ paginationType } /> }
+					{ pagination && <PaginationEdit type={ paginationType } /> }
 				</div>
 			) }
 		</>

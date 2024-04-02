@@ -74,8 +74,10 @@ class Plugin {
 			return;
 		}
 
-		$attributes    = $_POST['query'];
-		$fetched_posts = new \WP_Query( $attributes );
+		// $query      = $_POST['query'];
+		$attributes = post_crafts_get_block_attributes( $_POST['postId'], $_POST['blockId'] );
+		$query      = post_crafts_query_builder( $attributes, $_POST['paged'] );
+		$fetched_posts = new \WP_Query( $query );
 
 		if ( $fetched_posts->have_posts() ) {
 			$new_posts = array();
@@ -83,7 +85,10 @@ class Plugin {
 				$fetched_posts->the_post();
 				$new_posts[] = post_crafts_template(
 					'block-templates/post-grid',
-					array(),
+					array(
+						'excerpt'        => $attributes['excerpt'],
+						'excerpt_length' => $attributes['excerptLength'],
+					),
 				);
 			}
 			wp_send_json_success( $new_posts );
@@ -130,7 +135,7 @@ class Plugin {
 	 * @return string
 	 */
 	public function excerpt_length() {
-		return 20;
+		return 55;
 	}
 
 	/**

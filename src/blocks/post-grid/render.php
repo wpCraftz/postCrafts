@@ -24,8 +24,6 @@ $pagination      = $attributes['pagination'];
 $paginationType  = $attributes['paginationType'];
 $max_page        = $fetched_posts->max_num_pages;
 
-
-
 ?>
 <div <?php echo wp_kses_data( $block_wrapper_attributes ); ?>>
 	<div class="pcrafts-grid-items-wrapper">
@@ -35,7 +33,10 @@ $max_page        = $fetched_posts->max_num_pages;
 				$fetched_posts->the_post();
 				post_crafts_template(
 					'block-templates/post-grid',
-					array(),
+					array(
+						'excerpt'        => $attributes['excerpt'],
+						'excerpt_length' => $attributes['excerptLength'],
+					),
 					true
 				);
 			}
@@ -53,9 +54,9 @@ $max_page        = $fetched_posts->max_num_pages;
 			'block-templates/arrow' :
 			'block-templates/pagination' ),
 			array(
-				'post_query' => $post_grid_query,
-				'max_page'  => $max_page,
-				'alignment' => $attributes['paginationAlignment'],
+				'posts_per_page' => $attributes['postsPerPage'],
+				'max_page'   => $max_page,
+				'block_id'   => $attributes['blockId'],
 			),
 			true
 		);
