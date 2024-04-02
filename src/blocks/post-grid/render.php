@@ -39,7 +39,7 @@ $max_page        = $fetched_posts->max_num_pages;
 					true
 				);
 			}
-			// wp_reset_postdata();
+			wp_reset_postdata();
 		}
 		?>
 	</div>
@@ -55,6 +55,7 @@ $max_page        = $fetched_posts->max_num_pages;
 			array(
 				'post_query' => $post_grid_query,
 				'max_page'  => $max_page,
+				'alignment' => $attributes['paginationAlignment'],
 			),
 			true
 		);

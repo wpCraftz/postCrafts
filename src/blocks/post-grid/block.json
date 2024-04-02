@@ -71,6 +71,10 @@
 		"paginationType": {
 			"type": "string",
 			"default": "pagination"
+		},
+		"paginationAlignment": {
+			"type": "string",
+			"default": "left"
 		}
 	},
 	"keywords": [],

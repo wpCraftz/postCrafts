@@ -1,5 +1,27 @@
 .pcrafts-pagination {
 
+	&.left {
+		text-align: left;
+
+		.pcrafts-pages {
+			justify-content: flex-start;
+		}
+	}
+
+	&.center {
+		text-align: center;
+		.pcrafts-pages {
+			justify-content: center;
+		}
+	}
+
+	&.right {
+		text-align: right;
+		.pcrafts-pages {
+			justify-content: flex-end;
+		}
+	}
+
 	button {
 		cursor: pointer;
 

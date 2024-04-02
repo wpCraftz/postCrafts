@@ -48,12 +48,13 @@ const AUTHORS_QUERY = {
  * @param {Object} props               Block props.
  * @param {Object} props.attributes    Block's attributes.
  * @param {Object} props.setAttributes Function to set block's attributes.
+ * @param {string} props.clientId      Block unique identifier.
  *
  * @see https://developer.wordpress.org/block-editor/developers/block-api/block-edit-save/#edit
  *
  * @return {JSX} Element to render.
  */
-export default function Edit( { attributes, setAttributes } ) {
+export default function Edit( { attributes, setAttributes, clientId } ) {
 	const {
 		postsPerPage,
 		postIds,
@@ -199,6 +200,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					}
 				/>
 				<PaginationSettings
+					clientId={ clientId }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>

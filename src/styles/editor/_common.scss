@@ -1,0 +1,17 @@
+.pcrafts-field {
+
+	.pcrafts-field-options {
+		display: flex;
+
+		> button {
+			flex: 1 1 0;
+			justify-content: center;
+		}
+	}
+
+	.pcrafts-pagination-settings {
+		button {
+			text-transform: capitalize;
+		}
+	}
+}
