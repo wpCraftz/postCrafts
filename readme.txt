@@ -2,9 +2,9 @@
 Contributors: wpcraftz, faisalahmed29
 Tags: post grid, gutenberg blocks, post blocks, recent posts, news
 Requires at least: 5.0    
-Tested up to: 6.4.1
+Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 0.0.2
+Stable tag: 0.1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -13,6 +13,30 @@ PostCrafts is the best post grid, blog designer, news, magazine, and WordPress b
 == Description ==
 
 PostCrafts is the best news, magazine, and WordPress blog plugin that comes with blog designer packs, post grid blocks, post list blocks, post slider blocks, and numerous Gutenberg blocks.
+
+== 🏆 FEATURES ==
+
+- 2 Gutenberg Blocks
+- Query Builder
+- Ajax Pagination
+- Excert Customization
+
+## Advanced Query Builder
+
+Discover the power of PostCrafts' advanced query builder, where effortlessly showcasing and sorting your posts, pages, or a blend of both becomes seamless. Tailor your display by highlighting specific posts and custom post types with ease, all within any PostCrafts post block.
+
+- Showcase Posts Based on Category
+- Showcase Posts Based on Tags
+- Showcase Posts Based on Category and Tags
+- Showcase Specific Posts
+- Reorder Posts
+- Exclude Posts
+- Exclude Sticky Post
+- Exclude Current Post
+
+## Ajax Pagination
+
+Unlock a Trio of Ajax Pagination Options with PostCrafts: Load More, Navigation, and Numeric Pagination.
 
 = Author =
 Developed by [wpCraftz](https://wpcraftz.com/). [Contribute to PostCrafts](https://github.com/wpCraftz/postCrafts) and join the party.
