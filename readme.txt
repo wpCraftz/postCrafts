@@ -111,6 +111,12 @@ It is a Gutenberg plugin it works great with WordPress version 5.x.x or more. An
 
 == Changelog ==
 
+= 0.1.0 - 03 April 2024 =
+
+- New: Ajax Pagination
+- New: Excerpt Settings
+
+
 = 0.0.2 - 06 Mar 2024 =
 
 - Update: Block Icons
