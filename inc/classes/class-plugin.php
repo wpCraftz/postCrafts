@@ -74,17 +74,15 @@ class Plugin {
 			return;
 		}
 
-		// $query      = $_POST['query'];
-		$attributes = post_crafts_get_block_attributes( $_POST['postId'], $_POST['blockId'] );
-		$query      = post_crafts_query_builder( $attributes, $_POST['paged'] );
-		$fetched_posts = new \WP_Query( $query );
+		$attributes    = post_crafts_get_block_attributes( $_POST['postId'], $_POST['blockId'] );
+		$fetched_posts = new \WP_Query( $_POST['query'] );
 
 		if ( $fetched_posts->have_posts() ) {
 			$new_posts = array();
 			while ( $fetched_posts->have_posts() ) {
 				$fetched_posts->the_post();
 				$new_posts[] = post_crafts_template(
-					'block-templates/post-grid',
+					'block-templates/' . $_POST['template'],
 					array(
 						'excerpt'        => $attributes['excerpt'],
 						'excerpt_length' => $attributes['excerptLength'],

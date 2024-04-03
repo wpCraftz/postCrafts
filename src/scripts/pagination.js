@@ -20,8 +20,8 @@ class Pagination {
 	 */
 	updateMarkup( paginationWrapper, newPosts, loadmore = false ) {
 		const postsContainer = paginationWrapper
-			.closest( '.pcrafts-postgrid-wrapper' )
-			.querySelector( '.pcrafts-grid-items-wrapper' );
+			.closest( '.pcrafts-block' )
+			.querySelector( '.pcrafts-posts-wrapper' );
 
 		if ( loadmore ) {
 			jQuery( postsContainer ).append( newPosts );
@@ -37,13 +37,18 @@ class Pagination {
 	 * @param {HTMLElement} paginationWrapper Pagination wrapper
 	 */
 	async fetchPosts( page, paginationWrapper ) {
-		const { postId, blockId } = paginationWrapper.dataset;
+		const { query, postId, blockId, template } = paginationWrapper.dataset;
 		const data = {
 			action: 'paginate_posts',
 			_ajax_nonce: POSTCRAFTS.nonce,
 			postId,
 			blockId,
 			paged: page,
+			template,
+			query: {
+				...JSON.parse( query ),
+				paged: page,
+			},
 		};
 
 		const response = await jQuery.post(

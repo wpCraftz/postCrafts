@@ -28,7 +28,7 @@ $excerpt_length = isset( $excerpt_length ) ? $excerpt_length : '55';
 			<?php post_crafts_get_author(); ?><span class="separator">-</span><?php post_crafts_posted_on( 'F d, Y' ); ?>
 		</div>
 		<?php if ( $excerpt ) : ?>
-			<div class="entry-summary"><?php echo post_crafts_excerpt_length( the_ID(), $excerpt_length ); ?></div>
+			<div class="entry-summary"><?php echo post_crafts_excerpt_length( get_the_ID(), $excerpt_length ); ?></div>
 		<?php endif; ?>
 	</div>
 </article>

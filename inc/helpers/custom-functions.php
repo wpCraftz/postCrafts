@@ -120,7 +120,7 @@ function post_crafts_query_builder( $attributes, $paged = null ) {
 		'orderby'                => $attributes['sorting']['orderBy'],
 	);
 
-	if( isset($paged) && null !== $paged){
+	if ( null !== $paged ) {
 		$args['paged'] = $paged;
 	}
 

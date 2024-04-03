@@ -15,7 +15,7 @@ $post_list_query          = post_crafts_query_builder( $attributes );
 $fetched_posts            = new WP_Query( $post_list_query );
 $block_wrapper_attributes = get_block_wrapper_attributes(
 	array(
-		'class' => 'pcrafts-postlist-wrapper',
+		'class' => 'pcrafts-postlist-wrapper pcrafts-block',
 	)
 );
 
@@ -26,7 +26,7 @@ $max_page        = $fetched_posts->max_num_pages;
 
 ?>
 <div <?php echo wp_kses_data( $block_wrapper_attributes ); ?>>
-	<div class="pcrafts-list-items-wrapper">
+	<div class="pcrafts-list-items-wrapper pcrafts-posts-wrapper">
 		<?php
 		if ( $fetched_posts->have_posts() ) {
 			$posts_count = 0;
@@ -61,10 +61,12 @@ $max_page        = $fetched_posts->max_num_pages;
 			'block-templates/arrow' :
 			'block-templates/pagination' ),
 			array(
-				'post_query' => $post_list_query,
-				'max_page'   => $max_page,
-				'alignment'  => $attributes['paginationAlignment'],
-				'block_id'   => $attributes['blockId'],
+				'post_query'     => $post_list_query,
+				'max_page'       => $max_page,
+				'loop_template'  => 'post-list',
+				'alignment'      => $attributes['paginationAlignment'],
+				'block_id'       => $attributes['blockId'],
+				'posts_per_page' => $attributes['postsPerPage'],
 			),
 			true
 		);
