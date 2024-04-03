@@ -17,7 +17,7 @@ PostCrafts is the best news, magazine, and WordPress blog plugin that comes with
 == 🏆 FEATURES ==
 
 - 2 Gutenberg Blocks
-- Query Builder
+- Advanced Query Builder
 - Ajax Pagination
 - Excert Customization
 
@@ -36,7 +36,11 @@ Discover the power of PostCrafts' advanced query builder, where effortlessly sho
 
 ## Ajax Pagination
 
-Unlock a Trio of Ajax Pagination Options with PostCrafts: Load More, Navigation, and Numeric Pagination.
+Unlock a Trio of Ajax Pagination Options with PostCrafts: 
+
+- Load More
+- Arrow Navigation
+- Numeric Pagination.
 
 = Author =
 Developed by [wpCraftz](https://wpcraftz.com/). [Contribute to PostCrafts](https://github.com/wpCraftz/postCrafts) and join the party.
