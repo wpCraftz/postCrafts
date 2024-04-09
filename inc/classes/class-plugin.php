@@ -26,6 +26,8 @@ class Plugin {
 		Blocks::get_instance();
 		Admin::get_instance();
 		Media::get_instance();
+		Api::get_instance();
+		Style_loader::get_instance();
 
 		register_activation_hook( __FILE__, array( $this, 'activate' ) );
 		$this->setup_hooks();
@@ -110,7 +112,8 @@ class Plugin {
 
 		$localized_data = array(
 			'urls'  => array(
-				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+				'restBase' => home_url( '/wp-json' . '/' . POST_CRAFTS_REST_NAMESPACE ),
+				'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
 			),
 			'nonce' => wp_create_nonce( 'post-crafts' ),
 		);

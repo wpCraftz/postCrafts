@@ -28,6 +28,8 @@ const editorStyles = glob(
 	path.resolve( __dirname, 'src/styles/editor.scss' )
 );
 
+const editorScripts = glob( path.resolve( __dirname, 'src/editor/index.js' ) );
+
 const adminStyles = glob( path.resolve( __dirname, 'src/styles/admin.scss' ) );
 
 const frontendStyles = glob(
@@ -40,6 +42,7 @@ const styles = {
 	...defaultConfig,
 	entry: prepare( [
 		...editorStyles,
+		...editorScripts,
 		...frontendStyles,
 		...adminStyles,
 		...frontendScripts,

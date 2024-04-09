@@ -56,8 +56,24 @@
 			"default": []
 		},
 		"columns": {
-			"type": "number",
-			"default": 3
+			"type": "object",
+			"default": {
+				"value": 3
+			}
+		},
+		"columnGap": {
+			"type": "object",
+			"default": {
+				"unit": "px",
+				"value": 20
+			}
+		},
+		"rowGap": {
+			"type": "object",
+			"default": {
+				"unit": "px",
+				"value": 20
+			}
 		},
 		"excludeCurrentPost": {
 			"type": "boolean",

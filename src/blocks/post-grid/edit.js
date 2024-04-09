@@ -4,7 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { Spinner } from '@wordpress/components';
-import { useMemo, useEffect } from '@wordpress/element';
+import { useMemo, useEffect, useRef } from '@wordpress/element';
 import { decodeEntities } from '@wordpress/html-entities';
 import { dateI18n } from '@wordpress/date';
 import { useSelect } from '@wordpress/data';
@@ -20,6 +20,7 @@ import classNames from 'classnames';
  */
 import './editor.scss';
 import { useFetchPosts, getSubString } from '../../libs';
+
 import {
 	QueryBuilder,
 	GridSetttings,
@@ -27,6 +28,8 @@ import {
 	PaginationSettings,
 	ExcerptSettings,
 } from '../../components';
+
+import { styleGenerator } from '../../editor';
 
 /**
  * Module Constants
@@ -47,6 +50,7 @@ const AUTHORS_QUERY = {
  * editor. This represents what the editor will render when the block is used.
  *
  * @param {Object} props               Block props.
+ * @param {string} props.name          Block name.
  * @param {Object} props.attributes    Block's attributes.
  * @param {Object} props.setAttributes Function to set block's attributes.
  * @param {string} props.clientId      Block unique identifier.
@@ -55,8 +59,9 @@ const AUTHORS_QUERY = {
  *
  * @return {JSX} Element to render.
  */
-export default function Edit( { attributes, setAttributes, clientId } ) {
+export default function Edit( { name, attributes, setAttributes, clientId } ) {
 	const {
+		blockId,
 		postsPerPage,
 		postIds,
 		taxQuery,
@@ -64,7 +69,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		catOperator,
 		tagOperator,
 		sorting,
-		columns,
 		excerptLength,
 		pagination,
 		paginationType,
@@ -77,16 +81,22 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		orderby: sorting.orderBy,
 	};
 
+	const dynamicStyleRef = useRef( null );
 	/**
-	 * Update blockId with clientId
+	 * Add blockId
 	 */
 	useEffect( () => {
-		if ( clientId ) {
+		if ( clientId && ! blockId ) {
 			setAttributes( {
-				blockId: clientId,
+				blockId: clientId.substring( 0, 8 ),
 			} );
 		}
-	}, [ clientId, setAttributes ] );
+	}, [ clientId, setAttributes, blockId ] );
+
+	dynamicStyleRef.current = useMemo(
+		() => styleGenerator( name, attributes ),
+		[ name, attributes ]
+	);
 
 	/**
 	 * Fetch or Reorder posts
@@ -178,7 +188,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	const blockProps = useBlockProps( {
 		className: classNames(
 			'pcrafts-postgrid-wrapper',
-			`columns-${ columns }`
+			`pcrafts-block-${ blockId }`
 		),
 	} );
 
@@ -225,7 +235,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					setAttributes={ setAttributes }
 				/>
 			</InspectorControls>
-
+			<style>{ dynamicStyleRef.current }</style>
 			{ ! posts?.length ? (
 				<p { ...blockProps }>
 					{ __( 'No results found.', 'post-crafts' ) }
@@ -286,10 +296,13 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 															index === 0
 													)
 													.map(
-														( { name, link } ) => (
+														( {
+															name: catName,
+															link,
+														} ) => (
 															<span
 																rel="category tag"
-																key={ name }
+																key={ catName }
 																className="cat-links"
 															>
 																<a
@@ -297,7 +310,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 																		link
 																	}
 																>
-																	{ name }
+																	{ catName }
 																</a>
 															</span>
 														)

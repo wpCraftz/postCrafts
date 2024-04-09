@@ -25,8 +25,8 @@ const ExcerptSettings = ( { attributes, setAttributes } ) => {
 					onChange={ ( newValue ) => {
 						setAttributes( { excerptLength: newValue } );
 					} }
-					min={ 10 }
-					max={ 100 }
+					min={ 5 }
+					max={ 200 }
 				/>
 			) }
 		</PanelBody>

@@ -15,7 +15,7 @@ $post_grid_query          = post_crafts_query_builder( $attributes );
 $fetched_posts            = new WP_Query( $post_grid_query );
 $block_wrapper_attributes = get_block_wrapper_attributes(
 	array(
-		'class' => 'pcrafts-postgrid-wrapper pcrafts-block columns-' . esc_attr( $attributes['columns'] . '' ),
+		'class' => 'pcrafts-postgrid-wrapper pcrafts-block pcrafts-block-' . esc_attr( $attributes['blockId'] . '' ),
 	)
 );
 

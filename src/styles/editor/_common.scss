@@ -1,5 +1,7 @@
 .pcrafts-field {
 
+	position: relative;
+
 	.pcrafts-field-options {
 		display: flex;
 
@@ -12,6 +14,96 @@
 	.pcrafts-pagination-settings {
 		button {
 			text-transform: capitalize;
+		}
+	}
+
+	.pcrafts-field-extra-controls {
+		width: 67%;
+		display: flex;
+		align-items: flex-start;
+		gap: 10px;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+
+	&.responsive-field {
+		margin-top: 16px;
+
+		.pcrafts-devices button {
+			background-color: transparent;
+			border: none;
+			padding: 0;
+			margin-right: 1px;
+			cursor: pointer;
+
+			&.is-active, 
+			&:hover {
+				color: #007cba;
+			}
+
+			.dashicon {
+				font-size: 15px;
+			}
+		}
+	}
+
+	.pcrafts-unit-picker {
+		padding: 0;
+		margin: -2px 0 0 0;
+		width: 30px;
+
+		&.is-open {
+			z-index: 999;
+		}
+
+		.unit {
+			margin: 0;
+			width: 100%;
+			height: 24px;
+			text-align: center;
+			border: none;
+			background-color: #fff;
+			cursor: pointer;
+			font-size: 14px;
+
+			&.active-unit {
+				background: #fff;
+				padding: 0 0 2px;
+				border-radius: 2px;
+				color: #1e1e1e;
+				border: 1px solid #949494;
+			}
+		}
+			
+		button:hover, 
+		button.is-active {
+			color: #fff;
+			background-color: #007cba;
+		}
+	}
+
+	.pcrafts-units {
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		border: 1px solid #ddd;
+		border-radius: 2px;
+		box-shadow: 0 0 7px 1px rgba(0,0,0,.12);
+	}
+
+	.pcrafts-range {
+
+		&.with-extra-controls {
+
+			label {
+				margin-bottom: 0;
+			}
+		}
+
+		.components-range-control__root {
+			margin-top: 12px;
 		}
 	}
 }

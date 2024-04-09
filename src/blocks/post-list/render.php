@@ -15,7 +15,7 @@ $post_list_query          = post_crafts_query_builder( $attributes );
 $fetched_posts            = new WP_Query( $post_list_query );
 $block_wrapper_attributes = get_block_wrapper_attributes(
 	array(
-		'class' => 'pcrafts-postlist-wrapper pcrafts-block',
+		'class' => 'pcrafts-postlist-wrapper pcrafts-block pcrafts-block-' . esc_attr( $attributes['blockId'] . '' ),
 	)
 );
 

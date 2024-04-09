@@ -8,35 +8,17 @@ import { PanelBody } from '@wordpress/components';
  */
 import { Range } from '../components';
 
-const GridSetttings = ( {
+const ListSetttings = ( {
 	attributes,
 	setAttributes,
 	initialOpen = false,
 } ) => {
-	const { columns, columnGap, rowGap } = attributes;
+	const { rowGap } = attributes;
 	return (
 		<PanelBody
 			title={ __( 'Layout Settings', 'post-crafts' ) }
 			initialOpen={ initialOpen }
 		>
-			<Range
-				isResponsive
-				units={ false }
-				value={ columns }
-				max={ 10 }
-				label={ __( 'Columns', 'post-crafts' ) }
-				onChange={ ( value ) => {
-					setAttributes( { columns: value } );
-				} }
-			/>
-			<Range
-				isResponsive
-				value={ columnGap }
-				label={ __( 'Column Gap', 'post-crafts' ) }
-				onChange={ ( value ) => {
-					setAttributes( { columnGap: value } );
-				} }
-			/>
 			<Range
 				isResponsive
 				value={ rowGap }
@@ -48,4 +30,4 @@ const GridSetttings = ( {
 		</PanelBody>
 	);
 };
-export default GridSetttings;
+export default ListSetttings;

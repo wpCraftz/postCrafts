@@ -4,6 +4,7 @@
 import { decodeEntities } from '@wordpress/html-entities';
 import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import { Fragment } from '@wordpress/element';
 
 /**
  * External dependencies
@@ -114,7 +115,7 @@ const Sortable = ( {
 					</li>
 				</ul>
 				{ items.map( ( item, index ) => (
-					<>
+					<Fragment key={ item }>
 						{ Object.keys( customLabels ).length > 0 && (
 							<h4 className="custom-label">
 								{ customLabels[ index ] }
@@ -126,7 +127,7 @@ const Sortable = ( {
 							itemIndex={ index }
 							value={ item }
 						/>
-					</>
+					</Fragment>
 				) ) }
 			</SortableContainer>
 		</div>

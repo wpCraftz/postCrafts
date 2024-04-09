@@ -1,6 +1,8 @@
 export { default as QueryBuilder } from './query-builder';
 export { default as GridSetttings } from './grid-settings';
+export { default as ListSetttings } from './list-settings';
 export { default as PaginationEdit } from './edit-pagination';
 export { default as PaginationSettings } from './pagination-settings';
 export { default as Alignment } from './alignment';
+export { default as Range } from './range';
 export { default as ExcerptSettings } from './excerpt';

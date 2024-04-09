@@ -82,6 +82,13 @@
 		"excerptLength": {
 			"type": "number",
 			"default": 55
+		},
+		"rowGap": {
+			"type": "object",
+			"default": {
+				"unit": "px",
+				"value": 20
+			}
 		}
 	},
 	"keywords": [],
