@@ -204,7 +204,7 @@ class Pagination {
 		const currentActive = paginationWrapper.querySelector(
 			'.page-numbers.current'
 		);
-		currentActive.classList.remove( 'current' );
+		currentActive?.classList.remove( 'current' );
 
 		let middlePages = [];
 
@@ -216,6 +216,8 @@ class Pagination {
 			} else if ( currentPage >= 3 ) {
 				middlePages = [ currentPage - 1, currentPage, currentPage + 1 ];
 			}
+		} else if ( maxPage === 2 ) {
+			middlePages = [ 1, 2 ];
 		}
 
 		this.toggleDisplay( prevBtn, currentPage > 1 );

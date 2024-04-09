@@ -268,15 +268,17 @@ function post_crafts_pagination( $max_page, $current_page ) {
 
 	}
 
+	$middle_pages = array();
+
 	if ( $max_page >= 3 ) {
-
 		$middle_pages = array( 1, 2, 3 );
-
 		if ( $current_page >= 3 && $current_page === $max_page ) {
 			$middle_pages = array( $current_page - 2, $current_page - 1, $current_page );
 		} elseif ( $current_page >= 3 ) {
 			$middle_pages = array( $current_page - 1, $current_page, $current_page + 1 );
 		}
+	} elseif ( $max_page == 2 ) {
+		$middle_pages = array( 1, 2 );
 	}
 
 	foreach ( $middle_pages as $page ) {

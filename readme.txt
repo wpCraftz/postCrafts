@@ -4,7 +4,7 @@ Tags: post grid, gutenberg blocks, post blocks, recent posts, news
 Requires at least: 5.0    
 Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 0.1.1
+Stable tag: 0.1.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -114,6 +114,10 @@ It is a Gutenberg plugin it works great with WordPress version 5.x.x or more. An
 
 
 == Changelog ==
+
+= 0.1.2 - 09 April 2024 =
+
+- Fix: Pagination issue when max page is less than 3
 
 = 0.1.1 - 09 April 2024 =
 

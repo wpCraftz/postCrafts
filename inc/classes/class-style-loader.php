@@ -46,13 +46,12 @@ class Style_loader {
 			return;
 		}
 
-		$post_id = get_the_ID();
+		$post_id   = get_the_ID();
 		$this->css = get_post_meta( $post_id, is_preview() ? 'post-crafts-preview-style' : 'post-crafts-style', true );
 
 		if ( ! empty( $this->css ) ) {
 			add_action( 'wp_head', array( $this, 'print_css' ) );
 		}
-
 	}
 
 	/**

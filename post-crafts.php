@@ -3,7 +3,7 @@
  * Plugin Name:       PostCrafts - Gutenberg Post Blocks
  * Plugin URI:        https://wpcraftz.com/postcrafts/
  * Description:       Advanced blocks to highlight, summarize and beautifully organize your posts.
- * Version:           0.1.1
+ * Version:           0.1.2
  * Requires at least: 5.0
  * Requires PHP:      5.6
  * Author:            wpCraftz
@@ -25,7 +25,7 @@ define( 'POST_CRAFTS_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 define( 'POST_CRAFTS_BUILD', POST_CRAFTS_PATH . '/build' );
 define( 'POST_CRAFTS_REST_NAMESPACE', 'post-crafts/v1' );
 
-const POST_CRAFTS_VERSION = '0.1.1';
+const POST_CRAFTS_VERSION = '0.1.2';
 
 if ( file_exists( POST_CRAFTS_PATH . '/inc/helpers/autoloader.php' ) ) {
 	require_once POST_CRAFTS_PATH . '/inc/helpers/autoloader.php';
