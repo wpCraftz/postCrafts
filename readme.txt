@@ -43,7 +43,7 @@ Unlock a Trio of Ajax Pagination Options with PostCrafts:
 - Numeric Pagination.
 
 = Author =
-Developed by [wpCraftz](https://wpcraftz.com/). [Contribute to PostCrafts](https://github.com/wpCraftz/postCrafts) and join the party.
+Developed by [wpCraftz](https://wpcraftz.com/).
 
 = Liked PostCrafts? =
 - Join our [Facebook Group](https://www.facebook.com/groups/postcrafts/).

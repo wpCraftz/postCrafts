@@ -101,7 +101,7 @@
 		},
 		"excerptLength": {
 			"type": "number",
-			"default": 55
+			"default": 30
 		}
 	},
 	"keywords": [],

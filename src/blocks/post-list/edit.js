@@ -184,6 +184,7 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 
 	const blockProps = useBlockProps( {
 		className: classNames(
+			'pcrafts-block',
 			'pcrafts-postlist-wrapper',
 			`pcrafts-block-${ blockId }`
 		),
