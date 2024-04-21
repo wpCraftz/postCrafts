@@ -1,5 +1,10 @@
-.pcrafts-postgrid-wrapper a {
-	pointer-events: none;
+.pcrafts-postgrid-wrapper {
+
+	a {
+		pointer-events: none;
+		text-decoration: none !important;
+	}
+
 }
 
 

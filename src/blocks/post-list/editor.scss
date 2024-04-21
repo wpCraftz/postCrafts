@@ -1,3 +1,8 @@
-.pcrafts-postlist-wrapper a {
-	pointer-events: none;
+.pcrafts-postlist-wrapper {
+
+	a {
+		pointer-events: none;
+		text-decoration: none !important;
+	}
+
 }
