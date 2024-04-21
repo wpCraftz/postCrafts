@@ -11,6 +11,10 @@ import classNames from 'classnames';
 const UnitPicker = ( { units, activeUnit, onChange } ) => {
 	const [ isOpen, setIsOpen ] = useState( false );
 
+	if ( ! units ) {
+		return;
+	}
+
 	const handleMouseEnter = () => {
 		setIsOpen( true );
 	};

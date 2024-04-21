@@ -15,6 +15,7 @@ import classNames from 'classnames';
 import { useDevice } from '../hooks';
 import { deepClone } from '../libs';
 import ExtraControls from './extra-controls';
+import UnitPicker from '../components/extra-controls/unit-picker';
 
 const Range = ( {
 	label,
@@ -82,7 +83,7 @@ const Range = ( {
 				<ExtraControls
 					isResponsive={ isResponsive }
 					{ ...( units.length > 1 && {
-						units,
+						units: false,
 						activeUnit,
 						onUnitChange: ( newValue ) =>
 							updateAttribute( newValue, 'unit' ),
@@ -90,20 +91,34 @@ const Range = ( {
 				/>
 			) }
 
-			<RangeControl
-				min={ min }
-				max={ max }
-				step={ step }
-				value={ value }
-				className={ classNames( [
-					'pcrafts-range',
-					{ 'with-extra-controls': isResponsive || units.length > 1 },
-				] ) }
-				label={ label }
-				onChange={ ( newValue ) => {
-					updateAttribute( newValue );
-				} }
-			/>
+			<div className="pcrafts-range-input">
+				<RangeControl
+					min={ min }
+					max={ max }
+					step={ step }
+					value={ value }
+					className={ classNames( [
+						'pcrafts-range',
+						{
+							'with-extra-controls':
+								isResponsive || units.length > 1,
+						},
+					] ) }
+					label={ label }
+					onChange={ ( newValue ) => {
+						updateAttribute( newValue );
+					} }
+				/>
+				{ !! units && (
+					<UnitPicker
+						units={ units }
+						activeUnit={ activeUnit }
+						onChange={ ( newValue ) => {
+							updateAttribute( newValue, 'unit' );
+						} }
+					/>
+				) }
+			</div>
 		</div>
 	);
 };
