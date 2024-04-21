@@ -19,16 +19,20 @@ const styleGenerator = ( blockName, attributes ) => {
 
 	Object.keys( styleAttributes ).forEach( ( attribute ) => {
 		const {
-			value,
 			function: func,
 			selector,
-			responsive,
+			responsive = false,
+			condition = true,
 		} = styleAttributes[ attribute ];
 
-		if ( ! value ) {
+		const value = attributes[ attribute ];
+
+		if ( ! value || ! condition ) {
 			return;
 		}
+
 		const { value: desktop, unit: desktopUnit, tablet, mobile } = value;
+		let currentStyle;
 
 		if ( responsive ) {
 			if ( tablet ) {
@@ -41,11 +45,18 @@ const styleGenerator = ( blockName, attributes ) => {
 					helpers[ func ]( selector, value.mobile, desktopUnit )
 				);
 			}
+
+			currentStyle = helpers[ func ]( selector, {
+				value: desktop,
+				unit: desktopUnit,
+			} );
+		} else {
+			currentStyle = helpers[ func ]( selector, value );
 		}
 
-		style.push(
-			helpers[ func ]( selector, { value: desktop, unit: desktopUnit } )
-		);
+		if ( currentStyle ) {
+			style.push( currentStyle );
+		}
 	} );
 
 	let dynamicStyle = style.join( ' ' ).trim();

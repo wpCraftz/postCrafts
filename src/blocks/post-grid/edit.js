@@ -205,7 +205,7 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 		<>
 			<InspectorControls>
 				<GridSetttings
-					initialOpen
+					initialOpen={ false }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>
@@ -278,7 +278,11 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 												width={ featuredImgWidth }
 												height={ featuredImgHeight }
 												className={ featuredImgClass }
-												srcSet={ featuredImgSrcset }
+												srcSet={
+													featuredImgSrcset
+														? featuredImgSrcset
+														: undefined
+												}
 												sizes={ featuredImgSizes }
 												loading={ featuredImgLoading }
 												decoding={ featuredImgDecoding }

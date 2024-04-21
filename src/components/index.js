@@ -6,3 +6,4 @@ export { default as PaginationSettings } from './pagination-settings';
 export { default as Alignment } from './alignment';
 export { default as Range } from './range';
 export { default as ExcerptSettings } from './excerpt';
+export { default as ColorControl } from './color-control';

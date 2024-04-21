@@ -1,6 +1,4 @@
 export const range = ( selector, { value, unit }, fallbackUnit ) => {
-	// console.log( selector, value, unit, fallbackUnit );
-
 	let dynamicCSS = selector;
 	dynamicCSS = dynamicCSS.replace( '$value', value );
 
@@ -11,4 +9,8 @@ export const range = ( selector, { value, unit }, fallbackUnit ) => {
 	}
 
 	return dynamicCSS;
+};
+
+export const color = ( selector, value ) => {
+	return selector.replace( '$value', value );
 };

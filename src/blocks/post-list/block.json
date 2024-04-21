@@ -8,10 +8,15 @@
 	"icon": "list-view",
 	"description": "Arrange posts in list-view.",
 	"supports": {
-		"html": false,
 		"anchor": true,
+		"className": true,
 		"spacing": {
-			"margin": true
+			"margin": true,
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"margin": false,
+				"padding": false
+			}
 		}
 	},
 	"attributes": {
@@ -63,18 +68,6 @@
 			"type": "boolean",
 			"default": false
 		},
-		"pagination": {
-			"type": "boolean",
-			"default": true
-		},
-		"paginationType": {
-			"type": "string",
-			"default": "pagination"
-		},
-		"paginationAlignment": {
-			"type": "string",
-			"default": "left"
-		},
 		"excerpt": {
 			"type": "boolean",
 			"default": "true"
@@ -88,6 +81,34 @@
 			"default": {
 				"unit": "px",
 				"value": 20
+			}
+		},
+		"pagination": {
+			"type": "boolean",
+			"default": true
+		},
+		"paginationType": {
+			"type": "string",
+			"default": "pagination"
+		},
+		"paginationAlignment": {
+			"type": "string",
+			"default": "left"
+		},
+		"paginationColor": {
+			"type": "string"
+		},
+		"paginationBg": {
+			"type": "string"
+		},
+		"paginationGradient": {
+			"type": "string"
+		},
+		"paginationBorderRadius": {
+			"type": "object",
+			"default": {
+				"unit": "px",
+				"value": 2
 			}
 		}
 	},

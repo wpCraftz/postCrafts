@@ -276,7 +276,11 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 												width={ featuredImgWidth }
 												height={ featuredImgHeight }
 												className={ featuredImgClass }
-												srcSet={ featuredImgSrcset }
+												srcSet={
+													featuredImgSrcset
+														? featuredImgSrcset
+														: undefined
+												}
 												sizes={ featuredImgSizes }
 												loading={ featuredImgLoading }
 												decoding={ featuredImgDecoding }

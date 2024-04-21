@@ -8,10 +8,15 @@
 	"icon": "grid-view",
 	"description": "Arrange posts in Grids.",
 	"supports": {
-		"html": false,
 		"anchor": true,
+		"className": true,
 		"spacing": {
-			"margin": true
+			"margin": true,
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"margin": false,
+				"padding": false
+			}
 		}
 	},
 	"attributes": {
@@ -83,6 +88,14 @@
 			"type": "boolean",
 			"default": false
 		},
+		"excerpt": {
+			"type": "boolean",
+			"default": "true"
+		},
+		"excerptLength": {
+			"type": "number",
+			"default": 30
+		},
 		"pagination": {
 			"type": "boolean",
 			"default": true
@@ -95,13 +108,21 @@
 			"type": "string",
 			"default": "left"
 		},
-		"excerpt": {
-			"type": "boolean",
-			"default": "true"
+		"paginationColor": {
+			"type": "string"
 		},
-		"excerptLength": {
-			"type": "number",
-			"default": 30
+		"paginationBg": {
+			"type": "string"
+		},
+		"paginationGradient": {
+			"type": "string"
+		},
+		"paginationBorderRadius": {
+			"type": "object",
+			"default": {
+				"unit": "px",
+				"value": 2
+			}
 		}
 	},
 	"keywords": [],
