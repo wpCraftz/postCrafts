@@ -205,7 +205,7 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 		<>
 			<InspectorControls>
 				<GridSetttings
-					initialOpen={ false }
+					initialOpen
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>

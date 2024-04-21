@@ -22,9 +22,9 @@ const TABS = [
 ];
 
 const ColorGradientControl = ( {
-	className,
 	colors,
 	gradients,
+	className,
 	disableCustomColors,
 	disableCustomGradients,
 	onColorChange,

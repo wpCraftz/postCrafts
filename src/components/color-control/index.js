@@ -9,6 +9,7 @@ import {
 	FlexItem,
 	Flex,
 } from '@wordpress/components';
+import { useSettings } from '@wordpress/block-editor';
 
 /**
  * External dependencies
@@ -55,9 +56,12 @@ const renderToggle =
 	};
 
 const ColorControl = ( { settings, label, className } ) => {
+	const [ colors, gradients ] = useSettings(
+		'color.palette.theme',
+		'color.gradients.theme'
+	);
+
 	const getControlProps = ( {
-		colors,
-		gradients,
 		colorValue,
 		gradientValue,
 		onColorChange,

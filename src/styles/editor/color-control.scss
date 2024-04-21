@@ -33,5 +33,16 @@
 			}
 		}
 	}
+
+	.components-circular-option-picker {
+		margin-top: 36px;
+		position: relative;
+
+		&:before {
+			content: "Theme";
+			position: absolute;
+			top: -30px;
+		}
+	}
 }
 
