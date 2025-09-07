@@ -1,10 +1,10 @@
 === PostCrafts - Advanced Post Blocks to Highlight, Summarize and Beautifully Organize Your Posts ===
 Contributors: wpcraftz, faisalahmed29
 Tags: post grid, gutenberg blocks, post blocks, recent posts, news
-Requires at least: 5.0    
-Tested up to: 6.5
-Requires PHP: 5.6
-Stable tag: 0.2.0
+Requires at least: 5.6
+Tested up to: 6.8
+Requires PHP: 7.4
+Stable tag: 1.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -19,7 +19,7 @@ PostCrafts is the best news, magazine, and WordPress blog plugin that comes with
 - 2 Gutenberg Blocks
 - Advanced Query Builder
 - Ajax Pagination
-- Excert Customization
+- Excerpt Customization
 
 ## Advanced Query Builder
 
@@ -36,7 +36,7 @@ Discover the power of PostCrafts' advanced query builder, where effortlessly sho
 
 ## Ajax Pagination
 
-Unlock a Trio of Ajax Pagination Options with PostCrafts: 
+Unlock a Trio of Ajax Pagination Options with PostCrafts:
 
 - Load More
 - Arrow Navigation
@@ -49,7 +49,7 @@ Developed by [wpCraftz](https://wpcraftz.com/).
 - Join our [Facebook Group](https://www.facebook.com/groups/postcrafts/).
 - Learn from our tutorials on [YouTube Channel](https://www.youtube.com/@wpcraftz).
 
-### 📗 Translations 
+### 📗 Translations
 
 PostCrafts plugin is compatible with WPML Plugin and also it works perfectly with loco translate plugin. 
 You can Translate PostCrafts on [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/post-crafts/).
