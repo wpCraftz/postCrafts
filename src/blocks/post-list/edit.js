@@ -53,12 +53,19 @@ const AUTHORS_QUERY = {
  * @param {Object} props.attributes    Block's attributes.
  * @param {Object} props.setAttributes Function to set block's attributes.
  * @param {string} props.clientId      Block unique identifier.
+ * @param {Object} props.context       Block context.
  *
  * @see https://developer.wordpress.org/block-editor/developers/block-api/block-edit-save/#edit
  *
  * @return {JSX} Element to render.
  */
-export default function Edit( { name, attributes, setAttributes, clientId } ) {
+export default function Edit( {
+	name,
+	attributes,
+	setAttributes,
+	clientId,
+	context,
+} ) {
 	const {
 		blockId,
 		postsPerPage,
@@ -71,6 +78,7 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 		excerptLength,
 		pagination,
 		paginationType,
+		excludeCurrentPost,
 	} = attributes;
 
 	const customQuery = {
@@ -96,6 +104,12 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 		[ name, attributes ]
 	);
 
+	const currentPostId = useSelect(
+		( select ) =>
+			context?.postId ?? select( 'core/editor' ).getCurrentPostId(),
+		[ context?.postId ]
+	);
+
 	/**
 	 * Fetch or Reorder posts
 	 */
@@ -108,6 +122,8 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 		taxRelation,
 		catOperator,
 		tagOperator,
+		currentPostId,
+		excludeCurrentPost,
 	} );
 
 	/**
