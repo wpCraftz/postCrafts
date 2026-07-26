@@ -64,7 +64,7 @@ class Style_loader {
 		if ( ! empty( $this->css ) ) {
 			echo "\n";
 			echo '<style class="pcrafts-dynamic-styles">';
-			echo $this->css;
+			echo wp_strip_all_tags( $this->css );
 			echo '</style>';
 		}
 	}
