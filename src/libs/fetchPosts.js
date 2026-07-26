@@ -33,6 +33,8 @@ const useFetchPosts = ( props ) => {
 		catOperator,
 		tagOperator,
 		withTaxRelation,
+		currentPostId,
+		excludeCurrentPost,
 	} = props;
 
 	const postsRef = useRef( [] );
@@ -61,21 +63,23 @@ const useFetchPosts = ( props ) => {
 
 			/* eslint @wordpress/no-unused-vars-before-return: 0 */
 			const { getEntityRecords, getTaxonomies } = select( coreStore );
-			const currentPostId = select( 'core/editor' ).getCurrentPostId();
 
 			const taxonomies = getTaxonomies( {
 				per_page: -1,
 				context: 'view',
 			} );
 
-			let query = {
-				exclude: [ currentPostId ],
-			};
+			const excludeArgs =
+				excludeCurrentPost && currentPostId
+					? { exclude: [ currentPostId ] }
+					: {};
+
+			let query = { ...excludeArgs };
 
 			if ( Object.keys( customQuery ).length > 0 ) {
 				query = {
 					...customQuery,
-					exclude: [ currentPostId ],
+					...excludeArgs,
 				};
 			}
 
@@ -200,6 +204,8 @@ const useFetchPosts = ( props ) => {
 			catOperator,
 			tagOperator,
 			withTaxRelation,
+			currentPostId,
+			excludeCurrentPost,
 		]
 	);
 
