@@ -46,9 +46,7 @@ class Api {
 			array(
 				'methods'             => \WP_REST_Server::CREATABLE,
 				'callback'            => array( $this, 'save_style' ),
-				'permission_callback' => function () {
-					return current_user_can( 'edit_posts' );
-				},
+				'permission_callback' => array( $this, 'can_save_style' ),
 				'args'                => array(
 					'post_id' => array(
 						'required'    => true,
@@ -76,13 +74,26 @@ class Api {
 	}
 
 	/**
+	 * Check if the current user may save style for the given post.
+	 *
+	 * @param \WP_REST_Request $request Request object.
+	 *
+	 * @return bool
+	 */
+	public function can_save_style( $request ) {
+		$post_id = (int) $request->get_param( 'post_id' );
+
+		return $post_id && current_user_can( 'edit_post', $post_id );
+	}
+
+	/**
 	 * Save style
 	 *
 	 * @param WP_REST_Request $request
 	 */
 	function save_style( $request ) {
 		$post_id       = $request->get_param( 'post_id' );
-		$style         = $request->get_param( 'style' );
+		$style         = wp_strip_all_tags( $request->get_param( 'style' ) );
 		$block_id      = $request->get_param( 'block_id' );
 		$is_previewing = $request->get_param( 'is_previewing' );
 
