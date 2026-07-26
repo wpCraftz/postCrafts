@@ -7,6 +7,7 @@
 	"category": "post-crafts",
 	"icon": "grid-view",
 	"description": "Arrange posts in Grids.",
+	"usesContext": [ "postId", "postType" ],
 	"supports": {
 		"anchor": true,
 		"className": true,
