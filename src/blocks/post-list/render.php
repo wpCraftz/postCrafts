@@ -4,6 +4,8 @@
  *
  * @see https://github.com/WordPress/gutenberg/blob/trunk/docs/reference-guides/block-api/block-metadata.md#render
  *
+ * @param array $attributes The block attributes.
+ *
  * @package post-crafts
  */
 
@@ -21,7 +23,7 @@ $block_wrapper_attributes = get_block_wrapper_attributes(
 
 $current_post_id = get_the_ID();
 $pagination      = $attributes['pagination'];
-$paginationType  = $attributes['paginationType'];
+$pagination_type = $attributes['paginationType'];
 $max_page        = $fetched_posts->max_num_pages;
 
 ?>
@@ -55,9 +57,9 @@ $max_page        = $fetched_posts->max_num_pages;
 	<?php
 	if ( $pagination ) {
 		post_crafts_template(
-			$paginationType === 'loadmore' ?
+			'loadmore' === $pagination_type ?
 			'block-templates/loadmore' : (
-			$paginationType === 'arrow' ?
+			'arrow' === $pagination_type ?
 			'block-templates/arrow' :
 			'block-templates/pagination' ),
 			array(
