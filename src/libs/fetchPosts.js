@@ -9,7 +9,11 @@ import { store as coreStore } from '@wordpress/core-data';
  * External dependencies
  */
 import { arrayMoveImmutable } from 'array-move';
-import isEqual from 'lodash.isequal';
+
+/**
+ * Internal dependencies
+ */
+import { isEqual } from './utils';
 
 /**
  * Custom hook to fetch/reorder Posts in combination with custom Sortable component
