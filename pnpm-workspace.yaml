@@ -1,0 +1,6 @@
+allowBuilds:
+  # Only builds from source when no prebuilt binary exists; @parcel/watcher-<platform> ships one.
+  '@parcel/watcher': false
+  # postinstall only prints a funding message.
+  core-js: false
+  core-js-pure: false

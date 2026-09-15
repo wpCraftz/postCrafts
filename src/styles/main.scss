@@ -1,10 +1,10 @@
 // components
-@import "components/media";
-@import "components/common";
-@import "components/pagination";
-@import "components/post-list";
-@import "components/post-grid";
+@use "components/media";
+@use "components/common";
+@use "components/pagination";
+@use "components/post-list";
+@use "components/post-grid";
 
 // global
-@import "global";
+@use "global";
 

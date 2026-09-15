@@ -1,5 +1,5 @@
 === PostCrafts - Advanced Post Blocks to Highlight, Summarize and Beautifully Organize Your Posts ===
-Contributors: wpcraftz, faisalahmed29
+Contributors: faisalahmed29, wpcraftz
 Tags: post grid, gutenberg blocks, post blocks, recent posts, news
 Requires at least: 5.6
 Tested up to: 6.8

@@ -3,6 +3,7 @@
 	"version": "1.0.0",
 	"description": "PostCrafts - Advanced Post Layout Blocks",
 	"main": "build/index.js",
+	"packageManager": "pnpm@12.4.1",
 	"files": [
 		"inc",
 		"languages",

@@ -1,15 +1,15 @@
 // components
-@import "components/media";
-@import "components/common";
-@import "components/post-list";
-@import "components/post-grid";
-@import "editor/common";
-@import "editor/alignment";
-@import "editor/pagination";
-@import "editor/color-control";
+@use "components/media";
+@use "components/common";
+@use "components/post-list";
+@use "components/post-grid";
+@use "editor/common" as editor-common;
+@use "editor/alignment";
+@use "editor/pagination";
+@use "editor/color-control";
 
 // global
-@import "global";
+@use "global";
 
 
 .post-crafts-pagination-settings {

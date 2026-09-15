@@ -10,6 +10,24 @@ const { sync: glob } = require( 'fast-glob' );
 // Import the original config from the @wordpress/scripts package.
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 
+/**
+ * Silence Dart Sass "legacy JS API" deprecation warnings.
+ * sass-loader@12 (bundled with @wordpress/scripts@27) only supports the legacy API.
+ */
+defaultConfig.module.rules.forEach( ( rule ) => {
+	rule.use?.forEach?.( ( loader ) => {
+		if ( loader?.loader?.includes( 'sass-loader' ) ) {
+			loader.options = {
+				...loader.options,
+				sassOptions: {
+					...loader.options?.sassOptions,
+					silenceDeprecations: [ 'legacy-js-api' ],
+				},
+			};
+		}
+	} );
+} );
+
 const prepare = ( props = [], depth = 3 ) => {
 	return Object.fromEntries(
 		props.map( ( entry ) => [
