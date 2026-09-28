@@ -2,8 +2,9 @@
 Contributors: faisalahmed29, wpcraftz
 Tags: post grid, gutenberg blocks, post blocks, recent posts, news
 Requires at least: 5.6
-Tested up to: 6.8
+Tested up to: 7.1
 Requires PHP: 7.4
+Tested up to PHP: 8.3
 Stable tag: 1.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
