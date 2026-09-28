@@ -70,7 +70,7 @@
 		},
 		"excerpt": {
 			"type": "boolean",
-			"default": "true"
+			"default": true
 		},
 		"excerptLength": {
 			"type": "number",
