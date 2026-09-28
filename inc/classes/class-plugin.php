@@ -27,7 +27,7 @@ class Plugin {
 		Admin::get_instance();
 		Media::get_instance();
 		Api::get_instance();
-		Style_loader::get_instance();
+		Style_Loader::get_instance();
 
 		register_activation_hook( __FILE__, array( $this, 'activate' ) );
 		$this->setup_hooks();
@@ -63,7 +63,7 @@ class Plugin {
 		add_action( 'init', array( $this, 'localize_scripts' ), 1 );
 		add_action( 'init', array( $this, 'load_textdomain' ), 9999 );
 
-		// ajax_pagination
+		// AJAX pagination.
 		add_action( 'wp_ajax_paginate_posts', array( $this, 'post_crafts_pagination' ) );
 		add_action( 'wp_ajax_nopriv_paginate_posts', array( $this, 'post_crafts_pagination' ) );
 	}
@@ -72,19 +72,29 @@ class Plugin {
 	 * Ajax pagination related stuffs.
 	 */
 	public function post_crafts_pagination() {
-		if ( ! isset( $_POST['_ajax_nonce'] ) || ! wp_verify_nonce( $_POST['_ajax_nonce'], 'post-crafts' ) ) {
+		if ( ! isset( $_POST['_ajax_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_ajax_nonce'] ) ), 'post-crafts' ) ) {
 			return;
 		}
 
-		$attributes    = post_crafts_get_block_attributes( $_POST['postId'], $_POST['blockId'] );
-		$fetched_posts = new \WP_Query( $_POST['query'] );
+		$post_id  = isset( $_POST['postId'] ) ? absint( $_POST['postId'] ) : 0;
+		$block_id = isset( $_POST['blockId'] ) ? sanitize_text_field( wp_unslash( $_POST['blockId'] ) ) : '';
+		$template = isset( $_POST['template'] ) ? sanitize_key( wp_unslash( $_POST['template'] ) ) : '';
+		$query    = isset( $_POST['query'] ) && is_array( $_POST['query'] ) ? wp_unslash( $_POST['query'] ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized by post_crafts_sanitize_query_args().
+
+		// Only the loop templates can be requested.
+		if ( ! in_array( $template, array( 'post-grid', 'post-list' ), true ) ) {
+			wp_send_json_error( array( __( 'Invalid template', 'post-crafts' ) ), 400 );
+		}
+
+		$attributes    = post_crafts_get_block_attributes( $post_id, $block_id );
+		$fetched_posts = new \WP_Query( post_crafts_sanitize_query_args( $query ) );
 
 		if ( $fetched_posts->have_posts() ) {
 			$new_posts = array();
 			while ( $fetched_posts->have_posts() ) {
 				$fetched_posts->the_post();
 				$new_posts[] = post_crafts_template(
-					'block-templates/' . $_POST['template'],
+					'block-templates/' . $template,
 					array(
 						'excerpt'        => $attributes['excerpt'],
 						'excerpt_length' => $attributes['excerptLength'],
@@ -112,7 +122,7 @@ class Plugin {
 
 		$localized_data = array(
 			'urls'  => array(
-				'restBase' => home_url( '/wp-json' . '/' . POST_CRAFTS_REST_NAMESPACE ),
+				'restBase' => home_url( '/wp-json/' . POST_CRAFTS_REST_NAMESPACE ),
 				'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
 			),
 			'nonce' => wp_create_nonce( 'post-crafts' ),

@@ -1,6 +1,8 @@
 <?php
 /**
  * Loadmore Pagination Template.
+ *
+ * @package post-crafts
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,8 +18,8 @@ $loop_template  = isset( $loop_template ) ? $loop_template : 'post-grid';
 
 ?>
 
-<div class="pcrafts-pagination pcrafts-loadmore <?php echo esc_attr( $alignment ); ?>" 
-	data-query="<?php echo esc_attr( json_encode( $post_query ) ); ?>"	
+<div class="pcrafts-pagination pcrafts-loadmore <?php echo esc_attr( $alignment ); ?>"
+	data-query="<?php echo esc_attr( wp_json_encode( $post_query ) ); ?>"
 	data-page="1"
 	data-max-page="<?php echo esc_attr( $max_page ); ?>"
 	data-posts-per-page="<?php echo esc_attr( $posts_per_page ); ?>"
@@ -25,5 +27,5 @@ $loop_template  = isset( $loop_template ) ? $loop_template : 'post-grid';
 	data-block-id="<?php echo esc_attr( $block_id ); ?>"
 	data-template="<?php echo esc_attr( $loop_template ); ?>"
 >
-	<button class="pcrafts-loadmore-btn"><?php echo __( 'Load More', 'post-crafts' ); ?></button>
+	<button class="pcrafts-loadmore-btn"><?php esc_html_e( 'Load More', 'post-crafts' ); ?></button>
 </div>

@@ -1,6 +1,8 @@
 <?php
 /**
  * Pagination Template.
+ *
+ * @package post-crafts
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,7 +19,7 @@ $loop_template = isset( $loop_template ) ? $loop_template : 'post-grid';
 ?>
 
 <div class="pcrafts-pagination pcrafts-numberic <?php echo esc_attr( $alignment ); ?>"
-	data-query="<?php echo esc_attr( json_encode( $post_query ) ); ?>"
+	data-query="<?php echo esc_attr( wp_json_encode( $post_query ) ); ?>"
 	data-page="<?php echo esc_attr( $current_page ); ?>"
 	data-max-page="<?php echo esc_attr( $max_page ); ?>"
 	data-post-id="<?php echo esc_attr( get_the_ID() ); ?>"
@@ -25,6 +27,6 @@ $loop_template = isset( $loop_template ) ? $loop_template : 'post-grid';
 	data-template="<?php echo esc_attr( $loop_template ); ?>"
 	>
 	<?php
-		echo post_crafts_pagination( $max_page, $current_page );
+	echo post_crafts_pagination( $max_page, $current_page ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Markup is escaped in post_crafts_pagination().
 	?>
 </div>

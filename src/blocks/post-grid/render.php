@@ -76,7 +76,7 @@ $max_page        = $fetched_posts->max_num_pages;
 		);
 
 	}
-	wp_reset_query();
+	wp_reset_postdata();
 	?>
 </div>
 <?php
