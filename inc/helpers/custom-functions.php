@@ -124,8 +124,8 @@ function post_crafts_query_builder( $attributes, $paged = null ) {
 		$args['paged'] = $paged;
 	}
 
-	if ( isset( $attributes['post_type'] ) ) {
-		$args['post_type'] = $attributes['post_type'];
+	if ( ! empty( $attributes['postType'] ) && is_post_type_viewable( $attributes['postType'] ) ) {
+		$args['post_type'] = $attributes['postType'];
 	}
 
 	if ( isset( $attributes['ignoreSticky'] ) && true === $attributes['ignoreSticky'] ) {
@@ -435,16 +435,44 @@ function post_crafts_get_block_attributes( $post_id, $block_id ) {
 		return $attributes;
 	}
 
-	if ( has_blocks( $post->post_content ) ) {
-		$blocks = parse_blocks( $post->post_content );
+	if ( ! has_blocks( $post->post_content ) ) {
+		return $attributes;
+	}
 
-		foreach ( $blocks as $block ) {
-			if ( $block_id === $block['attrs']['blockId'] ) {
-				$attributes = $block['attrs'];
-				break;
+	$block = post_crafts_find_block( parse_blocks( $post->post_content ), $block_id );
+
+	if ( ! $block ) {
+		return $attributes;
+	}
+
+	// Saved markup omits default values, so fill them in from block.json.
+	$block_type = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
+
+	return $block_type ? $block_type->prepare_attributes_for_render( $block['attrs'] ) : $block['attrs'];
+}
+
+/**
+ * Find a PostCrafts block by its blockId, searching nested blocks too.
+ *
+ * @param array  $blocks   Parsed blocks.
+ * @param string $block_id Block ID.
+ *
+ * @return array|null The block, or null if not found.
+ */
+function post_crafts_find_block( $blocks, $block_id ) {
+	foreach ( $blocks as $block ) {
+		if ( isset( $block['attrs']['blockId'] ) && $block_id === $block['attrs']['blockId'] ) {
+			return $block;
+		}
+
+		if ( ! empty( $block['innerBlocks'] ) ) {
+			$found = post_crafts_find_block( $block['innerBlocks'], $block_id );
+
+			if ( $found ) {
+				return $found;
 			}
 		}
 	}
 
-	return $attributes;
+	return null;
 }

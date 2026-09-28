@@ -32,8 +32,15 @@ subscribe( () => {
 			return;
 		}
 
+		// Template IDs in the site editor aren't numeric, and the style
+		// endpoint only stores CSS for posts.
+		const postId = getCurrentPostId();
+		if ( ! Number.isInteger( postId ) ) {
+			return;
+		}
+
 		const style = parseStyle();
-		updateStyle( getCurrentPostId(), 'all', style, isPreviewingPost() );
+		updateStyle( postId, 'all', style, isPreviewingPost() );
 		timeStamp = Date.now();
 	}
 } );

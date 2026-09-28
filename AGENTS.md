@@ -72,9 +72,5 @@ webpack.config.js                [default blocks config, extra entries for style
 Registration is automatic.
 
 ## Known issues (verified; fix deliberately, don't rediscover)
-- `post_crafts_query_builder()` reads `$attributes['post_type']`, but the attribute is `postType`, so the front end always queries `post`.
-- `fetchPosts.js` sends tag `NOT IN` as `categories_exclude` instead of `tags_exclude`.
-- Current post: the editor always excludes it, while the front end excludes it only when `excludeCurrentPost` is set. `render.php` also skips `get_the_ID()` in the loop.
-- Nested blocks (inside Group/Columns) get no saved CSS, because the collector uses top-level `getBlocks()`. They also get empty attributes in AJAX, because `post_crafts_get_block_attributes()` only scans top-level blocks.
-- `post_crafts_get_block_attributes()` returns only saved attributes, not `block.json` defaults, so AJAX-loaded pages show no excerpt when the block uses the default excerpt setting.
-- The REST style route's `edit_post` check returns 403 in the site editor, where the post ID isn't numeric.
+- Blocks in site editor templates get no saved CSS: the style save is skipped when the post ID isn't numeric.
+- Blocks outside the post content (e.g. template parts) use `block.json` defaults for AJAX pages, not their saved attributes.

@@ -73,6 +73,7 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 		pagination,
 		paginationType,
 		paginationAlignment,
+		excludeCurrentPost,
 	} = attributes;
 
 	const customQuery = {
@@ -107,6 +108,7 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 		postsPerPage,
 		taxQuery,
 		withTaxRelation: true,
+		excludeCurrentPost,
 		taxRelation,
 		catOperator,
 		tagOperator,
