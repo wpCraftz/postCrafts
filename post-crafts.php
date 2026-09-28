@@ -20,6 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+define( 'POST_CRAFTS_FILE', __FILE__ );
 define( 'POST_CRAFTS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'POST_CRAFTS_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 define( 'POST_CRAFTS_BUILD', POST_CRAFTS_PATH . '/build' );
