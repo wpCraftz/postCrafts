@@ -74,6 +74,7 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 		excerptLength,
 		pagination,
 		paginationType,
+		paginationAlignment,
 		excludeCurrentPost,
 	} = attributes;
 
@@ -284,7 +285,12 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 				<div className="pcrafts-list-items-wrapper">
 					{ blockContexts.map( renderPost ) }
 				</div>
-				{ pagination && <PaginationEdit type={ paginationType } /> }
+				{ pagination && (
+					<PaginationEdit
+						type={ paginationType }
+						alignment={ paginationAlignment }
+					/>
+				) }
 			</>
 		);
 	}
