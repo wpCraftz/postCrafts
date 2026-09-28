@@ -24,7 +24,6 @@ class Plugin {
 		// Load plugin classes.
 		Assets::get_instance();
 		Blocks::get_instance();
-		Admin::get_instance();
 		Media::get_instance();
 		Api::get_instance();
 		Style_Loader::get_instance();

@@ -27,6 +27,7 @@ import {
 	ExcerptSettings,
 	ListSetttings,
 } from '../../components';
+import StyleSettings from '../../components/style-settings';
 
 import styleGenerator from '../../editor/style-generator';
 
@@ -232,6 +233,12 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 					setAttributes={ setAttributes }
 				/>
 				<ExcerptSettings
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
+			</InspectorControls>
+			<InspectorControls group="styles">
+				<StyleSettings
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>

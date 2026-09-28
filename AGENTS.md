@@ -36,7 +36,6 @@ inc/classes/
   class-api.php                  REST post-crafts/v1/style (save/get block CSS)
   class-style-loader.php         prints saved CSS in wp_head
   class-media.php                thumb-* image sizes (templates use thumb-330x185)
-  class-admin.php                placeholder "PostCrafts" admin page
 inc/helpers/custom-functions.php post_crafts_*(): query builder, template loader, pagination markup, block-attr lookup
 inc/templates/block-templates/   post-grid.php / post-list.php (loop item), pagination|loadmore|arrow.php
 src/blocks/<block>/              block.json, edit.js (editor preview), render.php (front end), save.js → null

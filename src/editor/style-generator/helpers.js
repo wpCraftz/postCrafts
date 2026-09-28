@@ -1,4 +1,9 @@
-export const range = ( selector, { value, unit }, fallbackUnit ) => {
+export const range = ( selector, { value, unit } = {}, fallbackUnit ) => {
+	// Optional attributes (no default) may hold only a unit or a device value.
+	if ( value === undefined || value === null || value === '' ) {
+		return '';
+	}
+
 	let dynamicCSS = selector;
 	dynamicCSS = dynamicCSS.replace( '$value', value );
 

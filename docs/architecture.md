@@ -9,7 +9,7 @@ post-crafts.php
  ├─ require inc/helpers/autoloader.php        spl_autoload for PostCrafts\Blocks\*
  ├─ require inc/helpers/custom-functions.php  global post_crafts_*() helpers
  └─ Plugin::get_instance()
-      ├─ Assets, Blocks, Admin, Media, Api, Style_loader ::get_instance()   each registers its hooks
+      ├─ Assets, Blocks, Media, Api, Style_loader ::get_instance()   each registers its hooks
       └─ Plugin::setup_hooks()
 ```
 

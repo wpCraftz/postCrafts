@@ -110,9 +110,35 @@
 				"unit": "px",
 				"value": 2
 			}
+		},
+		"categoryColor": {
+			"type": "string"
+		},
+		"titleColor": {
+			"type": "string"
+		},
+		"titleHoverColor": {
+			"type": "string"
+		},
+		"metaColor": {
+			"type": "string"
+		},
+		"excerptColor": {
+			"type": "string"
+		},
+		"titleFontSize": {
+			"type": "object"
 		}
 	},
-	"keywords": [],
+	"keywords": [
+		"posts",
+		"post list",
+		"postlist",
+		"list",
+		"latest posts",
+		"query",
+		"postcrafts"
+	],
 	"textdomain": "post-crafts",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

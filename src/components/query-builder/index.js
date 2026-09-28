@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useState, useEffect, useRef } from '@wordpress/element';
+import { useState, useRef } from '@wordpress/element';
 
 import {
 	PanelBody,
@@ -70,49 +70,74 @@ const PostBlockSettings = ( {
 
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 	const [ isSortingModalOpen, setIsSortingModalOpen ] = useState( false );
-	const [ selectedPosts, setSelectedPosts ] = useState( postIds );
+	// Draft selection edited inside the modal; written to `postIds` only on insert.
+	const [ draftPostIds, setDraftPostIds ] = useState( postIds );
 
 	const paginationRef = useRef( pagination );
 
-	useEffect( () => {
-		setSelectedPosts( postIds );
-	}, [ postIds ] );
+	const openPostSelectModal = () => {
+		setDraftPostIds( postIds );
+		setIsModalOpen( true );
+	};
+
+	const closePostSelectModal = () => {
+		setIsModalOpen( false );
+	};
 
 	/**
-	 * Save Selected Post.
+	 * Toggle a post in the draft selection.
 	 *
-	 * @param {Object}  post  Selected post data.
-	 * @param {boolean} close Flag to close the modal.
+	 * @param {Object} post Clicked post.
 	 */
-	const onPostSelection = ( post, close = false ) => {
-		if ( close ) {
-			setAttributes( { postIds: selectedPosts } );
-			setIsModalOpen( false );
-			return;
-		}
-
-		if ( selectedPosts.includes( post.id ) ) {
-			setSelectedPosts(
-				selectedPosts.filter(
+	const toggleDraftPost = ( post ) => {
+		if ( draftPostIds.includes( post.id ) ) {
+			setDraftPostIds(
+				draftPostIds.filter(
 					( currentPostId ) => currentPostId !== post.id
 				)
 			);
-		} else {
-			setSelectedPosts( [ ...selectedPosts, post.id ] );
+			return;
 		}
-		if ( typeof pagination !== 'undefined' ) {
-			setAttributes( { pagination: false } );
+
+		if ( postsPerPage && draftPostIds.length >= postsPerPage ) {
+			return;
 		}
+
+		setDraftPostIds( [ ...draftPostIds, post.id ] );
 	};
 
 	const clearAll = () => {
 		setAttributes( { postIds: [] } );
-		setSelectedPosts( [] );
+		setDraftPostIds( [] );
 		if ( typeof pagination !== 'undefined' ) {
 			setAttributes( {
 				pagination: paginationRef.current ?? pagination,
 			} );
 			paginationRef.current = null;
+		}
+	};
+
+	/**
+	 * Write the draft selection to the block and close the modal.
+	 */
+	const insertDraftPosts = () => {
+		setIsModalOpen( false );
+
+		if ( ! draftPostIds.length ) {
+			if ( postIds.length ) {
+				clearAll();
+			}
+			return;
+		}
+
+		setAttributes( { postIds: draftPostIds } );
+
+		if ( typeof pagination !== 'undefined' ) {
+			// Remember the pagination setting so Clear can restore it.
+			if ( ! postIds.length ) {
+				paginationRef.current = pagination;
+			}
+			setAttributes( { pagination: false } );
 		}
 	};
 
@@ -124,14 +149,14 @@ const PostBlockSettings = ( {
 		return (
 			<Modal
 				title={ __( 'Select Posts', 'post-crafts' ) }
-				onRequestClose={ () => {
-					setAttributes( { postIds: selectedPosts } );
-					setIsModalOpen( false );
-				} }
+				onRequestClose={ closePostSelectModal }
 			>
 				<PostSelector
-					onPostSelect={ onPostSelection }
-					postIds={ selectedPosts }
+					onPostSelect={ toggleDraftPost }
+					onInsert={ insertDraftPosts }
+					onCancel={ closePostSelectModal }
+					canInsertEmpty={ postIds.length > 0 }
+					postIds={ draftPostIds }
 					limit={ postsPerPage }
 				/>
 			</Modal>
@@ -174,9 +199,9 @@ const PostBlockSettings = ( {
 						icon="search"
 						iconPosition="right"
 						className="post-selector-trigger"
-						onClick={ () => setIsModalOpen( true ) }
+						onClick={ openPostSelectModal }
 					>
-						{ selectedPosts.length > 0
+						{ postIds.length > 0
 							? __( 'Modify Selection', 'post-crafts' )
 							: __( 'Select Posts', 'post-crafts' ) }
 					</Button>
