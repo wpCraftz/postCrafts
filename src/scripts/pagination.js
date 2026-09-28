@@ -2,13 +2,31 @@
 
 /**
  * Pagination related scripts.
+ *
+ * Each `.pcrafts-pagination` wrapper handles its own clicks through event
+ * delegation. A wrapper runs one request at a time: clicks made while a request
+ * is in flight are ignored, so a double click can't load the same page twice.
  */
 class Pagination {
 	constructor() {
 		this.paginationWrappers = document.querySelectorAll(
 			'.pcrafts-pagination'
 		);
+		this.busyWrappers = new WeakSet();
 		this.init();
+	}
+
+	/**
+	 * Get the posts container of a pagination wrapper.
+	 *
+	 * @param {HTMLElement} paginationWrapper Pagination wrapper
+	 *
+	 * @return {HTMLElement|null} Posts container.
+	 */
+	getPostsContainer( paginationWrapper ) {
+		const block = paginationWrapper.closest( '.pcrafts-block' );
+
+		return block ? block.querySelector( '.pcrafts-posts-wrapper' ) : null;
 	}
 
 	/**
@@ -19,14 +37,63 @@ class Pagination {
 	 * @param {boolean}     loadmore          Loadmore flag
 	 */
 	updateMarkup( paginationWrapper, newPosts, loadmore = false ) {
-		const postsContainer = paginationWrapper
-			.closest( '.pcrafts-block' )
-			.querySelector( '.pcrafts-posts-wrapper' );
+		const postsContainer = this.getPostsContainer( paginationWrapper );
 
 		if ( loadmore ) {
 			jQuery( postsContainer ).append( newPosts );
 		} else {
 			jQuery( postsContainer ).html( newPosts );
+		}
+	}
+
+	/**
+	 * Toggle the loading state of a wrapper and its posts container.
+	 *
+	 * @param {HTMLElement} paginationWrapper Pagination wrapper
+	 * @param {boolean}     loading           Loading flag
+	 */
+	setLoading( paginationWrapper, loading ) {
+		const postsContainer = this.getPostsContainer( paginationWrapper );
+
+		if ( loading ) {
+			this.busyWrappers.add( paginationWrapper );
+		} else {
+			this.busyWrappers.delete( paginationWrapper );
+		}
+
+		paginationWrapper.classList.toggle( 'is-loading', loading );
+
+		if ( postsContainer ) {
+			postsContainer.classList.toggle( 'is-loading', loading );
+			if ( loading ) {
+				postsContainer.setAttribute( 'aria-busy', 'true' );
+			} else {
+				postsContainer.removeAttribute( 'aria-busy' );
+			}
+		}
+	}
+
+	/**
+	 * Fetch a page, ignoring the call while the wrapper is already loading.
+	 *
+	 * @param {number}      page              Page number
+	 * @param {HTMLElement} paginationWrapper Pagination wrapper
+	 *
+	 * @return {Promise<Object|null>} AJAX response, or null when skipped or failed.
+	 */
+	async request( page, paginationWrapper ) {
+		if ( this.busyWrappers.has( paginationWrapper ) ) {
+			return null;
+		}
+
+		this.setLoading( paginationWrapper, true );
+
+		try {
+			return await this.fetchPosts( page, paginationWrapper );
+		} catch ( error ) {
+			return null;
+		} finally {
+			this.setLoading( paginationWrapper, false );
 		}
 	}
 
@@ -51,19 +118,59 @@ class Pagination {
 			},
 		};
 
-		const response = await jQuery.post(
-			POSTCRAFTS.urls.ajaxUrl,
-			data,
-			( res ) => {
-				return res;
-			}
-		);
+		const response = await jQuery.post( POSTCRAFTS.urls.ajaxUrl, data );
 
-		if ( response.success ) {
+		if ( response && response.success ) {
 			paginationWrapper.setAttribute( 'data-page', page );
 		}
 
 		return response;
+	}
+
+	/**
+	 * Bring replaced posts into view and move focus to them.
+	 *
+	 * Scrolls only when the block top is above the viewport, so a short block
+	 * that is already visible doesn't jump.
+	 *
+	 * @param {HTMLElement} paginationWrapper Pagination wrapper
+	 */
+	revealPosts( paginationWrapper ) {
+		const block = paginationWrapper.closest( '.pcrafts-block' );
+		const postsContainer = this.getPostsContainer( paginationWrapper );
+
+		if ( postsContainer ) {
+			if ( ! postsContainer.hasAttribute( 'tabindex' ) ) {
+				postsContainer.setAttribute( 'tabindex', '-1' );
+			}
+			postsContainer.focus( { preventScroll: true } );
+		}
+
+		if ( block && block.getBoundingClientRect().top < 0 ) {
+			const reduceMotion =
+				window.matchMedia &&
+				window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
+
+			block.scrollIntoView( {
+				behavior: reduceMotion ? 'auto' : 'smooth',
+				block: 'start',
+			} );
+		}
+	}
+
+	/**
+	 * Enable or disable a button with both the attribute and the legacy class.
+	 *
+	 * @param {HTMLElement|null} button   Button element
+	 * @param {boolean}          disabled Flag
+	 */
+	setDisabled( button, disabled ) {
+		if ( ! button ) {
+			return;
+		}
+
+		button.disabled = disabled;
+		button.classList.toggle( 'disabled', disabled );
 	}
 
 	/**
@@ -72,32 +179,63 @@ class Pagination {
 	 * @param {HTMLElement} paginationWrapper
 	 */
 	handleLoadMore( paginationWrapper ) {
-		const loadmoreBtn = paginationWrapper.querySelector(
-			'.pcrafts-loadmore-btn'
-		);
+		paginationWrapper.addEventListener( 'click', ( e ) => {
+			const loadmoreBtn = e.target.closest( '.pcrafts-loadmore-btn' );
 
-		if ( loadmoreBtn ) {
-			loadmoreBtn.addEventListener( 'click', ( e ) => {
-				e.preventDefault();
-				const { postsPerPage, page } = paginationWrapper.dataset;
+			if ( ! loadmoreBtn || ! paginationWrapper.contains( loadmoreBtn ) ) {
+				return;
+			}
 
-				const response = this.fetchPosts(
-					parseInt( page ) + 1,
-					paginationWrapper
-				);
+			e.preventDefault();
 
-				response.then( ( res ) => {
-					if ( res.success ) {
-						this.updateMarkup( paginationWrapper, res.data, true );
-					} else if (
-						! res.success ||
-						res.data.length < postsPerPage
-					) {
-						loadmoreBtn.classList.add( 'disabled' );
+			if (
+				loadmoreBtn.disabled ||
+				loadmoreBtn.classList.contains( 'disabled' )
+			) {
+				return;
+			}
+
+			const { postsPerPage, maxPage } = paginationWrapper.dataset;
+			const nextPage = parseInt( paginationWrapper.dataset.page, 10 ) + 1;
+			const postsContainer = this.getPostsContainer( paginationWrapper );
+			const countBefore = postsContainer
+				? postsContainer.children.length
+				: 0;
+
+			this.request( nextPage, paginationWrapper ).then( ( res ) => {
+				if ( ! res ) {
+					return;
+				}
+
+				if ( ! res.success ) {
+					this.setDisabled( loadmoreBtn, true );
+					return;
+				}
+
+				this.updateMarkup( paginationWrapper, res.data, true );
+
+				const max = parseInt( maxPage, 10 );
+				const isLastPage =
+					( ! isNaN( max ) && nextPage >= max ) ||
+					( Array.isArray( res.data ) &&
+						res.data.length < parseInt( postsPerPage, 10 ) );
+
+				if ( isLastPage ) {
+					this.setDisabled( loadmoreBtn, true );
+
+					// The focused button just became disabled; hand focus to the first new post.
+					const firstNew = postsContainer
+						? postsContainer.children[ countBefore ]
+						: null;
+					if ( firstNew ) {
+						if ( ! firstNew.hasAttribute( 'tabindex' ) ) {
+							firstNew.setAttribute( 'tabindex', '-1' );
+						}
+						firstNew.focus( { preventScroll: true } );
 					}
-				} );
+				}
 			} );
-		}
+		} );
 	}
 
 	/**
@@ -113,55 +251,34 @@ class Pagination {
 			'button.pcrafts-next'
 		);
 
-		if ( prevBtn ) {
-			prevBtn.addEventListener( 'click', ( e ) => {
-				e.preventDefault();
-				const { page } = paginationWrapper.dataset;
+		paginationWrapper.addEventListener( 'click', ( e ) => {
+			const button = e.target.closest( 'button' );
 
-				const response = this.fetchPosts(
-					parseInt( page ) - 1,
-					paginationWrapper
-				);
+			if ( ! button || ( button !== prevBtn && button !== nextBtn ) ) {
+				return;
+			}
 
-				response.then( ( res ) => {
-					if ( res.success ) {
-						this.updateMarkup( paginationWrapper, res.data, false );
-						if ( parseInt( page ) - 1 === 1 ) {
-							prevBtn.classList.add( 'disabled' );
-						}
+			e.preventDefault();
 
-						if ( nextBtn.classList.contains( 'disabled' ) ) {
-							nextBtn.classList.remove( 'disabled' );
-						}
-					}
-				} );
+			if ( button.disabled || button.classList.contains( 'disabled' ) ) {
+				return;
+			}
+
+			const page = parseInt( paginationWrapper.dataset.page, 10 );
+			const maxPage = parseInt( paginationWrapper.dataset.maxPage, 10 );
+			const nextPage = button === prevBtn ? page - 1 : page + 1;
+
+			this.request( nextPage, paginationWrapper ).then( ( res ) => {
+				if ( ! res || ! res.success ) {
+					return;
+				}
+
+				this.updateMarkup( paginationWrapper, res.data, false );
+				this.setDisabled( prevBtn, nextPage <= 1 );
+				this.setDisabled( nextBtn, nextPage >= maxPage );
+				this.revealPosts( paginationWrapper );
 			} );
-		}
-
-		if ( nextBtn ) {
-			nextBtn.addEventListener( 'click', ( e ) => {
-				e.preventDefault();
-				const { page, maxPage } = paginationWrapper.dataset;
-
-				const response = this.fetchPosts(
-					parseInt( page ) + 1,
-					paginationWrapper
-				);
-
-				response.then( ( res ) => {
-					if ( res.success ) {
-						this.updateMarkup( paginationWrapper, res.data, false );
-						if ( parseInt( page ) + 1 >= maxPage ) {
-							nextBtn.classList.add( 'disabled' );
-						}
-
-						if ( prevBtn.classList.contains( 'disabled' ) ) {
-							prevBtn.classList.remove( 'disabled' );
-						}
-					}
-				} );
-			} );
-		}
+		} );
 	}
 
 	/**
@@ -183,6 +300,19 @@ class Pagination {
 	}
 
 	/**
+	 * Set a page item's number, keeping the label inside its button.
+	 *
+	 * @param {HTMLElement} item Page item (li)
+	 * @param {number}      page Page number
+	 */
+	setPageNumber( item, page ) {
+		const target = item.querySelector( 'button' ) || item;
+
+		target.textContent = page;
+		item.setAttribute( 'data-page', page );
+	}
+
+	/**
 	 * Update Pagination Pages
 	 *
 	 * @param {HTMLElement} paginationWrapper Wrapper element
@@ -201,10 +331,13 @@ class Pagination {
 		const lastPage = paginationWrapper.querySelector(
 			'.page-numbers.last-page'
 		);
-		const currentActive = paginationWrapper.querySelector(
-			'.page-numbers.current'
-		);
-		currentActive?.classList.remove( 'current' );
+
+		paginationWrapper
+			.querySelectorAll( '.page-numbers.current' )
+			.forEach( ( item ) => item.classList.remove( 'current' ) );
+		paginationWrapper
+			.querySelectorAll( '[aria-current]' )
+			.forEach( ( item ) => item.removeAttribute( 'aria-current' ) );
 
 		let middlePages = [];
 
@@ -227,17 +360,20 @@ class Pagination {
 		this.toggleDisplay( lastPage, maxPage > currentPage + 1 );
 		this.toggleDisplay( nextBtn, maxPage !== currentPage );
 
-		prevBtn.setAttribute( 'data-page', currentPage - 1 );
-		nextBtn.setAttribute( 'data-page', currentPage + 1 );
+		prevBtn?.setAttribute( 'data-page', currentPage - 1 );
+		nextBtn?.setAttribute( 'data-page', currentPage + 1 );
 
 		paginationWrapper
 			.querySelectorAll( '.middle-pages' )
 			.forEach( ( page, index ) => {
-				page.innerHTML = middlePages[ index ];
-				page.setAttribute( 'data-page', middlePages[ index ] );
+				this.setPageNumber( page, middlePages[ index ] );
 
 				if ( middlePages[ index ] === currentPage ) {
 					page.classList.add( 'current' );
+					( page.querySelector( 'button' ) || page ).setAttribute(
+						'aria-current',
+						'page'
+					);
 				}
 			} );
 	}
@@ -248,26 +384,37 @@ class Pagination {
 	 * @param {HTMLElement} paginationWrapper
 	 */
 	handlePagination( paginationWrapper ) {
-		const pages = paginationWrapper.querySelectorAll( 'li.page-numbers' );
-		const { maxPage } = paginationWrapper.dataset;
+		paginationWrapper.addEventListener( 'click', ( e ) => {
+			const item = e.target.closest( 'li.page-numbers' );
 
-		pages.forEach( ( page ) => {
-			page.addEventListener( 'click', ( e ) => {
-				e.preventDefault();
+			if ( ! item || ! paginationWrapper.contains( item ) ) {
+				return;
+			}
 
-				const nextPage = parseInt( e.target.dataset.page );
-				const response = this.fetchPosts( nextPage, paginationWrapper );
+			e.preventDefault();
 
-				response.then( ( res ) => {
-					if ( res.success ) {
-						this.updatePages(
-							paginationWrapper,
-							parseInt( maxPage ),
-							nextPage
-						);
-						this.updateMarkup( paginationWrapper, res.data, false );
-					}
-				} );
+			if (
+				item.classList.contains( 'current' ) ||
+				item.classList.contains( 'hide' )
+			) {
+				return;
+			}
+
+			const nextPage = parseInt( item.dataset.page, 10 );
+			const maxPage = parseInt( paginationWrapper.dataset.maxPage, 10 );
+
+			if ( isNaN( nextPage ) || nextPage < 1 || nextPage > maxPage ) {
+				return;
+			}
+
+			this.request( nextPage, paginationWrapper ).then( ( res ) => {
+				if ( ! res || ! res.success ) {
+					return;
+				}
+
+				this.updatePages( paginationWrapper, maxPage, nextPage );
+				this.updateMarkup( paginationWrapper, res.data, false );
+				this.revealPosts( paginationWrapper );
 			} );
 		} );
 	}

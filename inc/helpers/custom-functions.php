@@ -351,30 +351,43 @@ function post_crafts_template( $template, $variables = array(), $should_echo = f
  */
 function post_crafts_pagination( $max_page, $current_page ) {
 
+	$max_page     = (int) $max_page;
+	$current_page = (int) $current_page;
+
 	if ( $max_page <= 1 ) {
 		return;
 	}
 
-	if ( ! isset( $current_page ) || 0 === $current_page ) {
+	if ( $current_page < 1 ) {
 		$current_page = 1;
 	}
 
 	$hide_class   = ' hide';
 	$active_class = ' current';
 
+	// Each clickable item wraps a button so it is keyboard reachable; the li keeps
+	// its classes and data-page because saved block CSS targets `.pcrafts-pages li`.
+	$item = '<li class="%1$s" data-page="%2$s"><button type="button" class="pcrafts-page-btn"%3$s>%4$s</button></li>';
+
 	$pages = '<ul class="pcrafts-pages">';
 
-	$pages .= sprintf( '<li class="prev page-numbers%1$s" data-page="%2$s">%3$s</li>', 1 === $current_page ? $hide_class : '', esc_attr( $current_page - 1 ), esc_html__( 'Prev', 'post-crafts' ) );
+	$pages .= sprintf(
+		$item,
+		esc_attr( 'prev page-numbers' . ( 1 === $current_page ? $hide_class : '' ) ),
+		esc_attr( $current_page - 1 ),
+		' aria-label="' . esc_attr__( 'Previous page', 'post-crafts' ) . '"',
+		esc_html__( 'Prev', 'post-crafts' )
+	);
 
 	if ( $max_page > 4 ) {
-
-		if ( $current_page > 3 ) {
-			$extra_class = '';
-		}
-
-		$pages .= sprintf( '<li class="page-numbers first-page%s" data-page="1">1</li>', $current_page < 3 ? $hide_class : '' );
-		$pages .= sprintf( '<li class="page-dots first%s">...</li>', $current_page < 4 ? $hide_class : '' );
-
+		$pages .= sprintf(
+			$item,
+			esc_attr( 'page-numbers first-page' . ( $current_page < 3 ? $hide_class : '' ) ),
+			'1',
+			'',
+			'1'
+		);
+		$pages .= sprintf( '<li class="page-dots first%s" aria-hidden="true">...</li>', $current_page < 4 ? $hide_class : '' );
 	}
 
 	$middle_pages = array();
@@ -386,21 +399,40 @@ function post_crafts_pagination( $max_page, $current_page ) {
 		} elseif ( $current_page >= 3 ) {
 			$middle_pages = array( $current_page - 1, $current_page, $current_page + 1 );
 		}
-	} elseif ( 2 == $max_page ) { // phpcs:ignore Universal.Operators.StrictComparisons.LooseEqual -- Value may be a numeric string.
+	} elseif ( 2 === $max_page ) {
 		$middle_pages = array( 1, 2 );
 	}
 
 	foreach ( $middle_pages as $page ) {
-		$pages .= sprintf( '<li class="page-numbers middle-pages%1$s" data-page="%2$s">%3$s</li>', $current_page === $page ? $active_class : '', esc_attr( $page ), esc_html( $page ) );
+		$is_current = $current_page === $page;
+		$pages     .= sprintf(
+			$item,
+			esc_attr( 'page-numbers middle-pages' . ( $is_current ? $active_class : '' ) ),
+			esc_attr( $page ),
+			$is_current ? ' aria-current="page"' : '',
+			esc_html( $page )
+		);
 	}
 
-	$pages .= sprintf( '<li class="page-dots last%s">...</li>', $max_page <= $current_page + 2 ? $hide_class : '' );
+	$pages .= sprintf( '<li class="page-dots last%s" aria-hidden="true">...</li>', $max_page <= $current_page + 2 ? $hide_class : '' );
 
 	if ( $max_page > 3 ) {
-		$pages .= sprintf( '<li class="page-numbers last-page%1$s" data-page="%2$s">%3$s</li>', $max_page <= $current_page + 1 ? $hide_class : '', esc_attr( $max_page ), esc_html( $max_page ) );
+		$pages .= sprintf(
+			$item,
+			esc_attr( 'page-numbers last-page' . ( $max_page <= $current_page + 1 ? $hide_class : '' ) ),
+			esc_attr( $max_page ),
+			'',
+			esc_html( $max_page )
+		);
 	}
 
-	$pages .= sprintf( '<li class="next page-numbers%1$s" data-page="%2$s">%3$s</li>', $current_page === $max_page ? $hide_class : '', esc_attr( $current_page + 1 ), esc_html__( 'Next', 'post-crafts' ) );
+	$pages .= sprintf(
+		$item,
+		esc_attr( 'next page-numbers' . ( $current_page === $max_page ? $hide_class : '' ) ),
+		esc_attr( $current_page + 1 ),
+		' aria-label="' . esc_attr__( 'Next page', 'post-crafts' ) . '"',
+		esc_html__( 'Next', 'post-crafts' )
+	);
 
 	$pages .= '</ul>';
 	return $pages;

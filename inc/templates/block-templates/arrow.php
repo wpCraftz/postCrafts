@@ -18,6 +18,8 @@ $loop_template = isset( $loop_template ) ? $loop_template : 'post-grid';
 ?>
 
 <div class="pcrafts-pagination pcrafts-arrow <?php echo esc_attr( $alignment ); ?>"
+	role="navigation"
+	aria-label="<?php esc_attr_e( 'Posts pagination', 'post-crafts' ); ?>"
 	data-query="<?php echo esc_attr( wp_json_encode( $post_query ) ); ?>"
 	data-page="1"
 	data-max-page="<?php echo esc_attr( $max_page ); ?>"
@@ -25,6 +27,6 @@ $loop_template = isset( $loop_template ) ? $loop_template : 'post-grid';
 	data-block-id="<?php echo esc_attr( $block_id ); ?>"
 	data-template="<?php echo esc_attr( $loop_template ); ?>"
 >
-	<button class="pcrafts-prev disabled"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M15.293 3.293 6.586 12l8.707 8.707 1.414-1.414L9.414 12l7.293-7.293-1.414-1.414z"/></svg></button>
-	<button class="pcrafts-next"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M7.293 4.707 14.586 12l-7.293 7.293 1.414 1.414L17.414 12 8.707 3.293 7.293 4.707z"/></svg></button>
+	<button type="button" class="pcrafts-prev disabled" aria-label="<?php esc_attr_e( 'Previous page', 'post-crafts' ); ?>" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-hidden="true" focusable="false"><path d="M15.293 3.293 6.586 12l8.707 8.707 1.414-1.414L9.414 12l7.293-7.293-1.414-1.414z"/></svg></button>
+	<button type="button" class="pcrafts-next<?php echo $max_page <= 1 ? ' disabled' : ''; ?>" aria-label="<?php esc_attr_e( 'Next page', 'post-crafts' ); ?>"<?php disabled( $max_page <= 1 ); ?>><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-hidden="true" focusable="false"><path d="M7.293 4.707 14.586 12l-7.293 7.293 1.414 1.414L17.414 12 8.707 3.293 7.293 4.707z"/></svg></button>
 </div>
