@@ -115,6 +115,7 @@ src/scripts/pagination.js   new Pagination() binds every .pcrafts-pagination by 
 | `excludeCurrentPost` / `ignoreSticky` | `false` / `false` | |
 | `excerpt` / `excerptLength` | `"true"` (string) / `30` words | |
 | `pagination` / `paginationType` | `true` / `pagination` | Type: `pagination` \| `loadmore` \| `arrow` |
+| `paginationBeforeSelection` | unset | `pagination` value saved when posts are picked; Clear restores it (unset → `true`) |
 | `paginationAlignment` | `left` | |
 | `paginationColor` / `paginationBg` / `paginationGradient` | – | CSS strings; the gradient overrides the background |
 | `paginationBorderRadius` | `{ unit: 'px', value: 2 }` | Responsive |

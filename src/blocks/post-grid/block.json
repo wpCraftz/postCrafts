@@ -100,6 +100,9 @@
 			"type": "boolean",
 			"default": true
 		},
+		"paginationBeforeSelection": {
+			"type": "boolean"
+		},
 		"paginationType": {
 			"type": "string",
 			"default": "pagination"

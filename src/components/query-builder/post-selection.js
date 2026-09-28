@@ -242,10 +242,18 @@ const PostSelector = ( {
 					fetchedPosts &&
 					fetchedPosts.length > 0 &&
 					fetchedPosts.map( ( post ) => {
+						const isSelected = postIds.includes( post.id );
+						const isDisabled =
+							! isSelected && !! limit && postIds.length >= limit;
+
 						return (
-							/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */
+							/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role */
 							<li
 								key={ post.id }
+								role="button"
+								tabIndex={ 0 }
+								aria-pressed={ isSelected }
+								aria-disabled={ isDisabled }
 								className={ classNames(
 									'items-list--item item',
 									{
@@ -261,6 +269,15 @@ const PostSelector = ( {
 								) }
 								onClick={ () => {
 									onPostSelect( post );
+								} }
+								onKeyDown={ ( event ) => {
+									if (
+										event.key === 'Enter' ||
+										event.key === ' '
+									) {
+										event.preventDefault();
+										onPostSelect( post );
+									}
 								} }
 							>
 								<span className="item__post-id">

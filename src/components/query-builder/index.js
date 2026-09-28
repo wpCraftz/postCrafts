@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useState, useRef } from '@wordpress/element';
+import { useState } from '@wordpress/element';
 
 import {
 	PanelBody,
@@ -61,6 +61,7 @@ const PostBlockSettings = ( {
 		catOperator,
 		postType = 'post',
 		pagination,
+		paginationBeforeSelection,
 		postsPerPage,
 		showExcerpt,
 		showCategory,
@@ -72,8 +73,6 @@ const PostBlockSettings = ( {
 	const [ isSortingModalOpen, setIsSortingModalOpen ] = useState( false );
 	// Draft selection edited inside the modal; written to `postIds` only on insert.
 	const [ draftPostIds, setDraftPostIds ] = useState( postIds );
-
-	const paginationRef = useRef( pagination );
 
 	const openPostSelectModal = () => {
 		setDraftPostIds( postIds );
@@ -110,10 +109,14 @@ const PostBlockSettings = ( {
 		setAttributes( { postIds: [] } );
 		setDraftPostIds( [] );
 		if ( typeof pagination !== 'undefined' ) {
+			// Restore the setting saved on insert; blocks saved before it was stored fall back to the default (on).
 			setAttributes( {
-				pagination: paginationRef.current ?? pagination,
+				pagination:
+					typeof paginationBeforeSelection === 'boolean'
+						? paginationBeforeSelection
+						: true,
+				paginationBeforeSelection: undefined,
 			} );
-			paginationRef.current = null;
 		}
 	};
 
@@ -133,9 +136,9 @@ const PostBlockSettings = ( {
 		setAttributes( { postIds: draftPostIds } );
 
 		if ( typeof pagination !== 'undefined' ) {
-			// Remember the pagination setting so Clear can restore it.
+			// Remember the pagination setting so Clear can restore it, even after a reload.
 			if ( ! postIds.length ) {
-				paginationRef.current = pagination;
+				setAttributes( { paginationBeforeSelection: pagination } );
 			}
 			setAttributes( { pagination: false } );
 		}
@@ -178,7 +181,6 @@ const PostBlockSettings = ( {
 				<Sortable
 					items={ postMeta }
 					onChange={ ( newValue ) => {
-						paginationRef.current = pagination;
 						setAttributes( { postIds: newValue } );
 					} }
 					customLabels={ sortableCustomLabels }
