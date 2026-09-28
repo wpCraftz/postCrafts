@@ -351,30 +351,43 @@ function post_crafts_template( $template, $variables = array(), $should_echo = f
  */
 function post_crafts_pagination( $max_page, $current_page ) {
 
+	$max_page     = (int) $max_page;
+	$current_page = (int) $current_page;
+
 	if ( $max_page <= 1 ) {
 		return;
 	}
 
-	if ( ! isset( $current_page ) || 0 === $current_page ) {
+	if ( $current_page < 1 ) {
 		$current_page = 1;
 	}
 
 	$hide_class   = ' hide';
 	$active_class = ' current';
 
+	// Each clickable item wraps a button so it is keyboard reachable; the li keeps
+	// its classes and data-page because saved block CSS targets `.pcrafts-pages li`.
+	$item = '<li class="%1$s" data-page="%2$s"><button type="button" class="pcrafts-page-btn"%3$s>%4$s</button></li>';
+
 	$pages = '<ul class="pcrafts-pages">';
 
-	$pages .= sprintf( '<li class="prev page-numbers%1$s" data-page="%2$s">%3$s</li>', 1 === $current_page ? $hide_class : '', esc_attr( $current_page - 1 ), esc_html__( 'Prev', 'post-crafts' ) );
+	$pages .= sprintf(
+		$item,
+		esc_attr( 'prev page-numbers' . ( 1 === $current_page ? $hide_class : '' ) ),
+		esc_attr( $current_page - 1 ),
+		' aria-label="' . esc_attr__( 'Previous page', 'post-crafts' ) . '"',
+		esc_html__( 'Prev', 'post-crafts' )
+	);
 
 	if ( $max_page > 4 ) {
-
-		if ( $current_page > 3 ) {
-			$extra_class = '';
-		}
-
-		$pages .= sprintf( '<li class="page-numbers first-page%s" data-page="1">1</li>', $current_page < 3 ? $hide_class : '' );
-		$pages .= sprintf( '<li class="page-dots first%s">...</li>', $current_page < 4 ? $hide_class : '' );
-
+		$pages .= sprintf(
+			$item,
+			esc_attr( 'page-numbers first-page' . ( $current_page < 3 ? $hide_class : '' ) ),
+			'1',
+			'',
+			'1'
+		);
+		$pages .= sprintf( '<li class="page-dots first%s" aria-hidden="true">...</li>', $current_page < 4 ? $hide_class : '' );
 	}
 
 	$middle_pages = array();
@@ -386,37 +399,99 @@ function post_crafts_pagination( $max_page, $current_page ) {
 		} elseif ( $current_page >= 3 ) {
 			$middle_pages = array( $current_page - 1, $current_page, $current_page + 1 );
 		}
-	} elseif ( 2 == $max_page ) { // phpcs:ignore Universal.Operators.StrictComparisons.LooseEqual -- Value may be a numeric string.
+	} elseif ( 2 === $max_page ) {
 		$middle_pages = array( 1, 2 );
 	}
 
 	foreach ( $middle_pages as $page ) {
-		$pages .= sprintf( '<li class="page-numbers middle-pages%1$s" data-page="%2$s">%3$s</li>', $current_page === $page ? $active_class : '', esc_attr( $page ), esc_html( $page ) );
+		$is_current = $current_page === $page;
+		$pages     .= sprintf(
+			$item,
+			esc_attr( 'page-numbers middle-pages' . ( $is_current ? $active_class : '' ) ),
+			esc_attr( $page ),
+			$is_current ? ' aria-current="page"' : '',
+			esc_html( $page )
+		);
 	}
 
-	$pages .= sprintf( '<li class="page-dots last%s">...</li>', $max_page <= $current_page + 2 ? $hide_class : '' );
+	$pages .= sprintf( '<li class="page-dots last%s" aria-hidden="true">...</li>', $max_page <= $current_page + 2 ? $hide_class : '' );
 
 	if ( $max_page > 3 ) {
-		$pages .= sprintf( '<li class="page-numbers last-page%1$s" data-page="%2$s">%3$s</li>', $max_page <= $current_page + 1 ? $hide_class : '', esc_attr( $max_page ), esc_html( $max_page ) );
+		$pages .= sprintf(
+			$item,
+			esc_attr( 'page-numbers last-page' . ( $max_page <= $current_page + 1 ? $hide_class : '' ) ),
+			esc_attr( $max_page ),
+			'',
+			esc_html( $max_page )
+		);
 	}
 
-	$pages .= sprintf( '<li class="next page-numbers%1$s" data-page="%2$s">%3$s</li>', $current_page === $max_page ? $hide_class : '', esc_attr( $current_page + 1 ), esc_html__( 'Next', 'post-crafts' ) );
+	$pages .= sprintf(
+		$item,
+		esc_attr( 'next page-numbers' . ( $current_page === $max_page ? $hide_class : '' ) ),
+		esc_attr( $current_page + 1 ),
+		' aria-label="' . esc_attr__( 'Next page', 'post-crafts' ) . '"',
+		esc_html__( 'Next', 'post-crafts' )
+	);
 
 	$pages .= '</ul>';
 	return $pages;
 }
 
 /**
+ * Get the plain text a card excerpt is trimmed from.
+ *
+ * Uses the hand-written excerpt when there is one, otherwise the post content
+ * with shortcodes and non-text blocks removed. Block-level tag boundaries become
+ * spaces so words from adjacent paragraphs don't run together. The result is
+ * not trimmed: the editor preview receives it through the REST API
+ * (`pcrafts_excerpt`) and trims it like post_crafts_excerpt_length() does.
+ *
+ * @param int|WP_Post $post_id Post ID or object.
+ *
+ * @return string Plain text with whitespace collapsed. HTML entities are kept.
+ */
+function post_crafts_get_excerpt_source( $post_id ) {
+	$post = get_post( $post_id );
+
+	if ( ! $post || post_password_required( $post ) ) {
+		return '';
+	}
+
+	$text = has_excerpt( $post ) ? $post->post_excerpt : $post->post_content;
+	$text = strip_shortcodes( $text );
+
+	if ( has_blocks( $text ) ) {
+		$text = excerpt_remove_blocks( $text );
+	}
+
+	// Pad block-level tags so stripping them doesn't glue words from adjacent elements together.
+	$text = preg_replace( '#<(/?(?:address|article|aside|blockquote|br|dd|div|dl|dt|figcaption|figure|footer|h[1-6]|header|hr|li|ol|p|pre|section|table|td|th|tr|ul)\b[^>]*)>#i', ' <$1> ', $text );
+	$text = wp_strip_all_tags( $text );
+	$text = preg_replace( '/[\r\n\t ]+/', ' ', $text );
+
+	return trim( $text );
+}
+
+/**
  * Post Crafts Excerpt Length.
  *
- * @param number $post_id ID of current post.
- * @param number $length Limit of excerpt length.
+ * Trims the excerpt source to a number of words. The editor preview mirrors
+ * this with trimWords() in src/libs/utils.js, so keep the two in sync.
  *
- * @return string|void Template markup.
+ * @param int|WP_Post $post_id ID of the post.
+ * @param int         $length  Number of words.
+ *
+ * @return string Excerpt markup, or an empty string when there is no text.
  */
 function post_crafts_excerpt_length( $post_id, $length = 40 ) {
-	$post_content = get_the_content( $post_id );
-	return apply_filters( 'the_excerpt', wp_trim_words( $post_content, $length ) );
+	$text = post_crafts_get_excerpt_source( $post_id );
+
+	if ( '' === $text ) {
+		return '';
+	}
+
+	return apply_filters( 'the_excerpt', wp_trim_words( $text, absint( $length ), '&hellip;' ) );
 }
 
 /**

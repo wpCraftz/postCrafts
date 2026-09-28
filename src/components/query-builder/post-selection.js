@@ -12,7 +12,7 @@ import { ExternalLink, Button } from '@wordpress/components';
 import { useState, useEffect, useCallback } from '@wordpress/element';
 import { addQueryArgs } from '@wordpress/url';
 import apiFetch from '@wordpress/api-fetch';
-import { __ } from '@wordpress/i18n';
+import { __, _n, sprintf } from '@wordpress/i18n';
 import { date, dateI18n } from '@wordpress/date';
 import { decodeEntities } from '@wordpress/html-entities';
 
@@ -27,14 +27,20 @@ import classNames from 'classnames';
  * Class to post selection.
  *
  * @param {Object}   props
- * @param {Function} props.onPostSelect On post select function.
- * @param {Array}    props.postIds      Selected Post ids.
+ * @param {Function} props.onPostSelect   Toggles a post in the draft selection.
+ * @param {Function} props.onInsert       Commits the draft selection.
+ * @param {Function} props.onCancel       Discards the draft selection.
+ * @param {boolean}  props.canInsertEmpty Whether an empty selection can be inserted (clears the block's selection).
+ * @param {Array}    props.postIds        Draft selected post IDs.
  * @param {number}   props.limit        Max number of posts to be selectd.
  * @param {number}   props.queryTime    Duration of query in months.
  * @param {string}   props.postType     Slug of the Post Type.
  */
 const PostSelector = ( {
 	onPostSelect,
+	onInsert,
+	onCancel,
+	canInsertEmpty = false,
 	postIds,
 	limit,
 	queryTime,
@@ -61,6 +67,10 @@ const PostSelector = ( {
 			const query = {
 				status: 'publish',
 				search: searchQuery,
+				// Match titles only, the only field shown (WP 6.2+, ignored before).
+				...( searchQuery && {
+					search_columns: [ 'post_title' ],
+				} ),
 				per_page: 30,
 				page: currPage,
 				...( queryTime && {
@@ -139,34 +149,42 @@ const PostSelector = ( {
 					setCurrentPage( 1 );
 				} }
 			/>
-			{ limit && (
-				<div className="post-selection-info">
-					{
-						/* eslint @wordpress/i18n-no-variables:0, @wordpress/i18n-no-collapsible-whitespace:0 */
-						postIds.length !== limit ? (
-							<span>
-								{ postIds.length }
-								{ __( ' items are selected', 'post-crafts' ) }
-							</span>
-						) : (
-							<span>
-								{ __(
-									`Max ${ limit } posts are already selected`,
-									'post-crafts'
-								) }
-							</span>
-						)
-					}
+			<div className="post-selection-info">
+				{ !! limit && (
+					<span>
+						{ postIds.length < limit
+							? sprintf(
+									/* translators: %d: number of selected posts. */
+									_n(
+										'%d item is selected',
+										'%d items are selected',
+										postIds.length,
+										'post-crafts'
+									),
+									postIds.length
+							  )
+							: sprintf(
+									/* translators: %d: maximum number of posts. */
+									__(
+										'Max %d posts are already selected',
+										'post-crafts'
+									),
+									limit
+							  ) }
+					</span>
+				) }
 
-					<Button
-						variant="primary"
-						disabled={ postIds.length === 0 }
-						onClick={ () => onPostSelect( {}, true ) }
-					>
-						{ __( 'Insert Selected', 'post-crafts' ) }
-					</Button>
-				</div>
-			) }
+				<Button
+					variant="primary"
+					disabled={ postIds.length === 0 && ! canInsertEmpty }
+					onClick={ () => onInsert() }
+				>
+					{ __( 'Insert Selected', 'post-crafts' ) }
+				</Button>
+				<Button variant="tertiary" onClick={ () => onCancel() }>
+					{ __( 'Cancel', 'post-crafts' ) }
+				</Button>
+			</div>
 			{ limit && (
 				<div className="post-navigation">
 					<Button
@@ -224,10 +242,18 @@ const PostSelector = ( {
 					fetchedPosts &&
 					fetchedPosts.length > 0 &&
 					fetchedPosts.map( ( post ) => {
+						const isSelected = postIds.includes( post.id );
+						const isDisabled =
+							! isSelected && !! limit && postIds.length >= limit;
+
 						return (
-							/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */
+							/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role */
 							<li
 								key={ post.id }
+								role="button"
+								tabIndex={ 0 }
+								aria-pressed={ isSelected }
+								aria-disabled={ isDisabled }
 								className={ classNames(
 									'items-list--item item',
 									{
@@ -235,10 +261,23 @@ const PostSelector = ( {
 											post.id
 										),
 									},
-									{ disabled: postIds.length === limit }
+									{
+										disabled:
+											!! limit &&
+											postIds.length >= limit,
+									}
 								) }
 								onClick={ () => {
 									onPostSelect( post );
+								} }
+								onKeyDown={ ( event ) => {
+									if (
+										event.key === 'Enter' ||
+										event.key === ' '
+									) {
+										event.preventDefault();
+										onPostSelect( post );
+									}
 								} }
 							>
 								<span className="item__post-id">
