@@ -312,11 +312,11 @@ function post_crafts_sanitize_tax_query( $tax_query ) {
  *
  * @param string $template  Name or path of the template within /templates folder without php extension.
  * @param array  $variables pass an array of variables you want to use in template.
- * @param bool   $should_echo Whether to echo out the template content or not.
+ * @param bool   $echo      Whether to echo out the template content or not.
  *
  * @return string|void Template markup.
  */
-function post_crafts_template( $template, $variables = array(), $should_echo = false ) {
+function post_crafts_template( $template, $variables = array(), $echo = false ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.echoFound -- Kept for backward compatibility with named-argument callers.
 
 	$template_file = sprintf( '%1$s/inc/templates/%2$s.php', POST_CRAFTS_PATH, $template );
 
@@ -334,7 +334,7 @@ function post_crafts_template( $template, $variables = array(), $should_echo = f
 
 	$markup = ob_get_clean();
 
-	if ( ! $should_echo ) {
+	if ( ! $echo ) {
 		return $markup;
 	}
 

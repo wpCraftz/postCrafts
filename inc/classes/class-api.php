@@ -46,8 +46,8 @@ class Api {
 			array(
 				'methods'             => \WP_REST_Server::CREATABLE,
 				'callback'            => array( $this, 'save_style' ),
-				'permission_callback' => function () {
-					return current_user_can( 'edit_posts' );
+				'permission_callback' => function ( $request ) {
+					return current_user_can( 'edit_post', absint( $request->get_param( 'post_id' ) ) );
 				},
 				'args'                => array(
 					'post_id' => array(
