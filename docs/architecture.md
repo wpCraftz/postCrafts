@@ -21,11 +21,10 @@ post-crafts.php
 | `after_setup_theme` | `Media::add_image_sizes` | `thumb-*` crops |
 | `rest_api_init` | `Api::register_end_points` | `GET`/`POST /style` |
 | `rest_prepare_post` | `Plugin::add_post_class_in_rest_response` | Adds `post_class` and `featured_image{src,srcset,sizes,alt,…}` (thumb-330x185) for the editor preview |
-| `excerpt_more` / `excerpt_length` | `Plugin` | `&hellip;` / 55 words (site-wide) |
 | `enqueue_block_editor_assets` | `Assets` | `build/src/editor/index.js` + `build/src/styles/editor.css` |
 | `enqueue_block_assets` | `Assets` | `styles/main.css` always; `scripts/pagination.js` (jQuery) when the post `has_block()` grid/list |
 | `admin_enqueue_scripts` | `Assets` | `styles/admin.css` |
-| `wp` | `Style_loader::load_css` | Singular pages only: loads the CSS meta, then hooks `wp_head` to print it |
+| `wp` | `Style_Loader::load_css` | Singular pages only: loads the CSS meta, then hooks `wp_head` to print it |
 | `wp_ajax_paginate_posts` (+ `nopriv`) | `Plugin::post_crafts_pagination` | AJAX pages (§5) |
 
 ## 2. Editor: block preview
@@ -141,4 +140,4 @@ Responsive shape: `{ value, unit, tablet?, mobile? }`.
 | `src/styles/{main,editor,admin}.scss` | `build/src/styles/*.css` (+ `-rtl.css`, stub `.js`) | `Assets` |
 | `src/scripts/*.js` | `build/src/scripts/*.js` | `enqueue_block_assets` |
 
-`webpack.config.js` exports two configs that share the `build/` output. It also silences Sass's `legacy-js-api` deprecation, because wp-scripts 27 bundles sass-loader 12.
+`webpack.config.js` exports one config: the default block entries plus the extra `src/` entries, so a single clean manages `build/`. It also silences Sass's `legacy-js-api` deprecation, because wp-scripts 27 bundles sass-loader 12.
