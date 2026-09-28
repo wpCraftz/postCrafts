@@ -51,7 +51,8 @@ class Assets {
 	 */
 	public function enqueue_block_editor_assets() {
 		wp_enqueue_style( 'post-crafts-editor', POST_CRAFTS_URL . '/build/src/styles/editor.css', array(), filemtime( POST_CRAFTS_PATH . '/build/src/styles/editor.css' ) );
-		wp_enqueue_script( 'post-crafts-editor', POST_CRAFTS_URL . '/build/src/editor/index.js', array( 'wp-blocks', 'wp-element', 'wp-i18n' ), filemtime( POST_CRAFTS_PATH . '/build/src/editor/index.js' ), array( 'in_footer' => true ) );
+		$editor_asset = include POST_CRAFTS_PATH . '/build/src/editor/index.asset.php';
+		wp_enqueue_script( 'post-crafts-editor', POST_CRAFTS_URL . '/build/src/editor/index.js', $editor_asset['dependencies'], $editor_asset['version'], array( 'in_footer' => true ) );
 	}
 
 	/**
