@@ -12,6 +12,16 @@
 	</rule>
 	<rule ref="WordPress-Extra" />
 
+	<!-- WordPress VIP coding standards. -->
+	<rule ref="WordPress-VIP-Go" />
+
+	<!-- Plugin supports PHP 7.4 and above. -->
+	<config name="testVersion" value="7.4-"/>
+	<rule ref="PHPCompatibilityWP" />
+
+	<!-- Minimum supported WordPress version. -->
+	<config name="minimum_wp_version" value="5.6"/>
+
 	<rule ref="WordPress.WP.I18n">
 		<properties>
 			<property name="text_domain" type="array">
