@@ -20,7 +20,7 @@ post-crafts.php
 | `block_categories_all` | `Blocks::register_block_categories` | Prepends the `post-crafts` category ("Advanced Post Blocks") |
 | `after_setup_theme` | `Media::add_image_sizes` | `thumb-*` crops |
 | `rest_api_init` | `Api::register_end_points` | `GET`/`POST /style` |
-| `rest_prepare_post` | `Plugin::add_post_class_in_rest_response` | Adds `post_class` and `featured_image{src,srcset,sizes,alt,…}` (thumb-330x185) for the editor preview |
+| `rest_prepare_post` | `Plugin::add_post_class_in_rest_response` | Adds `post_class`, `featured_image{src,srcset,sizes,alt,…}` (thumb-330x185) and `pcrafts_excerpt` (untrimmed `post_crafts_get_excerpt_source()`, texturized) for the editor preview |
 | `enqueue_block_editor_assets` | `Assets` | `build/src/editor/index.js` + `build/src/styles/editor.css` |
 | `enqueue_block_assets` | `Assets` | `styles/main.css` always; `scripts/pagination.js` (jQuery) when the post `has_block()` grid/list |
 | `admin_enqueue_scripts` | `Assets` | `styles/admin.css` |
@@ -38,7 +38,7 @@ post-crafts.php
                   taxQuery set     → categories | categories_exclude, tags | tags_exclude, tax_relation (keys = taxonomy rest_base)
                   postIds reorder only → arrayMoveImmutable on cached posts (no refetch)
                   postsPerPage lowered → slice cached posts
-4. lookups      getUsers(authors) + category terms → blockContexts (title, excerpt from content.raw, image, author, first category)
+4. lookups      getUsers(authors) + category terms → blockContexts (title, excerpt = trimWords(pcrafts_excerpt, excerptLength) like wp_trim_words, image, author, first category)
 5. markup       mirrors inc/templates/block-templates/<block>.php; <PaginationEdit> is a static placeholder
 Inspector       GridSetttings | ListSetttings, QueryBuilder (select/sort posts, count ≤40, order, taxonomies,
                 exclude current, ignore sticky), PaginationSettings, ExcerptSettings
@@ -80,7 +80,7 @@ GET singular page
 ```
 DOM hooks: `.pcrafts-block.pcrafts-block-{blockId}.pcrafts-postgrid-wrapper|pcrafts-postlist-wrapper` › `.pcrafts-posts-wrapper.pcrafts-grid-items-wrapper|pcrafts-list-items-wrapper` › `article.post-grid|post-list`, then `.pcrafts-pagination.pcrafts-numberic|pcrafts-loadmore|pcrafts-arrow`.
 
-Template helpers: `post_crafts_get_primary_category()` (Yoast primary term, falling back to the first category), `post_crafts_get_author()`, `post_crafts_posted_on()`, and `post_crafts_excerpt_length()` (`wp_trim_words` on the content).
+Template helpers: `post_crafts_get_primary_category()` (Yoast primary term, falling back to the first category), `post_crafts_get_author()`, `post_crafts_posted_on()`, and `post_crafts_excerpt_length()` (`wp_trim_words` on `post_crafts_get_excerpt_source()`: the manual excerpt, else the content with shortcodes and non-text blocks removed and block-level tags turned into spaces).
 
 ## 5. AJAX pagination
 ```

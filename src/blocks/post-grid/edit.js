@@ -19,7 +19,7 @@ import classNames from 'classnames';
  * Internal dependencies
  */
 import './editor.scss';
-import { useFetchPosts, getSubString } from '../../libs';
+import { useFetchPosts, trimWords } from '../../libs';
 
 import {
 	QueryBuilder,
@@ -42,7 +42,7 @@ const CATEGORIES_LIST_QUERY = {
 const AUTHORS_QUERY = {
 	who: 'authors',
 	per_page: -1,
-	_fields: 'id,name',
+	_fields: 'id,name,link',
 	context: 'view',
 };
 
@@ -70,6 +70,7 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 		catOperator,
 		tagOperator,
 		sorting,
+		excerpt: showExcerpt,
 		excerptLength,
 		pagination,
 		paginationType,
@@ -150,11 +151,10 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 				status: post.status,
 				postLink: post.link,
 				title: post.title.rendered,
-				excerpt: post.content.raw
-					.replace( /<[^>]+>|[\n]/gi, ' ' )
-					.replace( /\s+/g, ' ' ),
-				date: dateI18n( 'F j, Y', post.date_gmt ),
-				dateTime: dateI18n( 'Y-m-dTH:i:sP', post.date_gmt ),
+				// Untrimmed text from post_crafts_get_excerpt_source(), shared with the front end.
+				excerpt: post.pcrafts_excerpt || '',
+				// Same format as post_crafts_posted_on( 'F d, Y' ); post.date is in the site timezone.
+				date: dateI18n( 'F d, Y', post.date ),
 				featuredImgSrc: post.featured_image?.src,
 				featuredImgAlt: post.featured_image?.alt,
 				featuredImgWidth: post.featured_image?.width,
@@ -164,26 +164,11 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 				featuredImgSizes: post.featured_image?.sizes,
 				featuredImgLoading: post.featured_image?.loading,
 				featuredImgDecoding: post.featured_image?.decoding,
-				categories: post.categories.map( ( catId ) => {
-					if (
-						'undefined' === typeof categoriesList ||
-						null === categoriesList
-					) {
-						return [];
-					}
-
-					return categoriesList.find( ( category ) => {
-						if ( category.id === catId ) {
-							return category;
-						}
-
-						return false;
-					} );
-				} ),
-				author: authors
-					? authors.find( ( author ) => author.id === post.author )
-							?.name
-					: [],
+				// First category, like post_crafts_get_primary_category() without Yoast.
+				category: categoriesList?.find(
+					( { id } ) => id === post.categories?.[ 0 ]
+				),
+				author: authors?.find( ( author ) => author.id === post.author ),
 			} ) ),
 		[ posts, categoriesList, authors ]
 	);
@@ -196,11 +181,117 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 		),
 	} );
 
-	if ( ! posts ) {
+	/**
+	 * Card preview. Mirrors inc/templates/block-templates/post-grid.php, which is
+	 * canonical: keep the element order and class names in sync with it.
+	 *
+	 * @param {Object} post Entry of blockContexts.
+	 * @return {JSX} Card markup.
+	 */
+	const renderPost = ( post ) => {
+		const {
+			postId,
+			featuredImgSrc,
+			featuredImgAlt,
+			featuredImgWidth,
+			featuredImgHeight,
+			featuredImgClass,
+			featuredImgSrcset,
+			featuredImgSizes,
+			featuredImgLoading,
+			featuredImgDecoding,
+			title,
+			category,
+			excerpt,
+			author,
+			date,
+			postLink,
+		} = post;
+		const decodedTitle = decodeEntities( title );
+		const summary = showExcerpt
+			? decodeEntities( trimWords( excerpt, excerptLength ) )
+			: '';
+
 		return (
-			<p { ...blockProps }>
-				<Spinner />
-			</p>
+			<article id={ `post-${ postId }` } className="post-grid" key={ postId }>
+				<figure className="post-thumbnail">
+					<a
+						href={ postLink }
+						rel="bookmark"
+						title={ decodedTitle }
+						aria-label={ decodedTitle }
+					>
+						{ featuredImgSrc ? (
+							<img
+								src={ featuredImgSrc }
+								alt={ featuredImgAlt }
+								width={ featuredImgWidth }
+								height={ featuredImgHeight }
+								className={ featuredImgClass }
+								srcSet={ featuredImgSrcset || undefined }
+								sizes={ featuredImgSizes || undefined }
+								loading={ featuredImgLoading }
+								decoding={ featuredImgDecoding }
+							/>
+						) : (
+							<span className="image-placeholder"></span>
+						) }
+					</a>
+				</figure>
+				<div className="post-grid-content post-content">
+					{ category?.name && (
+						<span className="cat-links">
+							<a href={ category.link } rel="category tag">
+								{ category.name }
+							</a>
+						</span>
+					) }
+					<h2 className="entry-title">
+						<a href={ postLink } rel="bookmark">
+							{ decodedTitle }
+						</a>
+					</h2>
+					<div className="entry-meta">
+						<span className="byline">
+							<span className="author vcard">
+								<a className="url fn n" href={ author?.link }>
+									{ author?.name }
+								</a>
+							</span>
+						</span>
+						<span className="separator">-</span>
+						<span className="posted-on">{ date }</span>
+					</div>
+					{ summary && (
+						<div className="entry-summary post-entry-summary">
+							<p>{ summary }</p>
+						</div>
+					) }
+				</div>
+			</article>
+		);
+	};
+
+	let preview;
+
+	if ( ! posts ) {
+		// Only the preview waits for posts; the inspector stays mounted so panels keep their state.
+		preview = <Spinner />;
+	} else if ( ! posts.length ) {
+		preview = <p>{ __( 'No results found.', 'post-crafts' ) }</p>;
+	} else {
+		preview = (
+			<>
+				<div className="pcrafts-grid-items-wrapper">
+					{ blockContexts.map( renderPost ) }
+				</div>
+				{ pagination && (
+					<PaginationEdit
+						type={ paginationType }
+						alignment={ paginationAlignment }
+					/>
+				) }
+			</>
 		);
 	}
 
@@ -246,137 +337,7 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 				/>
 			</InspectorControls>
 			<style>{ dynamicStyleRef.current }</style>
-			{ ! posts?.length ? (
-				<p { ...blockProps }>
-					{ __( 'No results found.', 'post-crafts' ) }
-				</p>
-			) : (
-				<div { ...blockProps }>
-					<div className="pcrafts-grid-items-wrapper">
-						{ blockContexts.map( ( post ) => {
-							const {
-								postId,
-								featuredImgSrc,
-								featuredImgAlt,
-								featuredImgWidth,
-								featuredImgHeight,
-								featuredImgClass,
-								featuredImgSrcset,
-								featuredImgSizes,
-								featuredImgLoading,
-								featuredImgDecoding,
-								title,
-								categories,
-								excerpt,
-								author,
-								date,
-								postLink,
-							} = post;
-
-							return (
-								<article
-									id={ postId }
-									className="post-grid"
-									key={ postId }
-								>
-									<figure className="post-thumbnail">
-										{ featuredImgSrc ? (
-											<img
-												src={ featuredImgSrc }
-												alt={ featuredImgAlt }
-												width={ featuredImgWidth }
-												height={ featuredImgHeight }
-												className={ featuredImgClass }
-												srcSet={
-													featuredImgSrcset
-														? featuredImgSrcset
-														: undefined
-												}
-												sizes={ featuredImgSizes }
-												loading={ featuredImgLoading }
-												decoding={ featuredImgDecoding }
-											/>
-										) : (
-											<span className="image-placeholder"></span>
-										) }
-									</figure>
-
-									<div className="post-grid-content post-content">
-										<span className="cat-links has-tiny-font-size text-bold">
-											{ categories &&
-												categories
-													.filter(
-														( _, index ) =>
-															index === 0
-													)
-													.map(
-														( {
-															name: catName,
-															link,
-														} ) => (
-															<span
-																rel="category tag"
-																key={ catName }
-																className="cat-links"
-															>
-																<a
-																	href={
-																		link
-																	}
-																>
-																	{ catName }
-																</a>
-															</span>
-														)
-													) }
-										</span>
-										<h2 className="entry-title">
-											<a href={ postLink } rel="bookmark">
-												{ decodeEntities( title ) }
-											</a>
-										</h2>
-										{ excerpt && (
-											<div className="post-entry-summary">
-												{ getSubString(
-													excerpt,
-													excerptLength
-												) }
-											</div>
-										) }
-										<div className="entry-meta">
-											<span className="byline">
-												<span className="author vcard text-bold">
-													{ /* eslint-disable-next-line jsx-a11y/anchor-is-valid */ }
-													<a
-														className="url fn n"
-														href="#"
-													>
-														{ author }
-													</a>
-												</span>
-											</span>
-											<span className="posted-on has-tiny-font-size">
-												<span className="meta-separator">
-													-
-												</span>
-												<span className="posted-on">
-													{ date }
-												</span>
-											</span>
-										</div>
-									</div>
-								</article>
-							);
-						} ) }
-					</div>
-					{ pagination && (
-						<PaginationEdit
-							type={ paginationType }
-							alignment={ paginationAlignment }
-						/>
-					) }
-				</div>
-			) }
+			<div { ...blockProps }>{ preview }</div>
 		</>
 	);
 }

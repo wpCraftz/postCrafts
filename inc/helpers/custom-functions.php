@@ -439,16 +439,59 @@ function post_crafts_pagination( $max_page, $current_page ) {
 }
 
 /**
+ * Get the plain text a card excerpt is trimmed from.
+ *
+ * Uses the hand-written excerpt when there is one, otherwise the post content
+ * with shortcodes and non-text blocks removed. Block-level tag boundaries become
+ * spaces so words from adjacent paragraphs don't run together. The result is
+ * not trimmed: the editor preview receives it through the REST API
+ * (`pcrafts_excerpt`) and trims it like post_crafts_excerpt_length() does.
+ *
+ * @param int|WP_Post $post_id Post ID or object.
+ *
+ * @return string Plain text with whitespace collapsed. HTML entities are kept.
+ */
+function post_crafts_get_excerpt_source( $post_id ) {
+	$post = get_post( $post_id );
+
+	if ( ! $post || post_password_required( $post ) ) {
+		return '';
+	}
+
+	$text = has_excerpt( $post ) ? $post->post_excerpt : $post->post_content;
+	$text = strip_shortcodes( $text );
+
+	if ( has_blocks( $text ) ) {
+		$text = excerpt_remove_blocks( $text );
+	}
+
+	// Pad block-level tags so stripping them doesn't glue words from adjacent elements together.
+	$text = preg_replace( '#<(/?(?:address|article|aside|blockquote|br|dd|div|dl|dt|figcaption|figure|footer|h[1-6]|header|hr|li|ol|p|pre|section|table|td|th|tr|ul)\b[^>]*)>#i', ' <$1> ', $text );
+	$text = wp_strip_all_tags( $text );
+	$text = preg_replace( '/[\r\n\t ]+/', ' ', $text );
+
+	return trim( $text );
+}
+
+/**
  * Post Crafts Excerpt Length.
  *
- * @param number $post_id ID of current post.
- * @param number $length Limit of excerpt length.
+ * Trims the excerpt source to a number of words. The editor preview mirrors
+ * this with trimWords() in src/libs/utils.js, so keep the two in sync.
  *
- * @return string|void Template markup.
+ * @param int|WP_Post $post_id ID of the post.
+ * @param int         $length  Number of words.
+ *
+ * @return string Excerpt markup, or an empty string when there is no text.
  */
 function post_crafts_excerpt_length( $post_id, $length = 40 ) {
-	$post_content = get_the_content( $post_id );
-	return apply_filters( 'the_excerpt', wp_trim_words( $post_content, $length ) );
+	$text = post_crafts_get_excerpt_source( $post_id );
+
+	if ( '' === $text ) {
+		return '';
+	}
+
+	return apply_filters( 'the_excerpt', wp_trim_words( $text, absint( $length ), '&hellip;' ) );
 }
 
 /**

@@ -13,7 +13,31 @@ export const getSubString = ( str, length ) => {
 	return str.split( ' ' ).splice( 0, length ).join( ' ' ).concat( '...' );
 };
 
-const isPlainObject = ( item ) =>
+/**
+ * Trim text to a number of words, the way PHP wp_trim_words() does.
+ *
+ * Mirrors post_crafts_excerpt_length() so the editor preview shows the same
+ * excerpt as the front end. Run it on the raw text, before decoding entities.
+ *
+ * @param {string} text     Plain text.
+ * @param {number} numWords Number of words to keep.
+ * @param {string} more     Appended when the text was trimmed.
+ * @return {string} Trimmed text.
+ */
+export const trimWords = ( text, numWords, more = '…' ) => {
+	const words = ( text || '' )
+		.split( /[\n\r\t ]+/ )
+		.filter( ( word ) => '' !== word );
+	const limit = Math.max( 0, parseInt( numWords, 10 ) || 0 );
+
+	if ( words.length > limit ) {
+		return words.slice( 0, limit ).join( ' ' ) + more;
+	}
+
+	return words.join( ' ' );
+};
+
+const isPlainObject =( item ) =>
 	item && typeof item === 'object' && item.constructor === Object;
 
 /**

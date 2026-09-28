@@ -171,6 +171,14 @@ class Plugin {
 		if ( $featured_image_id ) {
 			$response->data['featured_image'] = $featured_image;
 		}
+
+		/*
+		 * Untrimmed card excerpt, built by the same helper as the front end. The editor
+		 * trims it to excerptLength words. It's texturized here because the front end
+		 * runs the trimmed text through the `the_excerpt` filters.
+		 */
+		$response->data['pcrafts_excerpt'] = wptexturize( post_crafts_get_excerpt_source( $post ) );
+
 		return $response;
 	}
 }
