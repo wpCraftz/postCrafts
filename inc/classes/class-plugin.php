@@ -29,7 +29,7 @@ class Plugin {
 		Api::get_instance();
 		Style_Loader::get_instance();
 
-		register_activation_hook( __FILE__, array( $this, 'activate' ) );
+		register_activation_hook( POST_CRAFTS_FILE, array( $this, 'activate' ) );
 		$this->setup_hooks();
 	}
 
@@ -39,13 +39,11 @@ class Plugin {
 	 * @return void
 	 */
 	public function activate() {
-		$installed = get_option( 'post_crafts_installed' );
-
-		if ( ! $installed ) {
+		if ( ! get_option( 'post_crafts_installed' ) ) {
 			update_option( 'post_crafts_installed', time() );
 		}
 
-		update_option( 'post_crafts_installed', POST_CRAFTS_VERSION );
+		update_option( 'post_crafts_version', POST_CRAFTS_VERSION );
 	}
 
 	/**
@@ -57,8 +55,6 @@ class Plugin {
 		/**
 		 * Filters
 		 */
-		add_filter( 'excerpt_more', array( $this, 'add_read_more_link' ) );
-		add_filter( 'excerpt_length', array( $this, 'excerpt_length' ) );
 		add_filter( 'rest_prepare_post', array( $this, 'add_post_class_in_rest_response' ), 10, 3 );
 		add_action( 'init', array( $this, 'localize_scripts' ), 1 );
 		add_action( 'init', array( $this, 'load_textdomain' ), 9999 );
@@ -137,16 +133,7 @@ class Plugin {
 	 */
 	public function load_textdomain() {
 
-		load_plugin_textdomain( 'post-crafts', false, plugin_dir_path( __FILE__ ) . 'languages' );
-	}
-
-	/**
-	 * Filter the excerpt length
-	 *
-	 * @return string
-	 */
-	public function excerpt_length() {
-		return 55;
+		load_plugin_textdomain( 'post-crafts', false, dirname( plugin_basename( POST_CRAFTS_FILE ) ) . '/languages' );
 	}
 
 	/**
@@ -179,16 +166,5 @@ class Plugin {
 			$response->data['featured_image'] = $featured_image;
 		}
 		return $response;
-	}
-
-	/**
-	 * Add read more link
-	 *
-	 * @filter excerpt_more
-	 *
-	 * @return string
-	 */
-	public function add_read_more_link() {
-		return '&hellip;';
 	}
 }

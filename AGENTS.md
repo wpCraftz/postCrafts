@@ -72,15 +72,9 @@ webpack.config.js                [default blocks config, extra entries for style
 Registration is automatic.
 
 ## Known issues (verified; fix deliberately, don't rediscover)
-- **Security, unfixed** (a fix design was in git `f0bbee9`, then deleted):
-  - `Style_Loader::print_css()` echoes the meta value unescaped.
-  - The REST save checks `edit_posts`, not `edit_post` on the given `post_id`.
-  - The AJAX `paginate_posts` handler (also registered for logged-out users) passes raw `$_POST['query']` to `WP_Query` and raw `$_POST['template']` into an `include` path. The only valid templates are `post-grid` and `post-list`.
 - `post_crafts_query_builder()` reads `$attributes['post_type']`, but the attribute is `postType`, so the front end always queries `post`.
 - `fetchPosts.js` sends tag `NOT IN` as `categories_exclude` instead of `tags_exclude`.
 - Current post: the editor always excludes it, while the front end excludes it only when `excludeCurrentPost` is set. `render.php` also skips `get_the_ID()` in the loop.
 - Nested blocks (inside Group/Columns) get no saved CSS, because the collector uses top-level `getBlocks()`. They also get empty attributes in AJAX, because `post_crafts_get_block_attributes()` only scans top-level blocks.
-- `src/editor/index.js` (the save subscriber) is bundled into both block bundles and the editor script, so the style POST fires up to 3× per save.
-- `register_activation_hook( __FILE__ )` and the textdomain path in `class-plugin.php` resolve to the class file, not the plugin root. Activation never runs and translations won't load from `languages/`.
-- `excerpt` defaults to the string `"true"`. `view-script.js` files are unused. The `excerpt_more`/`excerpt_length` filters apply site-wide.
-- Both webpack configs clean the same `build/` folder, so `pnpm start` can delete the other config's files. Run `pnpm build` if assets 404.
+- `post_crafts_get_block_attributes()` returns only saved attributes, not `block.json` defaults, so AJAX-loaded pages show no excerpt when the block uses the default excerpt setting.
+- The REST style route's `edit_post` check returns 403 in the site editor, where the post ID isn't numeric.

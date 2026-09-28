@@ -28,7 +28,7 @@ import {
 	ListSetttings,
 } from '../../components';
 
-import { styleGenerator } from '../../editor';
+import styleGenerator from '../../editor/style-generator';
 
 /**
  * Module Constants
