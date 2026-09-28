@@ -56,24 +56,17 @@ const frontendStyles = glob(
 
 const frontendScripts = glob( path.resolve( __dirname, 'src/scripts/*' ) );
 
-const styles = {
+// A single config, so only one CleanWebpackPlugin manages build/.
+module.exports = {
 	...defaultConfig,
-	entry: prepare( [
-		...editorStyles,
-		...editorScripts,
-		...frontendStyles,
-		...adminStyles,
-		...frontendScripts,
-	] ),
-	output: {
-		path: path.resolve( __dirname, 'build/' ),
-	},
+	entry: () => ( {
+		...defaultConfig.entry(),
+		...prepare( [
+			...editorStyles,
+			...editorScripts,
+			...frontendStyles,
+			...adminStyles,
+			...frontendScripts,
+		] ),
+	} ),
 };
-
-// Add any a new entry point by extending the webpack config.
-
-const blocks = {
-	...defaultConfig,
-};
-
-module.exports = [ blocks, styles ];
