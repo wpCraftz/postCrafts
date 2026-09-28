@@ -21,7 +21,6 @@ $block_wrapper_attributes = get_block_wrapper_attributes(
 	)
 );
 
-$current_post_id = get_the_ID();
 $pagination      = $attributes['pagination'];
 $pagination_type = $attributes['paginationType'];
 $max_page        = $fetched_posts->max_num_pages;
@@ -32,15 +31,12 @@ $max_page        = $fetched_posts->max_num_pages;
 		<?php
 		if ( $fetched_posts->have_posts() ) {
 			$posts_count = 0;
+
+			// Sticky posts can push the query past postsPerPage.
 			while ( $fetched_posts->have_posts() && $posts_count < $attributes['postsPerPage'] ) {
 				$fetched_posts->the_post();
-				$current = get_the_ID();
-
-				// Skip the current post.
-				if ( $current_post_id === $current ) {
-					continue;
-				}
 				++$posts_count;
+
 				post_crafts_template(
 					'block-templates/post-list',
 					array(

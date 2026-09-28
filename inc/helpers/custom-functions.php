@@ -124,8 +124,8 @@ function post_crafts_query_builder( $attributes, $paged = null ) {
 		$args['paged'] = $paged;
 	}
 
-	if ( isset( $attributes['post_type'] ) ) {
-		$args['post_type'] = $attributes['post_type'];
+	if ( ! empty( $attributes['postType'] ) && is_post_type_viewable( $attributes['postType'] ) ) {
+		$args['post_type'] = $attributes['postType'];
 	}
 
 	if ( isset( $attributes['ignoreSticky'] ) && true === $attributes['ignoreSticky'] ) {

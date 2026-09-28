@@ -71,6 +71,7 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 		excerptLength,
 		pagination,
 		paginationType,
+		excludeCurrentPost,
 	} = attributes;
 
 	const customQuery = {
@@ -105,6 +106,7 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 		postsPerPage,
 		taxQuery,
 		withTaxRelation: true,
+		excludeCurrentPost,
 		taxRelation,
 		catOperator,
 		tagOperator,

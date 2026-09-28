@@ -22,7 +22,8 @@ import { isEqual } from './utils';
  * @param {Array}  props.postIds     Ids of selected posts.
  * @param {Object} props.customQuery Any custom query to be added.
  * @param {Object} props.taxQuery    Selected taxonomies.
- * @param {string} props.postType    Post type.
+ * @param {string}  props.postType           Post type.
+ * @param {boolean} props.excludeCurrentPost Whether to exclude the post being edited.
  *
  * @return {Object} Fetched Posts
  */
@@ -33,6 +34,7 @@ const useFetchPosts = ( props ) => {
 		customQuery = {},
 		postType = 'post',
 		taxQuery = {},
+		excludeCurrentPost = false,
 		taxRelation,
 		catOperator,
 		tagOperator,
@@ -72,15 +74,11 @@ const useFetchPosts = ( props ) => {
 				context: 'view',
 			} );
 
-			let query = {
-				exclude: [ currentPostId ],
-			};
+			const query = { ...customQuery };
 
-			if ( Object.keys( customQuery ).length > 0 ) {
-				query = {
-					...customQuery,
-					exclude: [ currentPostId ],
-				};
+			// Template IDs in the site editor aren't numeric.
+			if ( excludeCurrentPost && Number.isInteger( currentPostId ) ) {
+				query.exclude = [ currentPostId ];
 			}
 
 			if ( postIds.length ) {
@@ -158,7 +156,7 @@ const useFetchPosts = ( props ) => {
 					catArgument = 'categories_exclude';
 				}
 				if ( tagOperator === 'NOT IN' ) {
-					tagArgument = 'categories_exclude';
+					tagArgument = 'tags_exclude';
 				}
 
 				postsRef.current = getEntityRecords( 'postType', postType, {
@@ -204,6 +202,7 @@ const useFetchPosts = ( props ) => {
 			catOperator,
 			tagOperator,
 			withTaxRelation,
+			excludeCurrentPost,
 		]
 	);
 
