@@ -1,6 +1,8 @@
 <?php
 /**
  * Arrow Pagination Template.
+ *
+ * @package post-crafts
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,7 +18,7 @@ $loop_template = isset( $loop_template ) ? $loop_template : 'post-grid';
 ?>
 
 <div class="pcrafts-pagination pcrafts-arrow <?php echo esc_attr( $alignment ); ?>"
-	data-query="<?php echo esc_attr( json_encode( $post_query ) ); ?>"
+	data-query="<?php echo esc_attr( wp_json_encode( $post_query ) ); ?>"
 	data-page="1"
 	data-max-page="<?php echo esc_attr( $max_page ); ?>"
 	data-post-id="<?php echo esc_attr( get_the_ID() ); ?>"

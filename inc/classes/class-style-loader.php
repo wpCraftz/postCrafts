@@ -1,6 +1,6 @@
 <?php
 /**
- * Rest API class.
+ * Style loader class.
  *
  * @package post-crafts
  */
@@ -10,9 +10,9 @@ namespace PostCrafts\Blocks\Inc;
 use PostCrafts\Blocks\Inc\Traits\Singleton;
 
 /**
- * Class Assets
+ * Class Style_Loader
  */
-class Style_loader {
+class Style_Loader {
 
 	use Singleton;
 
@@ -40,6 +40,11 @@ class Style_loader {
 		add_action( 'wp', array( $this, 'load_css' ) );
 	}
 
+	/**
+	 * Load the saved block CSS for the current post.
+	 *
+	 * @return void
+	 */
 	public function load_css() {
 
 		if ( ! is_singular() || is_attachment() ) {
@@ -64,7 +69,7 @@ class Style_loader {
 		if ( ! empty( $this->css ) ) {
 			echo "\n";
 			echo '<style class="pcrafts-dynamic-styles">';
-			echo $this->css;
+			echo wp_strip_all_tags( $this->css ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- CSS can't be HTML-escaped; stripping tags stops it closing the style element.
 			echo '</style>';
 		}
 	}

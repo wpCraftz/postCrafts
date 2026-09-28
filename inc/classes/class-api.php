@@ -42,12 +42,12 @@ class Api {
 
 		register_rest_route(
 			POST_CRAFTS_REST_NAMESPACE,
-			'/' . 'style',
+			'/style',
 			array(
 				'methods'             => \WP_REST_Server::CREATABLE,
 				'callback'            => array( $this, 'save_style' ),
-				'permission_callback' => function () {
-					return current_user_can( 'edit_posts' );
+				'permission_callback' => function ( $request ) {
+					return current_user_can( 'edit_post', absint( $request->get_param( 'post_id' ) ) );
 				},
 				'args'                => array(
 					'post_id' => array(
@@ -66,7 +66,7 @@ class Api {
 
 		register_rest_route(
 			POST_CRAFTS_REST_NAMESPACE,
-			'/' . 'style',
+			'/style',
 			array(
 				'methods'             => \WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_style' ),
@@ -76,17 +76,19 @@ class Api {
 	}
 
 	/**
-	 * Save style
+	 * Save style.
 	 *
-	 * @param WP_REST_Request $request
+	 * @param \WP_REST_Request $request Full details about the request.
+	 *
+	 * @return \WP_REST_Response|\WP_Error Response object.
 	 */
-	function save_style( $request ) {
+	public function save_style( $request ) {
 		$post_id       = $request->get_param( 'post_id' );
 		$style         = $request->get_param( 'style' );
 		$block_id      = $request->get_param( 'block_id' );
 		$is_previewing = $request->get_param( 'is_previewing' );
 
-		if ( $block_id === 'all' ) {
+		if ( 'all' === $block_id ) {
 			update_post_meta( $post_id, true == $is_previewing ? 'post-crafts-preview-style' : 'post-crafts-style', $style );
 		} else {
 			$current_style = get_post_meta( $post_id, 'post-crafts-style', true );
@@ -99,16 +101,20 @@ class Api {
 				$new_style[ $block_id ] = $style;
 			}
 
-			update_post_meta( $post_id, 'post-crafts-style', json_encode( $new_style ) );
+			update_post_meta( $post_id, 'post-crafts-style', wp_json_encode( $new_style ) );
 		}
 
 		return rest_ensure_response( 'Style saved successfully' );
 	}
 
 	/**
-	 * Get style
+	 * Get style.
+	 *
+	 * @param \WP_REST_Request $request Full details about the request.
+	 *
+	 * @return \WP_REST_Response|\WP_Error Response object.
 	 */
-	function get_style( $request ) {
+	public function get_style( $request ) {
 		$post_id = $request->get_param( 'post_id' );
 
 		$style = get_post_meta( $post_id, 'post-crafts-style', true );

@@ -10,7 +10,7 @@ Execution flows and data contracts are in **[docs/architecture.md](docs/architec
 - PHP ≥ 7.4 (no 8.x-only syntax), WP ≥ 5.6. Local `wp-env` runs PHP 8.0.
 - JS: `@wordpress/scripts` 27 (webpack 5 + Sass), block `apiVersion` 3, React via WP globals.
 - **pnpm 12.4.1** (pinned in `packageManager`). `yarn.lock` is stale; don't use yarn or npm.
-- PHPCS with WordPress-Core/Docs/Extra, installed via Composer (`phpcs.xml`).
+- PHPCS with WordPress-Core/Docs/Extra, WordPress-VIP-Go and PHPCompatibilityWP (7.4+), installed via Composer (`phpcs.xml`).
 
 ## Commands
 | Task | Command |
@@ -73,7 +73,7 @@ Registration is automatic.
 
 ## Known issues (verified; fix deliberately, don't rediscover)
 - **Security, unfixed** (a fix design was in git `f0bbee9`, then deleted):
-  - `Style_loader::print_css()` echoes the meta value unescaped.
+  - `Style_Loader::print_css()` echoes the meta value unescaped.
   - The REST save checks `edit_posts`, not `edit_post` on the given `post_id`.
   - The AJAX `paginate_posts` handler (also registered for logged-out users) passes raw `$_POST['query']` to `WP_Query` and raw `$_POST['template']` into an `include` path. The only valid templates are `post-grid` and `post-list`.
 - `post_crafts_query_builder()` reads `$attributes['post_type']`, but the attribute is `postType`, so the front end always queries `post`.

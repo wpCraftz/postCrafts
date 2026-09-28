@@ -133,7 +133,7 @@ function post_crafts_query_builder( $attributes, $paged = null ) {
 	}
 
 	if ( isset( $attributes['excludeCurrentPost'] ) && true === $attributes['excludeCurrentPost'] ) {
-		$args['post__not_in'] = array( get_the_ID() );
+		$args['post__not_in'] = array( get_the_ID() ); // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in -- Excludes only the current post.
 	}
 
 	if ( ! empty( $attributes['postIds'] ) ) {
@@ -198,15 +198,125 @@ function post_crafts_query_builder( $attributes, $paged = null ) {
 }
 
 /**
+ * Sanitize query arguments received from the front end.
+ *
+ * Only the keys produced by post_crafts_query_builder() are kept, so an
+ * untrusted request can't pass arbitrary arguments to WP_Query.
+ *
+ * @param array $query Raw query arguments.
+ *
+ * @return array Sanitized query arguments.
+ */
+function post_crafts_sanitize_query_args( $query ) {
+	$query = is_array( $query ) ? $query : array();
+	$args  = array(
+		'post_status'            => 'publish',
+		'update_post_meta_cache' => false,
+		'update_post_term_cache' => false,
+		'posts_per_page'         => 6,
+		'paged'                  => 1,
+	);
+
+	if ( isset( $query['posts_per_page'] ) ) {
+		$args['posts_per_page'] = min( max( absint( $query['posts_per_page'] ), 1 ), 100 );
+	}
+
+	if ( isset( $query['paged'] ) ) {
+		$args['paged'] = max( absint( $query['paged'] ), 1 );
+	}
+
+	if ( isset( $query['order'] ) ) {
+		$args['order'] = 'ASC' === strtoupper( sanitize_text_field( $query['order'] ) ) ? 'ASC' : 'DESC';
+	}
+
+	if ( isset( $query['orderby'] ) && in_array( $query['orderby'], array( 'date', 'title', 'post__in' ), true ) ) {
+		$args['orderby'] = $query['orderby'];
+	}
+
+	if ( isset( $query['post_type'] ) && is_string( $query['post_type'] ) && is_post_type_viewable( $query['post_type'] ) ) {
+		$args['post_type'] = $query['post_type'];
+	}
+
+	if ( ! empty( $query['ignore_sticky_posts'] ) && 'false' !== $query['ignore_sticky_posts'] ) {
+		$args['ignore_sticky_posts'] = true;
+	}
+
+	$id_keys = array( 'post__in', 'post__not_in', 'category__in', 'category__not_in', 'category__and', 'tag__in', 'tag__not_in', 'tag__and' );
+
+	foreach ( $id_keys as $key ) {
+		if ( ! empty( $query[ $key ] ) && is_array( $query[ $key ] ) ) {
+			$args[ $key ] = array_filter( array_map( 'absint', $query[ $key ] ) );
+		}
+	}
+
+	if ( ! empty( $query['tax_query'] ) && is_array( $query['tax_query'] ) ) {
+		$tax_query = post_crafts_sanitize_tax_query( $query['tax_query'] );
+
+		if ( ! empty( $tax_query ) ) {
+			$args['tax_query'] = $tax_query; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+		}
+	}
+
+	return $args;
+}
+
+/**
+ * Sanitize a tax query, including nested groups.
+ *
+ * @param array $tax_query Raw tax query.
+ *
+ * @return array Sanitized tax query.
+ */
+function post_crafts_sanitize_tax_query( $tax_query ) {
+	$sanitized = array();
+
+	foreach ( $tax_query as $key => $clause ) {
+		if ( 'relation' === $key ) {
+			$sanitized['relation'] = 'OR' === strtoupper( sanitize_text_field( $clause ) ) ? 'OR' : 'AND';
+			continue;
+		}
+
+		if ( ! is_array( $clause ) ) {
+			continue;
+		}
+
+		// Nested group of clauses.
+		if ( ! isset( $clause['taxonomy'] ) ) {
+			$group = post_crafts_sanitize_tax_query( $clause );
+
+			if ( ! empty( $group ) ) {
+				$sanitized[] = $group;
+			}
+			continue;
+		}
+
+		if ( ! in_array( $clause['taxonomy'], array( 'category', 'post_tag' ), true ) || empty( $clause['terms'] ) ) {
+			continue;
+		}
+
+		$operator = isset( $clause['operator'] ) ? strtoupper( sanitize_text_field( $clause['operator'] ) ) : 'IN';
+
+		$sanitized[] = array(
+			'taxonomy' => $clause['taxonomy'],
+			'field'    => 'term_id',
+			'terms'    => array_filter( array_map( 'absint', (array) $clause['terms'] ) ),
+			'operator' => in_array( $operator, array( 'IN', 'NOT IN', 'AND' ), true ) ? $operator : 'IN',
+		);
+	}
+
+	return $sanitized;
+}
+
+/**
  * Get plugin template.
  *
  * @param string $template  Name or path of the template within /templates folder without php extension.
  * @param array  $variables pass an array of variables you want to use in template.
- * @param bool   $echo      Whether to echo out the template content or not.
+ * @param bool   $should_echo Whether to echo out the template content or not.
  *
  * @return string|void Template markup.
  */
-function post_crafts_template( $template, $variables = array(), $echo = false ) {
+function post_crafts_template( $template, $variables = array(), $should_echo = false ) {
 
 	$template_file = sprintf( '%1$s/inc/templates/%2$s.php', POST_CRAFTS_PATH, $template );
 
@@ -221,11 +331,10 @@ function post_crafts_template( $template, $variables = array(), $echo = false ) 
 	ob_start();
 
 	include $template_file; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
-	// include $template_file; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
 
 	$markup = ob_get_clean();
 
-	if ( ! $echo ) {
+	if ( ! $should_echo ) {
 		return $markup;
 	}
 
@@ -255,7 +364,7 @@ function post_crafts_pagination( $max_page, $current_page ) {
 
 	$pages = '<ul class="pcrafts-pages">';
 
-	$pages .= sprintf( '<li class="prev page-numbers%1$s" data-page="%2$s">%3$s</li>', $current_page === 1 ? $hide_class : '', $current_page - 1, __( 'Prev', 'post-crafts' ) );
+	$pages .= sprintf( '<li class="prev page-numbers%1$s" data-page="%2$s">%3$s</li>', 1 === $current_page ? $hide_class : '', esc_attr( $current_page - 1 ), esc_html__( 'Prev', 'post-crafts' ) );
 
 	if ( $max_page > 4 ) {
 
@@ -277,24 +386,24 @@ function post_crafts_pagination( $max_page, $current_page ) {
 		} elseif ( $current_page >= 3 ) {
 			$middle_pages = array( $current_page - 1, $current_page, $current_page + 1 );
 		}
-	} elseif ( $max_page == 2 ) {
+	} elseif ( 2 == $max_page ) { // phpcs:ignore Universal.Operators.StrictComparisons.LooseEqual -- Value may be a numeric string.
 		$middle_pages = array( 1, 2 );
 	}
 
 	foreach ( $middle_pages as $page ) {
-		$pages .= sprintf( '<li class="page-numbers middle-pages%s" data-page="' . $page . '">' . $page . '</li>', $current_page === $page ? $active_class : '' );
+		$pages .= sprintf( '<li class="page-numbers middle-pages%1$s" data-page="%2$s">%3$s</li>', $current_page === $page ? $active_class : '', esc_attr( $page ), esc_html( $page ) );
 	}
 
 	$pages .= sprintf( '<li class="page-dots last%s">...</li>', $max_page <= $current_page + 2 ? $hide_class : '' );
 
 	if ( $max_page > 3 ) {
-		$pages .= sprintf( '<li class="page-numbers last-page%s" data-page="' . $max_page . '">' . $max_page . '</li>', $max_page <= $current_page + 1 ? $hide_class : '' );
+		$pages .= sprintf( '<li class="page-numbers last-page%1$s" data-page="%2$s">%3$s</li>', $max_page <= $current_page + 1 ? $hide_class : '', esc_attr( $max_page ), esc_html( $max_page ) );
 	}
 
-	$pages .= sprintf( '<li class="next page-numbers%1$s" data-page="%2$s">%3$s</li>', $current_page === $max_page ? $hide_class : '', $current_page + 1, __( 'Next', 'post-crafts' ) );
+	$pages .= sprintf( '<li class="next page-numbers%1$s" data-page="%2$s">%3$s</li>', $current_page === $max_page ? $hide_class : '', esc_attr( $current_page + 1 ), esc_html__( 'Next', 'post-crafts' ) );
 
 	$pages .= '</ul>';
-	return $pages; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped already in template.
+	return $pages;
 }
 
 /**
@@ -313,13 +422,18 @@ function post_crafts_excerpt_length( $post_id, $length = 40 ) {
 /**
  * Get block attributes.
  *
- * @param number $block_id Block ID.
+ * @param number $post_id  ID of the post that contains the block.
+ * @param string $block_id Block ID.
  *
  * @return array Block attributes.
  */
 function post_crafts_get_block_attributes( $post_id, $block_id ) {
 	$post       = get_post( $post_id );
 	$attributes = array();
+
+	if ( ! $post ) {
+		return $attributes;
+	}
 
 	if ( has_blocks( $post->post_content ) ) {
 		$blocks = parse_blocks( $post->post_content );
