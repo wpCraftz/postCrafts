@@ -33,9 +33,9 @@ post-crafts.php
 1. blockId      if empty → setAttributes({ blockId: clientId.substring(0, 8) })   permanent CSS scope + AJAX lookup key
 2. live CSS     styleGenerator(name, attributes) → inline <style> in the block (same generator as §3)
 3. posts        useFetchPosts() (src/libs/fetchPosts.js) → core-data getEntityRecords('postType', postType, query) → /wp/v2/posts
-                  query = { per_page, order, orderby, exclude: [currentPostId] }
+                  query = { per_page, order, orderby }  + exclude: [currentPostId] when excludeCurrentPost (numeric IDs only)
                   postIds set      → include + orderby 'include'
-                  taxQuery set     → categories | categories_exclude, tags, tax_relation (keys = taxonomy rest_base)
+                  taxQuery set     → categories | categories_exclude, tags | tags_exclude, tax_relation (keys = taxonomy rest_base)
                   postIds reorder only → arrayMoveImmutable on cached posts (no refetch)
                   postsPerPage lowered → slice cached posts
 4. lookups      getUsers(authors) + category terms → blockContexts (title, excerpt from content.raw, image, author, first category)
@@ -49,7 +49,8 @@ Selecting specific posts in QueryBuilder turns `pagination` off. Clearing the se
 ```
 src/editor/subscriber.js   wp.data.subscribe(), runs on every store change
   when isPublishingPost || (isSavingPost && !isAutosavingPost) || isPreviewingPost   (800 ms throttle)
-  → css-manager.parseStyle()     top-level getBlocks(), names containing 'post-crafts'
+  skipped when getCurrentPostId() isn't an integer (site editor templates: no saved CSS)
+  → css-manager.parseStyle()     getBlocks() walked recursively (innerBlocks), names containing 'post-crafts'
       → style-generator(name, attributes) per block, concatenated
   → libs/fetchStyle.updateStyle(postId, 'all', css, isPreviewing)
       POST /wp-json/post-crafts/v1/style { post_id, block_id: 'all', style, is_previewing }
@@ -66,12 +67,12 @@ GET singular page
  │           → wp_head: <style class="pcrafts-dynamic-styles">
  └─ content  render_block → build/blocks/<block>/render.php ($attributes)
       $args = post_crafts_query_builder($attributes)
-        posts_per_page, post_status 'publish', paged, order/orderby ← sorting
+        posts_per_page, post_status 'publish', paged, order/orderby ← sorting, post_type ← postType (if viewable)
         ignoreSticky → ignore_sticky_posts;  excludeCurrentPost → post__not_in [get_the_ID()]
         postIds  → post__in + orderby 'post__in' (taxonomy filters ignored)
         cat+tag  → tax_query { relation: taxRelation, category (catOperator), post_tag (tagOperator) }
         one only → category__in | __and | __not_in   or   tag__in | __and | __not_in
-      new WP_Query($args); loop skips the current post, stops at postsPerPage
+      new WP_Query($args); loop stops at postsPerPage (sticky posts can exceed it)
         post_crafts_template('block-templates/post-grid|post-list', { excerpt, excerpt_length }, echo)
       if pagination → template pagination | loadmore | arrow with data-* attributes:
         data-query (JSON $args), data-page, data-max-page, data-post-id, data-block-id,
@@ -89,8 +90,9 @@ src/scripts/pagination.js   new Pagination() binds every .pcrafts-pagination by 
             postId, blockId, paged, template, query: { ...JSON(data-query), paged } })
   → Plugin::post_crafts_pagination()
       wp_verify_nonce('post-crafts') (bare return on failure)
-      attrs = post_crafts_get_block_attributes(postId, blockId)   parse_blocks, top level, match attrs.blockId
-      WP_Query($_POST['query']) → [ rendered 'block-templates/{template}' per post ]
+      attrs = post_crafts_get_block_attributes(postId, blockId)   parse_blocks, recursive, match attrs.blockId, + block.json defaults
+                (block not in post content → block.json defaults for 'post-crafts/{template}')
+      WP_Query(post_crafts_sanitize_query_args($_POST['query'])) → [ rendered 'block-templates/{template}' per post ]
       wp_send_json_success(html[]) | wp_send_json_error
   ← loadmore  append to .pcrafts-posts-wrapper; button gets .disabled on error or a short page
     arrow     replace; toggle .disabled on prev/next using data-max-page
@@ -104,7 +106,7 @@ src/scripts/pagination.js   new Pagination() binds every .pcrafts-pagination by 
 | Attribute | Default | Notes |
 |---|---|---|
 | `blockId` | auto (8 chars of clientId) | CSS scope, AJAX lookup. Never regenerate |
-| `postType` | `post` | Editor only (PHP reads `post_type`) |
+| `postType` | `post` | No UI; editor and front end both query it |
 | `postsPerPage` | `6` | |
 | `sorting` | `{ order: 'desc', orderBy: 'date' }` | |
 | `postIds` | `[]` | Specific posts, in this order |
