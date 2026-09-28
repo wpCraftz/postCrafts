@@ -82,7 +82,14 @@ class Plugin {
 			wp_send_json_error( array( __( 'Invalid template', 'post-crafts' ) ), 400 );
 		}
 
-		$attributes    = post_crafts_get_block_attributes( $post_id, $block_id );
+		$attributes = post_crafts_get_block_attributes( $post_id, $block_id );
+
+		// The block may live outside the post content (e.g. a template part); use block.json defaults.
+		if ( empty( $attributes ) ) {
+			$block_type = \WP_Block_Type_Registry::get_instance()->get_registered( 'post-crafts/' . $template );
+			$attributes = $block_type ? $block_type->prepare_attributes_for_render( array() ) : array();
+		}
+
 		$fetched_posts = new \WP_Query( post_crafts_sanitize_query_args( $query ) );
 
 		if ( $fetched_posts->have_posts() ) {
