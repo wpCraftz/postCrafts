@@ -8,11 +8,11 @@ const ExcerptSettings = ( { attributes, setAttributes } ) => {
 	const { excerpt, excerptLength } = attributes;
 	return (
 		<PanelBody
-			title={ __( 'Excerpt', 'post-crafts' ) }
+			title={ __( 'Excerpt', 'postcrafts' ) }
 			initialOpen={ false }
 		>
 			<ToggleControl
-				label={ __( 'Show Excerpt ', 'post-crafts' ) }
+				label={ __( 'Show Excerpt ', 'postcrafts' ) }
 				checked={ excerpt }
 				onChange={ ( newValue ) => {
 					setAttributes( { excerpt: newValue } );
@@ -20,7 +20,7 @@ const ExcerptSettings = ( { attributes, setAttributes } ) => {
 			/>
 			{ excerpt && (
 				<RangeControl
-					label={ __( 'Excerpt Length', 'post-crafts' ) }
+					label={ __( 'Excerpt Length', 'postcrafts' ) }
 					value={ excerptLength }
 					onChange={ ( newValue ) => {
 						setAttributes( { excerptLength: newValue } );

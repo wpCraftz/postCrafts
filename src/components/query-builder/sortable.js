@@ -42,7 +42,7 @@ const SortableItem = SortableElement( ( { value, itemIndex } ) => {
 			<span className="item__post-id">{ value.id }</span>
 			<span className="item__post-title">
 				{ decodeEntities( value.title ) ||
-					__( '(No Title)', 'post-crafts' ) }
+					__( '(No Title)', 'postcrafts' ) }
 			</span>
 			<span className="item__post-status">
 				{ getPresentablePostStatus( value.status ) }
@@ -95,7 +95,7 @@ const Sortable = ( {
 				className="close-sorting-modal"
 				onClick={ () => closeModal() }
 			>
-				{ __( 'Finish Sorting', 'post-crafts' ) }
+				{ __( 'Finish Sorting', 'postcrafts' ) }
 			</Button>
 			<SortableContainer
 				onSortEnd={ onSortEnd }
@@ -104,13 +104,13 @@ const Sortable = ( {
 				<ul className="post-sotring__items-wrapper items-list">
 					<li className="items-list--item item item--headers">
 						<span className="item__post-id">
-							{ __( 'Post ID', 'post-crafts' ) }
+							{ __( 'Post ID', 'postcrafts' ) }
 						</span>
 						<span className="item__post-title">
-							{ __( 'Post Title', 'post-crafts' ) }
+							{ __( 'Post Title', 'postcrafts' ) }
 						</span>
 						<span className="item__post-status">
-							{ __( 'Post Status', 'post-crafts' ) }
+							{ __( 'Post Status', 'postcrafts' ) }
 						</span>
 					</li>
 				</ul>

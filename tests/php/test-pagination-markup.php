@@ -395,7 +395,7 @@ class Test_Pagination_Markup extends TestCase {
 	 */
 	public function test_labels_are_translated_and_escaped() {
 		$translate = static function ( $translation, $text, $domain ) {
-			if ( 'post-crafts' !== $domain ) {
+			if ( 'postcrafts' !== $domain ) {
 				return $translation;
 			}
 

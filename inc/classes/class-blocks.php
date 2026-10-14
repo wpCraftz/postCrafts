@@ -7,6 +7,10 @@
 
 namespace PostCrafts\Blocks\Inc;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 use PostCrafts\Blocks\Inc\Traits\Singleton;
 
 /**
@@ -54,7 +58,7 @@ class Blocks {
 			array(
 				array(
 					'slug'  => 'post-crafts',
-					'title' => __( 'Advanced Post Blocks', 'post-crafts' ),
+					'title' => __( 'Advanced Post Blocks', 'postcrafts' ),
 					'icon'  => null,
 				),
 			),

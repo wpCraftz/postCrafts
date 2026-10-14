@@ -7,6 +7,10 @@
 
 namespace PostCrafts\Blocks\Inc\Helpers;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  * Auto loader function.
  *

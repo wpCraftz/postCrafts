@@ -151,7 +151,7 @@ const PostBlockSettings = ( {
 	const displayPostSelectModal = () => {
 		return (
 			<Modal
-				title={ __( 'Select Posts', 'post-crafts' ) }
+				title={ __( 'Select Posts', 'postcrafts' ) }
 				onRequestClose={ closePostSelectModal }
 			>
 				<PostSelector
@@ -173,7 +173,7 @@ const PostBlockSettings = ( {
 	const displayPostSortingModal = () => {
 		return (
 			<Modal
-				title={ __( 'Sort Selected Posts', 'post-crafts' ) }
+				title={ __( 'Sort Selected Posts', 'postcrafts' ) }
 				onRequestClose={ () => {
 					setIsSortingModalOpen( false );
 				} }
@@ -204,8 +204,8 @@ const PostBlockSettings = ( {
 						onClick={ openPostSelectModal }
 					>
 						{ postIds.length > 0
-							? __( 'Modify Selection', 'post-crafts' )
-							: __( 'Select Posts', 'post-crafts' ) }
+							? __( 'Modify Selection', 'postcrafts' )
+							: __( 'Select Posts', 'postcrafts' ) }
 					</Button>
 					{ !! postIds.length && (
 						<>
@@ -214,9 +214,9 @@ const PostBlockSettings = ( {
 								onClick={ clearAll }
 								className="clear-selected-list"
 								showTooltip
-								label={ __( 'Clear Selection', 'post-crafts' ) }
+								label={ __( 'Clear Selection', 'postcrafts' ) }
 							>
-								{ __( 'Clear', 'post-crafts' ) }
+								{ __( 'Clear', 'postcrafts' ) }
 							</Button>
 						</>
 					) }
@@ -226,12 +226,12 @@ const PostBlockSettings = ( {
 						id="inspector-range-control-0__help"
 						className="components-base-control__help sortable-help"
 					>
-						{ __( 'You can select ', 'post-crafts' ) }
+						{ __( 'You can select ', 'postcrafts' ) }
 						{ postsPerPage - postIds.length }
-						{ __( ' more ', 'post-crafts' ) }
+						{ __( ' more ', 'postcrafts' ) }
 						{ postsPerPage - postIds.length > 1
-							? __( 'posts', 'post-crafts' )
-							: __( 'post', 'post-crafts' ) }
+							? __( 'posts', 'postcrafts' )
+							: __( 'post', 'postcrafts' ) }
 					</p>
 				) }
 
@@ -243,7 +243,7 @@ const PostBlockSettings = ( {
 						className="post-sorting-modal-trigger"
 						onClick={ () => setIsSortingModalOpen( true ) }
 					>
-						{ __( 'Sort Posts', 'post-crafts' ) }
+						{ __( 'Sort Posts', 'postcrafts' ) }
 					</Button>
 				) }
 
@@ -254,10 +254,7 @@ const PostBlockSettings = ( {
 							max={ maxNumberOfPost }
 							value={ postsPerPage }
 							className="number-of-posts"
-							label={ __(
-								'Max number of Posts ',
-								'post-crafts'
-							) }
+							label={ __( 'Max number of Posts ', 'postcrafts' ) }
 							onChange={ ( postsPerPage ) => {
 								const updatedAttrs = {
 									postsPerPage,
@@ -296,15 +293,15 @@ const PostBlockSettings = ( {
 					taxQuery.category?.length > 0 &&
 					taxQuery.post_tag?.length > 0 && (
 						<SelectControl
-							label={ __( 'Relation', 'post-crafts' ) }
+							label={ __( 'Relation', 'postcrafts' ) }
 							value={ taxRelation }
 							options={ [
 								{
-									label: __( 'AND', 'post-crafts' ),
+									label: __( 'AND', 'postcrafts' ),
 									value: 'AND',
 								},
 								{
-									label: __( 'OR', 'post-crafts' ),
+									label: __( 'OR', 'postcrafts' ),
 									value: 'OR',
 								},
 							] }
@@ -313,12 +310,12 @@ const PostBlockSettings = ( {
 							}
 							help={ __(
 								'The logical relationship between above taxonomies.',
-								'post-crafts'
+								'postcrafts'
 							) }
 						/>
 					) }
 				<ToggleControl
-					label={ __( 'Exclude Current Post', 'post-crafts' ) }
+					label={ __( 'Exclude Current Post', 'postcrafts' ) }
 					checked={ excludeCurrentPost }
 					onChange={ ( excludeCurrentPost ) =>
 						setAttributes( { excludeCurrentPost } )
@@ -326,7 +323,7 @@ const PostBlockSettings = ( {
 				/>
 
 				<ToggleControl
-					label={ __( 'Ignore Sticky Posts', 'post-crafts' ) }
+					label={ __( 'Ignore Sticky Posts', 'postcrafts' ) }
 					checked={ ignoreSticky }
 					onChange={ ( ignoreSticky ) =>
 						setAttributes( { ignoreSticky } )
@@ -335,7 +332,7 @@ const PostBlockSettings = ( {
 
 				{ typeof showCategory !== 'undefined' && (
 					<ToggleControl
-						label={ __( 'Show Category?', 'post-crafts' ) }
+						label={ __( 'Show Category?', 'postcrafts' ) }
 						checked={ showCategory }
 						onChange={ ( showCategory ) =>
 							setAttributes( { showCategory } )
@@ -344,7 +341,7 @@ const PostBlockSettings = ( {
 				) }
 				{ typeof showExcerpt !== 'undefined' && (
 					<ToggleControl
-						label={ __( 'Show Excerpt?', 'post-crafts' ) }
+						label={ __( 'Show Excerpt?', 'postcrafts' ) }
 						checked={ showExcerpt }
 						onChange={ ( showExcerpt ) =>
 							setAttributes( { showExcerpt } )

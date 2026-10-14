@@ -22,7 +22,7 @@ $pages_markup  = post_crafts_pagination( $max_page, $current_page );
 <div class="pcrafts-pagination pcrafts-numberic <?php echo esc_attr( $alignment ); ?>"
 	<?php if ( ! empty( $pages_markup ) ) : ?>
 	role="navigation"
-	aria-label="<?php esc_attr_e( 'Posts pagination', 'post-crafts' ); ?>"
+	aria-label="<?php esc_attr_e( 'Posts pagination', 'postcrafts' ); ?>"
 	<?php endif; ?>
 	data-query="<?php echo esc_attr( wp_json_encode( $post_query ) ); ?>"
 	data-page="<?php echo esc_attr( $current_page ); ?>"

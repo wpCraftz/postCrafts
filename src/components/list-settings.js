@@ -16,13 +16,13 @@ const ListSetttings = ( {
 	const { rowGap } = attributes;
 	return (
 		<PanelBody
-			title={ __( 'Layout Settings', 'post-crafts' ) }
+			title={ __( 'Layout Settings', 'postcrafts' ) }
 			initialOpen={ initialOpen }
 		>
 			<Range
 				isResponsive
 				value={ rowGap }
-				label={ __( 'Row Gap', 'post-crafts' ) }
+				label={ __( 'Row Gap', 'postcrafts' ) }
 				onChange={ ( value ) => {
 					setAttributes( { rowGap: value } );
 				} }

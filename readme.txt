@@ -5,7 +5,7 @@ Requires at least: 5.6
 Tested up to: 7.1
 Requires PHP: 7.4
 Tested up to PHP: 8.3
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -116,6 +116,23 @@ It is a Gutenberg plugin it works great with WordPress version 5.x.x or more. An
 
 == Changelog ==
 
+= 1.1.0 - 14 October 2026 =
+
+- New: Styles tab with category, title, title hover, meta and excerpt colors and a responsive title font size
+- New: Keyboard-accessible pagination with screen reader labels
+- New: Post picker search matches titles; selection can be cancelled
+- Fix: Security hardening for AJAX pagination, saved block CSS and the style REST endpoint
+- Fix: Load More no longer loads posts twice on a double click and disables after the last page
+- Fix: Numbered pagination with four pages
+- Fix: Excerpt words no longer run together; manual excerpts are used
+- Fix: "Exclude current post" now applies in the editor, the first page and AJAX pages
+- Fix: Blocks inside Group/Columns get their styles and settings on AJAX pages
+- Fix: Placeholder shown for posts with a missing featured image
+- Fix: Activation and translations load from the plugin root
+- Update: Editor preview matches the front end
+- Update: Removed the empty PostCrafts admin page
+- Update: Removed site-wide excerpt length/"more" filters
+
 = 0.2.0 - 29 April 2024 =
 
 - Update: Range component UI/UX
@@ -147,3 +164,8 @@ It is a Gutenberg plugin it works great with WordPress version 5.x.x or more. An
 = 0.0.1 - 21 Feb 2024 =
 
 * Alpha release
+
+== Upgrade Notice ==
+
+= 1.1.0 =
+Security and pagination fixes. Note: with "Exclude current post" off (the default), a block on a single post now includes that post; theme excerpts outside PostCrafts blocks use WordPress's default "more" text.

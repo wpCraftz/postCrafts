@@ -23,7 +23,7 @@ const Pagination = ( { type, alignment } ) => {
 		return (
 			<div className={ classes }>
 				<button type="button" className="pcrafts-loadmore-btn">
-					{ __( 'Load More', 'post-crafts' ) }
+					{ __( 'Load More', 'postcrafts' ) }
 				</button>
 			</div>
 		);
@@ -34,12 +34,12 @@ const Pagination = ( { type, alignment } ) => {
 			<div
 				className={ classes }
 				role="navigation"
-				aria-label={ __( 'Posts pagination', 'post-crafts' ) }
+				aria-label={ __( 'Posts pagination', 'postcrafts' ) }
 			>
 				<button
 					type="button"
 					className="pcrafts-prev disabled"
-					aria-label={ __( 'Previous page', 'post-crafts' ) }
+					aria-label={ __( 'Previous page', 'postcrafts' ) }
 					disabled
 				>
 					<svg
@@ -55,7 +55,7 @@ const Pagination = ( { type, alignment } ) => {
 				<button
 					type="button"
 					className="pcrafts-next"
-					aria-label={ __( 'Next page', 'post-crafts' ) }
+					aria-label={ __( 'Next page', 'postcrafts' ) }
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -75,7 +75,7 @@ const Pagination = ( { type, alignment } ) => {
 		<div
 			className={ classes }
 			role="navigation"
-			aria-label={ __( 'Posts pagination', 'post-crafts' ) }
+			aria-label={ __( 'Posts pagination', 'postcrafts' ) }
 		>
 			<ul className="pcrafts-pages">
 				{ [ 1, 2, 3 ].map( ( page ) => (
@@ -99,9 +99,9 @@ const Pagination = ( { type, alignment } ) => {
 					<button
 						type="button"
 						className="pcrafts-page-btn"
-						aria-label={ __( 'Next page', 'post-crafts' ) }
+						aria-label={ __( 'Next page', 'postcrafts' ) }
 					>
-						{ __( 'Next', 'post-crafts' ) }
+						{ __( 'Next', 'postcrafts' ) }
 					</button>
 				</li>
 			</ul>

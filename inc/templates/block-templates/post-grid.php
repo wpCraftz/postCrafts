@@ -7,6 +7,10 @@
  * @package post-crafts
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 $excerpt        = isset( $excerpt ) ? $excerpt : true;
 $excerpt_length = isset( $excerpt_length ) ? $excerpt_length : '55';
 

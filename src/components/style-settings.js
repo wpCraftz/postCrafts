@@ -35,35 +35,32 @@ const StyleSettings = ( { attributes, setAttributes } ) => {
 
 	return (
 		<>
-			<PanelBody title={ __( 'Colors', 'post-crafts' ) } initialOpen>
+			<PanelBody title={ __( 'Colors', 'postcrafts' ) } initialOpen>
 				<ColorControl
-					label={ __( 'Card Colors', 'post-crafts' ) }
+					label={ __( 'Card Colors', 'postcrafts' ) }
 					settings={ [
 						colorSetting(
 							'categoryColor',
-							__( 'Category', 'post-crafts' )
+							__( 'Category', 'postcrafts' )
 						),
 						colorSetting(
 							'titleColor',
-							__( 'Title', 'post-crafts' )
+							__( 'Title', 'postcrafts' )
 						),
 						colorSetting(
 							'titleHoverColor',
-							__( 'Title Hover', 'post-crafts' )
+							__( 'Title Hover', 'postcrafts' )
 						),
-						colorSetting(
-							'metaColor',
-							__( 'Meta', 'post-crafts' )
-						),
+						colorSetting( 'metaColor', __( 'Meta', 'postcrafts' ) ),
 						colorSetting(
 							'excerptColor',
-							__( 'Excerpt', 'post-crafts' )
+							__( 'Excerpt', 'postcrafts' )
 						),
 					] }
 				/>
 			</PanelBody>
 			<PanelBody
-				title={ __( 'Typography', 'post-crafts' ) }
+				title={ __( 'Typography', 'postcrafts' ) }
 				initialOpen={ false }
 			>
 				<Range
@@ -72,7 +69,7 @@ const StyleSettings = ( { attributes, setAttributes } ) => {
 					min={ 10 }
 					max={ 80 }
 					units={ [ 'px' ] }
-					label={ __( 'Title Font Size', 'post-crafts' ) }
+					label={ __( 'Title Font Size', 'postcrafts' ) }
 					onChange={ ( value ) =>
 						setAttributes( { titleFontSize: value } )
 					}

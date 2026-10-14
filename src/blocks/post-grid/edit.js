@@ -284,7 +284,7 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 		// Only the preview waits for posts; the inspector stays mounted so panels keep their state.
 		preview = <Spinner />;
 	} else if ( ! posts.length ) {
-		preview = <p>{ __( 'No results found.', 'post-crafts' ) }</p>;
+		preview = <p>{ __( 'No results found.', 'postcrafts' ) }</p>;
 	} else {
 		preview = (
 			<>
@@ -315,7 +315,7 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 					setAttributes={ setAttributes }
 					maxNumberOfPost={ 40 }
 					sorting={ sorting }
-					label={ __( 'Query Builder', 'post-crafts' ) }
+					label={ __( 'Query Builder', 'postcrafts' ) }
 					postMeta={
 						!! blockContexts
 							? blockContexts.map( ( post ) => ( {
