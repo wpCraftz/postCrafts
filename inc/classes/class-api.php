@@ -7,6 +7,10 @@
 
 namespace PostCrafts\Blocks\Inc;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 use PostCrafts\Blocks\Inc\Traits\Singleton;
 
 /**
@@ -53,12 +57,12 @@ class Api {
 					'post_id' => array(
 						'required'    => true,
 						'type'        => 'integer',
-						'description' => __( 'ID of the current post', 'post-crafts' ),
+						'description' => __( 'ID of the current post', 'postcrafts' ),
 					),
 					'style'   => array(
 						'required'    => true,
 						'type'        => 'string',
-						'description' => __( 'Style to be saved', 'post-crafts' ),
+						'description' => __( 'Style to be saved', 'postcrafts' ),
 					),
 				),
 			)

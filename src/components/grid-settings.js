@@ -16,7 +16,7 @@ const GridSetttings = ( {
 	const { columns, columnGap, rowGap } = attributes;
 	return (
 		<PanelBody
-			title={ __( 'Layout Settings', 'post-crafts' ) }
+			title={ __( 'Layout Settings', 'postcrafts' ) }
 			initialOpen={ initialOpen }
 		>
 			<Range
@@ -24,7 +24,7 @@ const GridSetttings = ( {
 				units={ false }
 				value={ columns }
 				max={ 10 }
-				label={ __( 'Columns', 'post-crafts' ) }
+				label={ __( 'Columns', 'postcrafts' ) }
 				onChange={ ( value ) => {
 					setAttributes( { columns: value } );
 				} }
@@ -32,7 +32,7 @@ const GridSetttings = ( {
 			<Range
 				isResponsive
 				value={ columnGap }
-				label={ __( 'Column Gap', 'post-crafts' ) }
+				label={ __( 'Column Gap', 'postcrafts' ) }
 				onChange={ ( value ) => {
 					setAttributes( { columnGap: value } );
 				} }
@@ -40,7 +40,7 @@ const GridSetttings = ( {
 			<Range
 				isResponsive
 				value={ rowGap }
-				label={ __( 'Row Gap', 'post-crafts' ) }
+				label={ __( 'Row Gap', 'postcrafts' ) }
 				onChange={ ( value ) => {
 					setAttributes( { rowGap: value } );
 				} }

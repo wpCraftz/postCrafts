@@ -25,11 +25,11 @@ const PaginationSettings = ( { clientId, attributes, setAttributes } ) => {
 
 	return (
 		<PanelBody
-			title={ __( 'Pagination', 'post-crafts' ) }
+			title={ __( 'Pagination', 'postcrafts' ) }
 			initialOpen={ true }
 		>
 			<ToggleControl
-				label={ __( 'Enable Pagination', 'post-crafts' ) }
+				label={ __( 'Enable Pagination', 'postcrafts' ) }
 				checked={ pagination }
 				onChange={ ( newValue ) => {
 					setAttributes( { pagination: newValue } );
@@ -52,7 +52,7 @@ const PaginationSettings = ( { clientId, attributes, setAttributes } ) => {
 						settings={ [
 							{
 								colorValue: paginationColor,
-								label: __( 'Text', 'post-crafts' ),
+								label: __( 'Text', 'postcrafts' ),
 								onColorChange: ( newValue ) =>
 									setAttributes( {
 										paginationColor: newValue,
@@ -61,7 +61,7 @@ const PaginationSettings = ( { clientId, attributes, setAttributes } ) => {
 							{
 								colorValue: paginationBg,
 								gradientValue: paginationGradient,
-								label: __( 'Background', 'post-crafts' ),
+								label: __( 'Background', 'postcrafts' ),
 								onColorChange: ( newValue ) =>
 									setAttributes( {
 										paginationBg: newValue,
@@ -72,13 +72,13 @@ const PaginationSettings = ( { clientId, attributes, setAttributes } ) => {
 									} ),
 							},
 						] }
-						label={ __( 'Color', 'post-crafts' ) }
+						label={ __( 'Color', 'postcrafts' ) }
 					/>
 					<Range
 						isResponsive
 						value={ paginationBorderRadius }
 						max={ 50 }
-						label={ __( 'Border Radius', 'post-crafts' ) }
+						label={ __( 'Border Radius', 'postcrafts' ) }
 						onChange={ ( value ) => {
 							setAttributes( { paginationBorderRadius: value } );
 						} }

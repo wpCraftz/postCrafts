@@ -5,6 +5,10 @@
  * @package post-crafts
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  * Prints HTML with meta information for the current author.
  */
@@ -392,8 +396,8 @@ function post_crafts_pagination( $max_page, $current_page ) {
 		$item,
 		esc_attr( 'prev page-numbers' . ( 1 === $current_page ? $hide_class : '' ) ),
 		esc_attr( $current_page - 1 ),
-		' aria-label="' . esc_attr__( 'Previous page', 'post-crafts' ) . '"',
-		esc_html__( 'Prev', 'post-crafts' )
+		' aria-label="' . esc_attr__( 'Previous page', 'postcrafts' ) . '"',
+		esc_html__( 'Prev', 'postcrafts' )
 	);
 
 	if ( $max_page > 3 ) {
@@ -434,8 +438,8 @@ function post_crafts_pagination( $max_page, $current_page ) {
 		$item,
 		esc_attr( 'next page-numbers' . ( $current_page === $max_page ? $hide_class : '' ) ),
 		esc_attr( $current_page + 1 ),
-		' aria-label="' . esc_attr__( 'Next page', 'post-crafts' ) . '"',
-		esc_html__( 'Next', 'post-crafts' )
+		' aria-label="' . esc_attr__( 'Next page', 'postcrafts' ) . '"',
+		esc_html__( 'Next', 'postcrafts' )
 	);
 
 	$pages .= '</ul>';

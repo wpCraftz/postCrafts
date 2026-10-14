@@ -39,7 +39,7 @@ const Alignment = ( {
 			className={ classes }
 			id={ `${ clientId }-pagination-alignment` }
 			{ ...( ! hideLabel && {
-				label: label ? label : __( 'Alignment', 'post-crafts' ),
+				label: label ? label : __( 'Alignment', 'postcrafts' ),
 			} ) }
 		>
 			<ButtonGroup className="pcrafts-field-options">

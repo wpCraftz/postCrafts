@@ -83,7 +83,7 @@ export default function TaxonomyControls( {
 						/>
 						{ enableRelation && (
 							<SelectControl
-								label={ __( 'Operator', 'post-crafts' ) }
+								label={ __( 'Operator', 'postcrafts' ) }
 								value={
 									taxonomy.slug === 'category'
 										? catOperator
@@ -91,15 +91,15 @@ export default function TaxonomyControls( {
 								}
 								options={ [
 									{
-										label: __( 'IN', 'post-crafts' ),
+										label: __( 'IN', 'postcrafts' ),
 										value: 'IN',
 									},
 									{
-										label: __( 'NOT IN', 'post-crafts' ),
+										label: __( 'NOT IN', 'postcrafts' ),
 										value: 'NOT IN',
 									},
 									{
-										label: __( 'AND', 'post-crafts' ),
+										label: __( 'AND', 'postcrafts' ),
 										value: 'AND',
 									},
 								] }

@@ -1,6 +1,6 @@
 # PostCrafts: Agent Guide
 
-WordPress plugin ([wp.org/plugins/postcrafts](https://wordpress.org/plugins/postcrafts/), text domain `post-crafts`, v1.0.0) with two **dynamic Gutenberg blocks**: Post Grid (`post-crafts/post-grid`) and Post List (`post-crafts/post-list`). Features: query builder (categories/tags/specific posts, sort, reorder, exclude current/sticky), AJAX pagination (numeric, load more, arrows), responsive spacing, pagination colors, and excerpt settings.
+WordPress plugin ([wp.org/plugins/postcrafts](https://wordpress.org/plugins/postcrafts/), text domain `postcrafts` (= the wp.org slug), v1.1.0) with two **dynamic Gutenberg blocks**: Post Grid (`post-crafts/post-grid`) and Post List (`post-crafts/post-list`). Features: query builder (categories/tags/specific posts, sort, reorder, exclude current/sticky), AJAX pagination (numeric, load more, arrows), responsive spacing, pagination colors, and excerpt settings.
 
 The plugin is **live on real sites**. Keep block attributes, post-meta keys and front-end markup backward compatible.
 
@@ -57,7 +57,7 @@ tests/bin/install-wp-tests.sh    downloads WP core + test library + SQLite drop-
 ## Conventions
 - PHP namespace `PostCrafts\Blocks\Inc`; classes `use Traits\Singleton` and add hooks in the constructor or `setup_hooks()`. Instantiate new classes in `Plugin::__construct()`. The autoloader maps `Inc\Foo_Bar` → `inc/classes/class-foo-bar.php`.
 - Prefixes: PHP functions `post_crafts_`, handles/meta `post-crafts`, CSS classes `pcrafts-`.
-- Every string uses `__( '…', 'post-crafts' )`. Escape late. PHP files start with the `ABSPATH` guard.
+- Every string uses `__( '…', 'postcrafts' )`: the text domain must equal the wp.org slug so language packs load. Handles, meta keys, the nonce action and the block/REST namespaces stay `post-crafts`. Escape late. PHP files start with the `ABSPATH` guard.
 - JS follows WordPress import groups (`WordPress dependencies` / `External` / `Internal` doc headers) and tab indentation.
 - Blocks are dynamic, so markup lives in **two places**: `edit.js` (React preview) and `inc/templates/block-templates/<block>.php` (front end). Grid and List are near-duplicates, so change both.
 - Edit `src/`, never `build/`.

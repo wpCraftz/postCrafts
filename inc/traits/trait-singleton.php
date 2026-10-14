@@ -27,6 +27,10 @@
 
 namespace PostCrafts\Blocks\Inc\Traits;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 trait Singleton {
 
 	/**

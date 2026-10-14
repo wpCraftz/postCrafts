@@ -10,9 +10,9 @@ import { Button, ButtonGroup, BaseControl } from '@wordpress/components';
 import classNames from 'classnames';
 
 const TYPES = [
-	__( 'pagination', 'post-crafts' ),
-	__( 'arrow', 'post-crafts' ),
-	__( 'loadmore', 'post-crafts' ),
+	__( 'pagination', 'postcrafts' ),
+	__( 'arrow', 'postcrafts' ),
+	__( 'loadmore', 'postcrafts' ),
 ];
 
 const Type = ( { clientId, value, setAttributes, className } ) => {
@@ -25,7 +25,7 @@ const Type = ( { clientId, value, setAttributes, className } ) => {
 		<BaseControl
 			className={ classes }
 			id={ `${ clientId }-pagination-type` }
-			label={ __( 'Pagination Type', 'post-crafts' ) }
+			label={ __( 'Pagination Type', 'postcrafts' ) }
 		>
 			<ButtonGroup className="pcrafts-pagination-settings pcrafts-field-options">
 				{ TYPES.map( ( type ) => (

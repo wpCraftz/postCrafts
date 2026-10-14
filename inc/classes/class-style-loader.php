@@ -7,6 +7,10 @@
 
 namespace PostCrafts\Blocks\Inc;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 use PostCrafts\Blocks\Inc\Traits\Singleton;
 
 /**

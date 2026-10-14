@@ -7,6 +7,10 @@
 
 namespace PostCrafts\Blocks\Inc;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 use PostCrafts\Blocks\Inc\Traits\Singleton;
 
 /**
@@ -56,7 +60,6 @@ class Plugin {
 		 */
 		add_filter( 'rest_prepare_post', array( $this, 'add_post_class_in_rest_response' ), 10, 3 );
 		add_action( 'init', array( $this, 'localize_scripts' ), 1 );
-		add_action( 'init', array( $this, 'load_textdomain' ), 9999 );
 
 		// AJAX pagination.
 		add_action( 'wp_ajax_paginate_posts', array( $this, 'post_crafts_pagination' ) );
@@ -78,7 +81,7 @@ class Plugin {
 
 		// Only the loop templates can be requested.
 		if ( ! in_array( $template, array( 'post-grid', 'post-list' ), true ) ) {
-			wp_send_json_error( array( __( 'Invalid template', 'post-crafts' ) ), 400 );
+			wp_send_json_error( array( __( 'Invalid template', 'postcrafts' ) ), 400 );
 		}
 
 		$attributes = post_crafts_get_block_attributes( $post_id, $block_id );
@@ -108,7 +111,7 @@ class Plugin {
 		} else {
 			wp_send_json_error(
 				array(
-					__( 'No more posts found', 'post-crafts' ),
+					__( 'No more posts found', 'postcrafts' ),
 				)
 			);
 		}
@@ -132,14 +135,6 @@ class Plugin {
 		wp_register_script( $local_script_handle, '', array( 'wp-i18n' ), POST_CRAFTS_VERSION, true );
 		wp_enqueue_script( $local_script_handle );
 		wp_localize_script( $local_script_handle, 'POSTCRAFTS', $localized_data );
-	}
-
-	/**
-	 * Load all translations for our plugin from the MO file.
-	 */
-	public function load_textdomain() {
-
-		load_plugin_textdomain( 'post-crafts', false, dirname( plugin_basename( POST_CRAFTS_FILE ) ) . '/languages' );
 	}
 
 	/**
