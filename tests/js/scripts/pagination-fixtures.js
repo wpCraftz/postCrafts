@@ -43,9 +43,19 @@ export const pagesMarkup = ( maxPage, currentPage ) => {
 	if ( maxPage <= 1 ) {
 		return '';
 	}
-	if ( currentPage < 1 ) {
-		currentPage = 1;
+	currentPage = Math.min( Math.max( currentPage, 1 ), maxPage );
+
+	let middle = [ 1, 2 ];
+	if ( maxPage >= 3 ) {
+		middle = [ 1, 2, 3 ];
+		if ( currentPage >= 3 && currentPage === maxPage ) {
+			middle = [ currentPage - 2, currentPage - 1, currentPage ];
+		} else if ( currentPage >= 3 ) {
+			middle = [ currentPage - 1, currentPage, currentPage + 1 ];
+		}
 	}
+	const firstMiddle = middle[ 0 ];
+	const lastMiddle = middle[ middle.length - 1 ];
 
 	const hide = ' hide';
 	const item = ( cls, page, attrs, label ) =>
@@ -60,28 +70,16 @@ export const pagesMarkup = ( maxPage, currentPage ) => {
 		'Prev'
 	);
 
-	if ( maxPage > 4 ) {
+	if ( maxPage > 3 ) {
 		html += item(
-			'page-numbers first-page' + ( currentPage < 3 ? hide : '' ),
+			'page-numbers first-page' + ( firstMiddle <= 1 ? hide : '' ),
 			1,
 			'',
 			'1'
 		);
 		html += `<li class="page-dots first${
-			currentPage < 4 ? hide : ''
+			firstMiddle <= 2 ? hide : ''
 		}" aria-hidden="true">...</li>`;
-	}
-
-	let middle = [];
-	if ( maxPage >= 3 ) {
-		middle = [ 1, 2, 3 ];
-		if ( currentPage >= 3 && currentPage === maxPage ) {
-			middle = [ currentPage - 2, currentPage - 1, currentPage ];
-		} else if ( currentPage >= 3 ) {
-			middle = [ currentPage - 1, currentPage, currentPage + 1 ];
-		}
-	} else if ( maxPage === 2 ) {
-		middle = [ 1, 2 ];
 	}
 
 	middle.forEach( ( page ) => {
@@ -95,13 +93,12 @@ export const pagesMarkup = ( maxPage, currentPage ) => {
 	} );
 
 	html += `<li class="page-dots last${
-		maxPage <= currentPage + 2 ? hide : ''
+		lastMiddle >= maxPage - 1 ? hide : ''
 	}" aria-hidden="true">...</li>`;
 
 	if ( maxPage > 3 ) {
 		html += item(
-			'page-numbers last-page' +
-				( maxPage <= currentPage + 1 ? hide : '' ),
+			'page-numbers last-page' + ( lastMiddle >= maxPage ? hide : '' ),
 			maxPage,
 			'',
 			maxPage

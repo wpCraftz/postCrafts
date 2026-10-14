@@ -339,7 +339,7 @@ class Pagination {
 			.querySelectorAll( '[aria-current]' )
 			.forEach( ( item ) => item.removeAttribute( 'aria-current' ) );
 
-		let middlePages = [];
+		let middlePages = [ 1, 2 ];
 
 		if ( maxPage >= 3 ) {
 			middlePages = [ 1, 2, 3 ];
@@ -349,15 +349,18 @@ class Pagination {
 			} else if ( currentPage >= 3 ) {
 				middlePages = [ currentPage - 1, currentPage, currentPage + 1 ];
 			}
-		} else if ( maxPage === 2 ) {
-			middlePages = [ 1, 2 ];
 		}
 
+		// Same rules as post_crafts_pagination(): first/last items and dots show
+		// only when the middle pages don't already reach them.
+		const firstMiddle = middlePages[ 0 ];
+		const lastMiddle = middlePages[ middlePages.length - 1 ];
+
 		this.toggleDisplay( prevBtn, currentPage > 1 );
-		this.toggleDisplay( firstDots, currentPage > 3 );
-		this.toggleDisplay( firstPage, currentPage > 2 );
-		this.toggleDisplay( lastDots, maxPage > currentPage + 2 );
-		this.toggleDisplay( lastPage, maxPage > currentPage + 1 );
+		this.toggleDisplay( firstPage, firstMiddle > 1 );
+		this.toggleDisplay( firstDots, firstMiddle > 2 );
+		this.toggleDisplay( lastDots, lastMiddle < maxPage - 1 );
+		this.toggleDisplay( lastPage, lastMiddle < maxPage );
 		this.toggleDisplay( nextBtn, maxPage !== currentPage );
 
 		prevBtn?.setAttribute( 'data-page', currentPage - 1 );
