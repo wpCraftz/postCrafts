@@ -362,9 +362,22 @@ function post_crafts_pagination( $max_page, $current_page ) {
 		return;
 	}
 
-	if ( $current_page < 1 ) {
-		$current_page = 1;
+	$current_page = min( max( $current_page, 1 ), $max_page );
+
+	$middle_pages = array( 1, 2 );
+
+	if ( $max_page >= 3 ) {
+		$middle_pages = array( 1, 2, 3 );
+		if ( $current_page >= 3 && $current_page === $max_page ) {
+			$middle_pages = array( $current_page - 2, $current_page - 1, $current_page );
+		} elseif ( $current_page >= 3 ) {
+			$middle_pages = array( $current_page - 1, $current_page, $current_page + 1 );
+		}
 	}
+
+	// The first/last page items and the dots show only when the middle pages don't already reach them.
+	$first_middle = reset( $middle_pages );
+	$last_middle  = end( $middle_pages );
 
 	$hide_class   = ' hide';
 	$active_class = ' current';
@@ -383,28 +396,15 @@ function post_crafts_pagination( $max_page, $current_page ) {
 		esc_html__( 'Prev', 'post-crafts' )
 	);
 
-	if ( $max_page > 4 ) {
+	if ( $max_page > 3 ) {
 		$pages .= sprintf(
 			$item,
-			esc_attr( 'page-numbers first-page' . ( $current_page < 3 ? $hide_class : '' ) ),
+			esc_attr( 'page-numbers first-page' . ( $first_middle <= 1 ? $hide_class : '' ) ),
 			'1',
 			'',
 			'1'
 		);
-		$pages .= sprintf( '<li class="page-dots first%s" aria-hidden="true">...</li>', $current_page < 4 ? $hide_class : '' );
-	}
-
-	$middle_pages = array();
-
-	if ( $max_page >= 3 ) {
-		$middle_pages = array( 1, 2, 3 );
-		if ( $current_page >= 3 && $current_page === $max_page ) {
-			$middle_pages = array( $current_page - 2, $current_page - 1, $current_page );
-		} elseif ( $current_page >= 3 ) {
-			$middle_pages = array( $current_page - 1, $current_page, $current_page + 1 );
-		}
-	} elseif ( 2 === $max_page ) {
-		$middle_pages = array( 1, 2 );
+		$pages .= sprintf( '<li class="page-dots first%s" aria-hidden="true">...</li>', $first_middle <= 2 ? $hide_class : '' );
 	}
 
 	foreach ( $middle_pages as $page ) {
@@ -418,12 +418,12 @@ function post_crafts_pagination( $max_page, $current_page ) {
 		);
 	}
 
-	$pages .= sprintf( '<li class="page-dots last%s" aria-hidden="true">...</li>', $max_page <= $current_page + 2 ? $hide_class : '' );
+	$pages .= sprintf( '<li class="page-dots last%s" aria-hidden="true">...</li>', $last_middle >= $max_page - 1 ? $hide_class : '' );
 
 	if ( $max_page > 3 ) {
 		$pages .= sprintf(
 			$item,
-			esc_attr( 'page-numbers last-page' . ( $max_page <= $current_page + 1 ? $hide_class : '' ) ),
+			esc_attr( 'page-numbers last-page' . ( $last_middle >= $max_page ? $hide_class : '' ) ),
 			esc_attr( $max_page ),
 			'',
 			esc_html( $max_page )
