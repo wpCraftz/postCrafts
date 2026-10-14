@@ -35,15 +35,19 @@ const styleGenerator = ( blockName, attributes ) => {
 		let currentStyle;
 
 		if ( responsive ) {
-			if ( tablet ) {
-				tabletStyle.push(
-					helpers[ func ]( selector, value.tablet, desktopUnit )
-				);
+			// A device entry may hold only a unit; range() returns '' for it.
+			const tabletCss = tablet
+				? helpers[ func ]( selector, value.tablet, desktopUnit )
+				: '';
+			const mobileCss = mobile
+				? helpers[ func ]( selector, value.mobile, desktopUnit )
+				: '';
+
+			if ( tabletCss ) {
+				tabletStyle.push( tabletCss );
 			}
-			if ( mobile ) {
-				mobileStyle.push(
-					helpers[ func ]( selector, value.mobile, desktopUnit )
-				);
+			if ( mobileCss ) {
+				mobileStyle.push( mobileCss );
 			}
 
 			currentStyle = helpers[ func ]( selector, {

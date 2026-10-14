@@ -28,7 +28,8 @@ export const trimWords = ( text, numWords, more = '…' ) => {
 	const words = ( text || '' )
 		.split( /[\n\r\t ]+/ )
 		.filter( ( word ) => '' !== word );
-	const limit = Math.max( 0, parseInt( numWords, 10 ) || 0 );
+	// Like PHP absint(), which post_crafts_excerpt_length() applies to the length.
+	const limit = Math.abs( parseInt( numWords, 10 ) || 0 );
 
 	if ( words.length > limit ) {
 		return words.slice( 0, limit ).join( ' ' ) + more;
