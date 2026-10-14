@@ -27,5 +27,5 @@ $loop_template  = isset( $loop_template ) ? $loop_template : 'post-grid';
 	data-block-id="<?php echo esc_attr( $block_id ); ?>"
 	data-template="<?php echo esc_attr( $loop_template ); ?>"
 >
-	<button class="pcrafts-loadmore-btn"><?php esc_html_e( 'Load More', 'post-crafts' ); ?></button>
+	<button type="button" class="pcrafts-loadmore-btn<?php echo $max_page <= 1 ? ' disabled' : ''; ?>"<?php disabled( $max_page <= 1 ); ?>><?php esc_html_e( 'Load More', 'post-crafts' ); ?></button>
 </div>

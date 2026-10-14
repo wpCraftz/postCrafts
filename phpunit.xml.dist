@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+	PHP integration tests. Run `composer test:install` once and `pnpm build` first.
+	See AGENTS.md#testing.
+-->
+<phpunit
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+	bootstrap="tests/php/bootstrap.php"
+	backupGlobals="false"
+	colors="true"
+	convertDeprecationsToExceptions="true"
+	beStrictAboutTestsThatDoNotTestAnything="true"
+	cacheResultFile="tests/.tmp/.phpunit.result.cache"
+>
+	<testsuites>
+		<testsuite name="post-crafts">
+			<directory prefix="test-" suffix=".php">tests/php</directory>
+		</testsuite>
+	</testsuites>
+	<coverage includeUncoveredFiles="false">
+		<include>
+			<file>post-crafts.php</file>
+			<directory suffix=".php">inc</directory>
+		</include>
+	</coverage>
+</phpunit>

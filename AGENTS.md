@@ -23,8 +23,12 @@ Execution flows and data contracts are in **[docs/architecture.md](docs/architec
 | Lint JS | `pnpm lint:js`. Currently crashes (TypeScript 7 vs `@typescript-eslint` 6) |
 | POT file | `pnpm make-pot` |
 | Release zip | `pnpm plugin-zip` (ships only `package.json#files`) |
+| Install WP test suite | `composer test:install` (once per WP version; optional arg: version) |
+| Test PHP | `composer test` or `pnpm test:php` (needs `pnpm build`) |
+| Test JS | `pnpm test:unit` |
+| All tests | `pnpm test` |
 
-There are no automated tests; verify in a browser. The parent `wp-local` repo runs `wp-env` with this folder mounted under `wp-content/plugins` (`pnpm env:start` there).
+See [Testing](#testing). Editor and front-end behavior still need a browser check. The parent `wp-local` repo runs `wp-env` with this folder mounted under `wp-content/plugins` (`pnpm env:start` there).
 
 ## Repo map
 ```
@@ -36,7 +40,6 @@ inc/classes/
   class-api.php                  REST post-crafts/v1/style (save/get block CSS)
   class-style-loader.php         prints saved CSS in wp_head
   class-media.php                thumb-* image sizes (templates use thumb-330x185)
-  class-admin.php                placeholder "PostCrafts" admin page
 inc/helpers/custom-functions.php post_crafts_*(): query builder, template loader, pagination markup, block-attr lookup
 inc/templates/block-templates/   post-grid.php / post-list.php (loop item), pagination|loadmore|arrow.php
 src/blocks/<block>/              block.json, edit.js (editor preview), render.php (front end), save.js → null
@@ -46,6 +49,9 @@ src/libs/                        useFetchPosts (editor query), REST style client
 src/scripts/pagination.js        front-end AJAX pagination (jQuery)
 src/styles/                      main.scss (front), editor.scss, admin.scss; partials via @use
 webpack.config.js                [default blocks config, extra entries for styles/editor/scripts]
+tests/php/                       PHPUnit integration tests (WP test suite on SQLite), TestCase.php, bootstrap.php
+tests/js/                        Jest unit tests (mirror src/ paths), setup.js
+tests/bin/install-wp-tests.sh    downloads WP core + test library + SQLite drop-in into a cache dir
 ```
 
 ## Conventions
@@ -55,6 +61,19 @@ webpack.config.js                [default blocks config, extra entries for style
 - JS follows WordPress import groups (`WordPress dependencies` / `External` / `Internal` doc headers) and tab indentation.
 - Blocks are dynamic, so markup lives in **two places**: `edit.js` (React preview) and `inc/templates/block-templates/<block>.php` (front end). Grid and List are near-duplicates, so change both.
 - Edit `src/`, never `build/`.
+
+## Testing
+**PHP** (PHPUnit 9.6 + Yoast polyfills, WordPress test library):
+- `composer test:install` downloads WordPress, the test library and the SQLite Database Integration drop-in to `${TMPDIR:-/tmp}/postcrafts-wp-tests/<version>` (`latest` is a symlink). There is no MySQL: tests run on SQLite. Overrides: `WP_VERSION`, `WP_TESTS_DIR`, `POSTCRAFTS_WP_TESTS_CACHE` (use the same values when running the tests).
+- The DB file lives in `tests/.tmp/` (gitignored, override with `POSTCRAFTS_TESTS_DB_DIR`). Each checkout or worktree gets its own, so parallel runs don't collide. It is reinstalled on every run.
+- Run `pnpm build` first: blocks register from `build/blocks`, and the bootstrap stops if it's missing.
+- Files are `tests/php/test-*.php`; classes `Test_*` in namespace `PostCrafts\Blocks\Tests`, extending `TestCase` (a `WP_UnitTestCase`, so each test is rolled back). Use `self::factory()` for posts/terms/users, plus `TestCase::create_post_with_block()`, `block_markup()` and `render_block()`.
+- AJAX: extend `WP_Ajax_UnitTestCase`, set `$_POST` (nonce `wp_create_nonce( 'post-crafts' )`), call `$this->_handleAjax( 'paginate_posts' )`, catch `WPAjaxDieContinueException`, and read `$this->_last_response`. Don't tag tests `@group ajax`, because the WP bootstrap skips that group by default. Example: `tests/php/test-ajax-pagination.php`.
+- REST: `rest_get_server()->dispatch( new WP_REST_Request( 'POST', '/post-crafts/v1/style' ) )` after `wp_set_current_user()`.
+
+**JS** (Jest via `wp-scripts test-unit-js`, jsdom, Testing Library):
+- Files are `tests/js/**/*.test.js`, mirroring `src/` paths (e.g. `tests/js/libs/utils.test.js`). They're outside `src/`, so webpack and `plugin-zip` never see them. `jest.config.js` only looks in `tests/js`.
+- `@wordpress/*` packages are webpack externals but real devDependencies for Jest. If you import a module that pulls in `@wordpress/block-editor`, `blocks` or `editor` (not installed), add the package or `jest.mock()` it. If an ESM-only package fails with "Unexpected token 'export'", add it to `transformIgnorePatterns` in `jest.config.js`.
 
 ## Recipes
 **Styled attribute** (e.g. title color):

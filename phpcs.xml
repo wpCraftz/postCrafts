@@ -80,5 +80,8 @@
 	<exclude-pattern>*/vendor/*</exclude-pattern>
 	<exclude-pattern type="relative">build/*</exclude-pattern>
 	<exclude-pattern type="relative">^logs/*</exclude-pattern>
+	<!-- Test runtime files: the SQLite database dir and the install script. -->
+	<exclude-pattern type="relative">^tests/\.tmp/*</exclude-pattern>
+	<exclude-pattern type="relative">^tests/bin/*</exclude-pattern>
 
 </ruleset>

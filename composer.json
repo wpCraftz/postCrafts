@@ -9,11 +9,25 @@
 		"wp-coding-standards/wpcs": "^3.0",
 		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
 		"phpcompatibility/phpcompatibility-wp": "^2.1",
-		"automattic/vipwpcs": "^3.1"
+		"automattic/vipwpcs": "^3.1",
+		"phpunit/phpunit": "^9.6",
+		"yoast/phpunit-polyfills": "^4.0"
 	},
 	"config": {
 		"allow-plugins": {
 			"dealerdirect/phpcodesniffer-composer-installer": true
-		}
+		},
+		"platform": {
+			"php": "7.4.33"
+		},
+		"process-timeout": 0
+	},
+	"scripts": {
+		"test": "phpunit",
+		"test:install": "bash tests/bin/install-wp-tests.sh"
+	},
+	"scripts-descriptions": {
+		"test": "Run the PHP integration tests (run test:install and pnpm build first).",
+		"test:install": "Download WordPress, the WP test library and the SQLite drop-in into a cache dir. Optional arg: WP version."
 	}
 }
