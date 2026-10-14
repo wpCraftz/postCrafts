@@ -165,8 +165,10 @@ const PostSelector = ( {
 							  )
 							: sprintf(
 									/* translators: %d: maximum number of posts. */
-									__(
+									_n(
+										'Max %d post is already selected',
 										'Max %d posts are already selected',
+										limit,
 										'post-crafts'
 									),
 									limit

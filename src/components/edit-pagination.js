@@ -31,7 +31,11 @@ const Pagination = ( { type, alignment } ) => {
 
 	if ( type === 'arrow' ) {
 		return (
-			<div className={ classes }>
+			<div
+				className={ classes }
+				role="navigation"
+				aria-label={ __( 'Posts pagination', 'post-crafts' ) }
+			>
 				<button
 					type="button"
 					className="pcrafts-prev disabled"
