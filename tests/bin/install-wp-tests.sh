@@ -105,6 +105,9 @@ if [ ! -f "$WP_CORE_DIR/wp-content/db.php" ] || [ "$FORCE" = 1 ]; then
 		"$SQLITE_DIR/db.copy" > "$WP_CORE_DIR/wp-content/db.php"
 fi
 
+# The test framework scans wp-content/uploads before every test; the core download doesn't include it.
+mkdir -p "$WP_CORE_DIR/wp-content/uploads"
+
 # 3. WordPress PHPUnit test library (tests/phpunit/includes + data from wordpress-develop).
 if [ ! -f "$WP_TESTS_DIR/includes/bootstrap.php" ] || [ ! -d "$WP_TESTS_DIR/data" ]; then
 	echo "Downloading the WordPress test library..."
