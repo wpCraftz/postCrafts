@@ -10,6 +10,12 @@ Thumbs.db
 *.log
 /tests/logs
 
+# Tests (SQLite DB, PHPUnit cache, local PHPUnit/Jest overrides)
+/tests/.tmp/
+.phpunit.result.cache
+/phpunit.xml
+/coverage/
+
 # Packages
 /vendor/
 /node_modules/

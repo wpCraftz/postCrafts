@@ -1,0 +1,54 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  js:
+    name: JS unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4 # Version comes from package.json#packageManager.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:unit
+
+  php:
+    name: PHP ${{ matrix.php }} / WP ${{ matrix.wp }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ '7.4', '8.3' ]
+        wp: [ latest ]
+    env:
+      WP_VERSION: ${{ matrix.wp }}
+      POSTCRAFTS_WP_TESTS_CACHE: ${{ github.workspace }}/../wp-tests-cache
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: pdo_sqlite, sqlite3, mbstring, intl
+          coverage: none
+          tools: composer:v2
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build # Blocks register from build/blocks.
+      - run: composer install --no-interaction --no-progress
+      - run: composer test:install -- "$WP_VERSION"
+      - run: composer test
