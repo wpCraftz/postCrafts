@@ -52,7 +52,8 @@
 		"@wordpress/url": "^4.57.0",
 		"fast-glob": "^3.3.3",
 		"react": "^19.3.0",
-		"react-dom": "^19.3.0"
+		"react-dom": "^19.3.0",
+		"typescript": "~5.9.3"
 	},
 	"dependencies": {
 		"array-move": "^4.0.0",

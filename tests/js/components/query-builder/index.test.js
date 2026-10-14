@@ -90,11 +90,22 @@ const renderBuilder = ( attributes = {}, props = {} ) => {
 	return { setAttributes, user };
 };
 
-/** Merge every setAttributes call into one object (later calls win). */
+/**
+ * Merge every setAttributes call into one object (later calls win).
+ *
+ * @param {jest.Mock} setAttributes Mocked setAttributes.
+ * @return {Object} Merged attributes.
+ */
 const merged = ( setAttributes ) =>
 	Object.assign( {}, ...setAttributes.mock.calls.map( ( [ a ] ) => a ) );
 
-/** Whether any setAttributes call touched `key`. */
+/**
+ * Whether any setAttributes call touched `key`.
+ *
+ * @param {jest.Mock} setAttributes Mocked setAttributes.
+ * @param {string}    key           Attribute name.
+ * @return {boolean} True when some call set the attribute.
+ */
 const touched = ( setAttributes, key ) =>
 	setAttributes.mock.calls.some( ( [ a ] ) => key in a );
 
@@ -202,7 +213,9 @@ describe( 'Select Posts modal: draft selection', () => {
 		await openModal( user );
 
 		expect( pressedIds() ).toEqual( [ 11, 13 ] );
-		expect( screen.getByText( '2 items are selected' ) ).toBeInTheDocument();
+		expect(
+			screen.getByText( '2 items are selected' )
+		).toBeInTheDocument();
 	} );
 
 	it( 'EDJS-04 clicking rows toggles the draft without calling setAttributes', async () => {
@@ -307,11 +320,15 @@ describe( 'Select Posts modal: draft selection', () => {
 		const { user } = renderBuilder( { postsPerPage: 3 } );
 		await openModal( user );
 
-		expect( screen.getByText( '0 items are selected' ) ).toBeInTheDocument();
+		expect(
+			screen.getByText( '0 items are selected' )
+		).toBeInTheDocument();
 		await user.click( getRow( 'Alpha post' ) );
 		expect( screen.getByText( '1 item is selected' ) ).toBeInTheDocument();
 		await user.click( getRow( 'Bravo post' ) );
-		expect( screen.getByText( '2 items are selected' ) ).toBeInTheDocument();
+		expect(
+			screen.getByText( '2 items are selected' )
+		).toBeInTheDocument();
 		await user.click( getRow( 'Charlie post' ) );
 		expect(
 			screen.getByText( 'Max 3 posts are already selected' )
@@ -504,7 +521,9 @@ describe( 'Clear and sort', () => {
 			}
 		);
 
-		await user.click( screen.getByRole( 'button', { name: 'Sort Posts' } ) );
+		await user.click(
+			screen.getByRole( 'button', { name: 'Sort Posts' } )
+		);
 		const dialog = await screen.findByRole( 'dialog', {
 			name: 'Sort Selected Posts',
 		} );
@@ -541,10 +560,7 @@ describe( 'Post search request', () => {
 			/^\/wp\/v2\/posts\?/
 		);
 
-		await user.type(
-			screen.getByLabelText( 'Look for a Post' ),
-			'bravo'
-		);
+		await user.type( screen.getByLabelText( 'Look for a Post' ), 'bravo' );
 
 		await waitFor(
 			() => expect( lastQuery().get( 'search' ) ).toBe( 'bravo' ),

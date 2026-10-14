@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   js:
-    name: JS unit tests
+    name: JS lint and unit tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,6 +21,7 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: pnpm lint:js
       - run: pnpm test:unit
 
   php:

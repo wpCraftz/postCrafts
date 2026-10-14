@@ -16,10 +16,11 @@
       "tests/js/**/*.js"
     ],
     "extends": [
-      "plugin:jest/all"
+      "plugin:@wordpress/eslint-plugin/test-unit"
     ],
     "rules": {
-      // Add Rules for Jest here
+      // Helpers in tests/js that wrap expect() calls.
+      "jest/expect-expect": [ "error", { "assertFunctionNames": [ "expect", "expectDisabled", "go" ] } ]
     }
   }]
 }

@@ -43,12 +43,18 @@ const StyleSettings = ( { attributes, setAttributes } ) => {
 							'categoryColor',
 							__( 'Category', 'post-crafts' )
 						),
-						colorSetting( 'titleColor', __( 'Title', 'post-crafts' ) ),
+						colorSetting(
+							'titleColor',
+							__( 'Title', 'post-crafts' )
+						),
 						colorSetting(
 							'titleHoverColor',
 							__( 'Title Hover', 'post-crafts' )
 						),
-						colorSetting( 'metaColor', __( 'Meta', 'post-crafts' ) ),
+						colorSetting(
+							'metaColor',
+							__( 'Meta', 'post-crafts' )
+						),
 						colorSetting(
 							'excerptColor',
 							__( 'Excerpt', 'post-crafts' )
