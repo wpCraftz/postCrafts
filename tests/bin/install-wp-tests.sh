@@ -65,6 +65,15 @@ WP_TESTS_DIR="${WP_TESTS_DIR:-$CACHE_DIR/wordpress-tests-lib}"
 WP_CORE_DIR="${WP_CORE_DIR%/}"
 WP_TESTS_DIR="${WP_TESTS_DIR%/}"
 
+# wp_mkdir_p() refuses paths containing "../", so uploads fail when ABSPATH has one
+# (e.g. a cache under "$GITHUB_WORKSPACE/.."). Resolve both dirs to canonical paths.
+canonical_path() {
+	mkdir -p "$(dirname "$1")"
+	printf '%s/%s' "$(cd "$(dirname "$1")" && pwd -P)" "$(basename "$1")"
+}
+WP_CORE_DIR="$(canonical_path "$WP_CORE_DIR")"
+WP_TESTS_DIR="$(canonical_path "$WP_TESTS_DIR")"
+
 TMP_WORK="$(mktemp -d)"
 trap 'rm -rf "$TMP_WORK"' EXIT
 
