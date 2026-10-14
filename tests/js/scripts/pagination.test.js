@@ -72,7 +72,12 @@ const fail = async ( index ) => {
 	await flush();
 };
 
-/** Click the way a user does: a bubbling, cancelable event (also on disabled buttons). */
+/**
+ * Click the way a user does: a bubbling, cancelable event (also on disabled buttons).
+ *
+ * @param {HTMLElement} element Element to click.
+ * @return {boolean} dispatchEvent result.
+ */
 const click = ( element ) =>
 	element.dispatchEvent(
 		new MouseEvent( 'click', { bubbles: true, cancelable: true } )

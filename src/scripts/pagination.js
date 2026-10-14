@@ -182,7 +182,10 @@ class Pagination {
 		paginationWrapper.addEventListener( 'click', ( e ) => {
 			const loadmoreBtn = e.target.closest( '.pcrafts-loadmore-btn' );
 
-			if ( ! loadmoreBtn || ! paginationWrapper.contains( loadmoreBtn ) ) {
+			if (
+				! loadmoreBtn ||
+				! paginationWrapper.contains( loadmoreBtn )
+			) {
 				return;
 			}
 

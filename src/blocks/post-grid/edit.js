@@ -168,7 +168,9 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 				category: categoriesList?.find(
 					( { id } ) => id === post.categories?.[ 0 ]
 				),
-				author: authors?.find( ( author ) => author.id === post.author ),
+				author: authors?.find(
+					( author ) => author.id === post.author
+				),
 			} ) ),
 		[ posts, categoriesList, authors ]
 	);
@@ -213,7 +215,11 @@ export default function Edit( { name, attributes, setAttributes, clientId } ) {
 			: '';
 
 		return (
-			<article id={ `post-${ postId }` } className="post-grid" key={ postId }>
+			<article
+				id={ `post-${ postId }` }
+				className="post-grid"
+				key={ postId }
+			>
 				<figure className="post-thumbnail">
 					<a
 						href={ postLink }

@@ -36,11 +36,9 @@ jest.mock(
 	{ virtual: true }
 );
 
-jest.mock(
-	'@wordpress/editor',
-	() => ( { store: 'core/editor' } ),
-	{ virtual: true }
-);
+jest.mock( '@wordpress/editor', () => ( { store: 'core/editor' } ), {
+	virtual: true,
+} );
 
 // Popover positioning (floating-ui) never settles in jsdom, so render the
 // Dropdown content inline instead of in a popover. Toggle wiring is unchanged.
@@ -235,7 +233,9 @@ describe( 'StyleSettings', () => {
 		}
 
 		expect(
-			setAttributes.mock.calls.map( ( [ attrs ] ) => Object.keys( attrs ) )
+			setAttributes.mock.calls.map( ( [ attrs ] ) =>
+				Object.keys( attrs )
+			)
 		).toEqual( COLOR_CONTROLS.map( ( [ , attribute ] ) => [ attribute ] ) );
 	} );
 } );

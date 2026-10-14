@@ -32,9 +32,9 @@ import classNames from 'classnames';
  * @param {Function} props.onCancel       Discards the draft selection.
  * @param {boolean}  props.canInsertEmpty Whether an empty selection can be inserted (clears the block's selection).
  * @param {Array}    props.postIds        Draft selected post IDs.
- * @param {number}   props.limit        Max number of posts to be selectd.
- * @param {number}   props.queryTime    Duration of query in months.
- * @param {string}   props.postType     Slug of the Post Type.
+ * @param {number}   props.limit          Max number of posts to be selectd.
+ * @param {number}   props.queryTime      Duration of query in months.
+ * @param {string}   props.postType       Slug of the Post Type.
  */
 const PostSelector = ( {
 	onPostSelect,
@@ -248,8 +248,8 @@ const PostSelector = ( {
 						const isDisabled =
 							! isSelected && !! limit && postIds.length >= limit;
 
+						/* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role -- The row stays an <li> for the list markup and admin.scss styles; role, tabIndex and key handlers make it a keyboard-operable toggle. */
 						return (
-							/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role */
 							<li
 								key={ post.id }
 								role="button"
@@ -265,8 +265,7 @@ const PostSelector = ( {
 									},
 									{
 										disabled:
-											!! limit &&
-											postIds.length >= limit,
+											!! limit && postIds.length >= limit,
 									}
 								) }
 								onClick={ () => {
@@ -298,6 +297,7 @@ const PostSelector = ( {
 								></ExternalLink>
 							</li>
 						);
+						/* eslint-enable jsx-a11y/no-noninteractive-element-to-interactive-role */
 					} ) }
 
 				{ ! isFetchingData &&

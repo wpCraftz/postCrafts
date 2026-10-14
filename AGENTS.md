@@ -20,7 +20,7 @@ Execution flows and data contracts are in **[docs/architecture.md](docs/architec
 | Build | `pnpm build`. **Required:** `build/` is gitignored and PHP loads assets only from `build/` |
 | Lint PHP | `pnpm lint:php` (fix: `pnpm lint:php:fix`) |
 | Lint SCSS | `pnpm lint:css` |
-| Lint JS | `pnpm lint:js`. Currently crashes (TypeScript 7 vs `@typescript-eslint` 6) |
+| Lint JS | `pnpm lint:js` (fix: `pnpm lint:js --fix`). `typescript` is pinned to 5.x: TypeScript 7 breaks `@typescript-eslint` 6 |
 | POT file | `pnpm make-pot` |
 | Release zip | `pnpm plugin-zip` (ships only `package.json#files`) |
 | Install WP test suite | `composer test:install` (once per WP version; optional arg: version) |

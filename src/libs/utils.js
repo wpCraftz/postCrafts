@@ -38,7 +38,7 @@ export const trimWords = ( text, numWords, more = '…' ) => {
 	return words.join( ' ' );
 };
 
-const isPlainObject =( item ) =>
+const isPlainObject = ( item ) =>
 	item && typeof item === 'object' && item.constructor === Object;
 
 /**

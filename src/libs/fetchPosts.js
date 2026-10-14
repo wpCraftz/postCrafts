@@ -18,10 +18,10 @@ import { isEqual } from './utils';
 /**
  * Custom hook to fetch/reorder Posts in combination with custom Sortable component
  *
- * @param {Object} props
- * @param {Array}  props.postIds     Ids of selected posts.
- * @param {Object} props.customQuery Any custom query to be added.
- * @param {Object} props.taxQuery    Selected taxonomies.
+ * @param {Object}  props
+ * @param {Array}   props.postIds            Ids of selected posts.
+ * @param {Object}  props.customQuery        Any custom query to be added.
+ * @param {Object}  props.taxQuery           Selected taxonomies.
  * @param {string}  props.postType           Post type.
  * @param {boolean} props.excludeCurrentPost Whether to exclude the post being edited.
  *

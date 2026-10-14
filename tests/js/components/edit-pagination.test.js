@@ -20,7 +20,10 @@ describe( 'PaginationEdit', () => {
 		);
 
 		const wrapper = container.firstChild;
-		expect( wrapper ).toHaveClass( 'pcrafts-pagination', 'pcrafts-numberic' );
+		expect( wrapper ).toHaveClass(
+			'pcrafts-pagination',
+			'pcrafts-numberic'
+		);
 		expect( wrapper ).toHaveAttribute( 'role', 'navigation' );
 		expect( wrapper ).toHaveAttribute( 'aria-label', 'Posts pagination' );
 
