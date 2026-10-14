@@ -33,7 +33,7 @@ jobs:
         wp: [ latest ]
     env:
       WP_VERSION: ${{ matrix.wp }}
-      POSTCRAFTS_WP_TESTS_CACHE: ${{ runner.temp }}/wp-tests-cache
+      POSTCRAFTS_WP_TESTS_CACHE: /tmp/wp-tests-cache
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
