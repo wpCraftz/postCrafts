@@ -151,7 +151,7 @@ class Test_Card_Templates extends TestCase {
 	 */
 	public function test_featured_image_renders_img( $block ) {
 		$post_id       = $this->create_card_post();
-		$attachment_id = self::factory()->attachment->create_upload_object( DIR_TESTDATA . '/images/canola.jpg', $post_id );
+		$attachment_id = $this->create_image_attachment( $post_id );
 		set_post_thumbnail( $post_id, $attachment_id );
 
 		$xpath = $this->xpath( $this->render_card( $block, $post_id ) );

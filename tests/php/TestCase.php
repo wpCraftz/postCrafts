@@ -59,4 +59,30 @@ abstract class TestCase extends \WP_UnitTestCase {
 	protected function render_block( $block, array $attributes = array() ) {
 		return do_blocks( $this->block_markup( $block, $attributes ) );
 	}
+
+	/**
+	 * Upload the canola.jpg test image and attach it to a post.
+	 *
+	 * Fails with WordPress's upload error instead of an undefined-index notice from the factory.
+	 *
+	 * @param int $parent_post_id Post to attach the image to.
+	 * @return int Attachment ID.
+	 */
+	protected function create_image_attachment( $parent_post_id = 0 ) {
+		$file   = DIR_TESTDATA . '/images/canola.jpg';
+		$upload = wp_upload_bits( wp_basename( $file ), null, file_get_contents( $file ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents, WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown -- Local test fixture.
+		$this->assertFalse( $upload['error'], 'Upload failed: ' . $upload['error'] );
+
+		$attachment_id = self::factory()->attachment->create_object(
+			array(
+				'file'           => $upload['file'],
+				'post_parent'    => $parent_post_id,
+				'post_mime_type' => $upload['type'],
+				'post_title'     => wp_basename( $upload['file'] ),
+			)
+		);
+		wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $upload['file'] ) );
+
+		return $attachment_id;
+	}
 }

@@ -119,7 +119,7 @@ class Test_Rest_Fields extends TestCase {
 	public function test_featured_image_only_with_thumbnail() {
 		$without = self::factory()->post->create();
 		$with    = self::factory()->post->create();
-		$image   = self::factory()->attachment->create_upload_object( DIR_TESTDATA . '/images/canola.jpg', $with );
+		$image   = $this->create_image_attachment( $with );
 		set_post_thumbnail( $with, $image );
 
 		$this->assertArrayNotHasKey( 'featured_image', $this->get_post_data( $without ) );
