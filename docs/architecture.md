@@ -113,7 +113,7 @@ src/scripts/pagination.js   new Pagination() binds every .pcrafts-pagination by 
 | `taxQuery` | – | `{ category: [termIds], post_tag: [termIds] }` |
 | `taxRelation` / `catOperator` / `tagOperator` | `AND` / `IN` / `IN` | Operators: `IN`, `NOT IN`, `AND` |
 | `excludeCurrentPost` / `ignoreSticky` | `false` / `false` | |
-| `excerpt` / `excerptLength` | `"true"` (string) / `30` words | |
+| `excerpt` / `excerptLength` | `true` / `30` words | |
 | `pagination` / `paginationType` | `true` / `pagination` | Type: `pagination` \| `loadmore` \| `arrow` |
 | `paginationBeforeSelection` | unset | `pagination` value saved when posts are picked; Clear restores it (unset → `true`) |
 | `paginationAlignment` | `left` | |
@@ -130,7 +130,7 @@ Responsive shape: `{ value, unit, tablet?, mobile? }`.
 | Post meta | `post-crafts-style` | CSS for all blocks in the post. A legacy JSON-per-block format is written when `block_id ≠ 'all'`; current JS never does that |
 | Post meta | `post-crafts-preview-style` | Same, used for previews |
 | Option | `post_crafts_installed` | Set on activation (hook currently never fires) |
-| REST | `POST /wp-json/post-crafts/v1/style` | Capability `edit_posts`; body `{ post_id*, style*, block_id, is_previewing }` |
+| REST | `POST /wp-json/post-crafts/v1/style` | Capability `edit_post` on `post_id`; body `{ post_id*, style*, block_id, is_previewing }` |
 | REST | `GET /wp-json/post-crafts/v1/style?post_id=` | Public; returns the CSS string or null. Unused by JS |
 | AJAX | `admin-ajax.php` `action=paginate_posts` | Logged-in and logged-out users; nonce action `post-crafts` |
 | JS global | `window.POSTCRAFTS` | `{ urls: { restBase, ajaxUrl }, nonce }` |

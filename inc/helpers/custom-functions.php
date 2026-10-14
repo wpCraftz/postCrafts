@@ -42,6 +42,10 @@ function post_crafts_posted_on( $format = 'm/d/Y g:ia' ) {
 			'span' => array(
 				'class' => true,
 			),
+			'time' => array(
+				'class'    => true,
+				'datetime' => true,
+			),
 		)
 	);
 }
